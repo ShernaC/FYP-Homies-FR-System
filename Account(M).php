@@ -1,76 +1,86 @@
 <?php
-// Account.php
-// require_once('database.php');
 
-class Account
-{
+$con = require_once('index.php');
+
+class SysAdmin{
     private int $id;
-    private String $password; // ??
+    private String $password; 
     private String $userName;
     private String $name;
-    private String $phoneNo;
     private String $email;
-    private String $profile;
-    private Face $faceData; //??
 
-    private $jdbcurl;
-    private $jdbcname;
-    private $jdbcpass;
-    private $dbname;
-    private $db;
+    private $suspend_status;
 
-
-    public function __construct($id = 0, $userName = "", $name = "", $email = "", $profile = "", $faceData = "", $password = "", $phoneNo = "")
+    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "")
     {
         $this->id = $id;
         $this->name = $name;
         $this->userName = $userName;
-        $this->password = $password;
-        $this->profile = $profile;
-        $this->phoneNo = $phoneNo;
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $hash;
+        
         $this->email = $email;
-        $this->faceData = $faceData;
+
+        $this->suspend_status = false;
 
        // $this->db = new database();
-        $this->jdbcurl = $this->db->getURL();
-        $this->jdbcname = $this->db->getName();
-        $this->jdbcpass = $this->db->getPass();
-        $this->dbname = $this->db->getDbname();
+       
     }
 
-    //faceData and password dh get ?
-    public  function getId()
-    {
+    public function getID(){
         return $this->id;
     }
 
-    public function getUserName()
-    {
+    public function getUsername(){
         return $this->userName;
     }
-    public function getName()
-    {
+
+    public function getName(){
         return $this->name;
     }
 
-    public function getEmail()
-    {
+    public function getEmail(){
         return $this->email;
     }
 
-    public function getProfile()
-    {
-        return $this->profile;
+
+
+    public function setID($id){
+        $this->id = $id;
     }
 
-    public function getPhoneNo()
-    {
-        return $this->phoneNo;
+    public function setUsername($userName){
+        $this->userName = $userName;
     }
 
-    // System Admin - Create user account
-    public function createAccount()
+    public function setName($name){
+        $this->name = $name;
+    }
+
+    public function setEmail($email){
+        $this->email = $email;
+    }
+
+
+    function getSuspendStatus(){
+        return $this->suspend_status;
+    }
+
+
+    function setSuspendStatus($status){
+        $this->suspend_status = $status;
+    }
+
+    function setPassword($password){
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $hash;
+    }
+
+
+    public function createSysAdminAccount($SysAdmin)
     {
+        /*
         $response = array(
             'success' => false, // False by default
             'message' => ''
@@ -95,13 +105,13 @@ class Account
                 return json_encode($response);
             }
 
-            $insert = "INSERT INTO userAccount (username, password, firstName, lastName, dateofBirth, address, userProfile) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $insert = "INSERT INTO userAccount (username, password, name, userProfile) VALUES (?, ?, ?, ?, ?, ?, ?)"; //need edit later
             $stmt = mysqli_prepare($con, $insert);
             if (!$stmt) {
                 throw new Exception("Error preparing statement: " . mysqli_error($con));
             }
 
-            // Bind parameters
+            // Bind parameters  //need edit later
             mysqli_stmt_bind_param($stmt, "sssssss", $this->userName, $this->password, $this->firstName, $this->lastName, $this->dateofBirth, $this->address, $this->userProfile);
 
             // Execute the statement
@@ -125,18 +135,78 @@ class Account
 
         // Return JSON response
         return json_encode($response);
+        */
+
     }
 
-    // System Admin - View (Read) user account
-    public function viewAccount($id)
+    
+    public function createBusinessOwnerAccount($BusinessOwner)
     {
-        $users = array();
+        /*
+        $response = array(
+            'success' => false, // False by default
+            'message' => ''
+        );
+
+        // sql thing not settled yet
         try {
             // Establish connection
             $con = mysqli_connect($this->jdbcurl, $this->jdbcname, $this->jdbcpass, $this->dbname);
             if (!$con) {
                 throw new Exception("Connection failed: " . mysqli_connect_error());
             }
+        
+            $check = "SELECT username FROM userAccount where username = ?";
+            $ch = mysqli_prepare($con,$check);
+            mysqli_stmt_bind_param($ch,"s", $this->userName);
+            mysqli_stmt_execute($ch);
+            mysqli_stmt_store_result($ch);
+            
+            if(mysqli_stmt_num_rows($ch) > 0){
+                $response['message'] = "Username taken";
+                return json_encode($response);
+            }
+
+            $insert = "INSERT INTO userAccount (username, password, name, userProfile) VALUES (?, ?, ?, ?, ?, ?, ?)"; //need edit later
+            $stmt = mysqli_prepare($con, $insert);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . mysqli_error($con));
+            }
+
+            // Bind parameters  //need edit later
+            mysqli_stmt_bind_param($stmt, "sssssss", $this->userName, $this->password, $this->firstName, $this->lastName, $this->dateofBirth, $this->address, $this->userProfile);
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                $response['success'] = true;
+                $response['message'] = "Account created successfully!";
+            } else {
+                throw new Exception("Error executing statement: " . mysqli_error($con));
+            }
+            
+            // Close statement and connection
+            mysqli_stmt_close($stmt);
+
+            mysqli_close($con);
+
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: " . $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: " . $e->getMessage();
+        }
+
+        // Return JSON response
+        return json_encode($response);
+        */
+
+    }
+
+    // System Admin - View (Read) user account (join, where for id)
+    public function viewAccount($id)
+    {
+        $users = array();
+        try {
+            
 
             $view = "SELECT * FROM userAccount WHERE user_id=?";
             $stmt = mysqli_prepare($con, $view);
@@ -157,7 +227,7 @@ class Account
                 $users[] = $row;
             }
 
-            mysqli_close($con);
+            
         } catch (mysqli_sql_exception $e) {
             echo "Error: " . $e->getMessage();
         } catch (Exception $e) {
@@ -175,12 +245,7 @@ class Account
         );
 
         try {
-            // Establish connection
-            $con = mysqli_connect($this->jdbcurl, $this->jdbcname, $this->jdbcpass, $this->dbname);
-            if (!$con) {
-                throw new Exception("Connection failed: " . mysqli_connect_error());
-            }
-
+            
             $check = "SELECT username FROM userAccount where user_id = ?";
             $ch = mysqli_prepare($con,$check);
             mysqli_stmt_bind_param($ch,"i", $user_id);
@@ -204,14 +269,14 @@ class Account
                 }
             }
 
-            // Update statement
+            // Update statement  //need edit later
             $update = "UPDATE userAccount SET username=?, password=?, firstName=?, lastName=?, dateofBirth=?, address=?, userProfile=? WHERE user_id=?";
             $stmt = mysqli_prepare($con, $update);
             if (!$stmt) {
                 throw new Exception("Error preparing statement: " . mysqli_error($con));
             }
 
-            // Bind parameters
+            // Bind parameters  //need edit later
             mysqli_stmt_bind_param($stmt, "sssssssi", $this->userName, $this->password, $this->firstName, $this->lastName, $this->dateofBirth, $this->address, $this->userProfile, $user_id);
 
             // Execute the statement
@@ -227,9 +292,7 @@ class Account
                 throw new Exception("Error executing statement: " . mysqli_error($con));
             }
 
-            // Close statement and connection
-            mysqli_stmt_close($stmt);
-            mysqli_close($con);
+        
         } catch (mysqli_sql_exception $e) {
             $response['message'] = "Database Error: " . $e->getMessage();
         } catch (Exception $e) {
@@ -249,11 +312,7 @@ class Account
         );
         $temp = 1;
         try {
-            // Establish connection
-            $con = mysqli_connect($this->jdbcurl, $this->jdbcname, $this->jdbcpass, $this->dbname);
-            if (!$con) {
-                throw new Exception("Connection failed: " . mysqli_connect_error());
-            }
+            
 
             // SQL query to delete the account based on user ID
             $delete = "UPDATE userAccount SET suspend=? WHERE user_id=?";
@@ -278,9 +337,7 @@ class Account
                 throw new Exception("Error executing statement: " . mysqli_error($con));
             }
 
-            // Close statement and connection
-            mysqli_stmt_close($stmt);
-            mysqli_close($con);
+            
         } catch (mysqli_sql_exception $e) {
             $response['message'] = "Database Error: " . $e->getMessage();
         } catch (Exception $e) {
@@ -330,6 +387,8 @@ class Account
         return $users;
     }
 
+
+    /* ignore
     public function authentication($userName, $password, $type) {  
         $id = null;
         try {
@@ -369,6 +428,141 @@ class Account
     
         return $id;
     }
+    */
 }
+
+
+
+class BusinessOwner{
+ 
+    private $suspend_status;
+
+    private int $id;
+    private String $userName;
+    private String $name;
+    private String $email;
+    //private Face faceData;
+    //private $company;
+    //private $subscription;
+    private String $password;
+
+
+    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "")
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->userName = $userName;
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $hash;
+        
+        $this->email = $email;
+
+        
+        $this->suspend_status = false;
+       
+       
+        //$company = new Company($companyname);
+        
+
+        //$this->company = $company;
+        //$this->subscription = $subscription;
+       
+    }
+
+    
+/*
+    function getCompany(){
+        return $this->company;
+    }
+*/
+
+    
+function getSuspendStatus(){
+    return $this->suspend_status;
+}
+
+    /*
+    function setCompany($company){
+        $this->company = $company;
+    }
+*/
+
+public function getID(){
+    return $this->id;
+}
+
+public function getUsername(){
+    return $this->userName;
+}
+
+public function getName(){
+    return $this->name;
+}
+
+public function getEmail(){
+    return $this->email;
+}
+
+
+public function setID($id){
+    $this->id = $id;
+}
+
+
+public function setName($name){
+    $this->name = $name;
+}
+
+function setUserName($userName){
+    $this->userName = $userName;
+}
+
+function setPassword($password){
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $this->password = $hash;
+}
+
+function setSuspendStatus($status){
+    $this->suspend_status = $status;
+
+}
+
+
+// add subscription getset later
+
+
+public function uploadFaceData($face){
+
+    return 0;
+
+}
+
+public function viewSubscriptionDetails(){
+
+    return 0;
+
+}
+
+
+public function updateSubscriptionDetails(){
+
+    return 0;
+
+}
+
+public function cancelSubscriptionDetails(){
+
+    return 0;
+
+}
+
+
+
+}
+
+
+
+
 
 ?>
