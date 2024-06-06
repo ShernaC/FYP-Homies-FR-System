@@ -1,45 +1,31 @@
 <?php
-require_once 'user.php';
-session_start();
+include 'account.php';
+
+// Start the session if not already started
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 class suspendUserAccount {
-    public function suspendAccount($user) {
-        try{
-            $user->setSuspendStatus(true);
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
+    public function suspendAccount($user_id) {
+        global $conn;
+        $sysAdmin = new SysAdmin($conn);
+        $result = $sysAdmin->suspendAccount($user_id);
+        return $result;
     }
 }
 
 class searchUserAccount{
     private $entity;
 
-    public function __construct($conn){
-        $this->entity = new Account($conn);
-    }
-
     public function handleSearchRequest($search){
+        global $conn;
+        $sysAdmin = new SysAdmin($conn);
+
         if (isset($_POST['search'])){
-            
-            $userData = $this->entity->searchUsers($search);
-            if (empty($search)){
-                $_SESSION['error_message'] = "Search field is empty";
-                header("Location: ../Boundary/sysViewProfileBoundary.php?userData=" . urlencode(json_encode($userData)));
-            } else {
-                if ($userData !== false){
-                    header("Location: ../Boundary/sysViewProfileBoundary.php?userData=" . urlencode(json_encode($userData)));
-                    exit();
-                } else {
-                    $_SESSION['error_message'] = "No records found";
-                    header("Location: ../Boundary/sysViewProfileBoundary.php?userData=" . urlencode(json_encode($userData)));
-                    exit();
-                }
-            }
+            $userData = $sysAdmin->searchAccount($search);
+            return $userData;
         }
     }
-    
 }
 ?>
