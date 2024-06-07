@@ -2,7 +2,7 @@
 // Account.php
 // require_once('database.php');
 
-$conn = require_once 'db/db.php'; 
+$conn = require_once 'db.php'; 
 session_start();
 
 class SysAdmin{
