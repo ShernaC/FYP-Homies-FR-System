@@ -55,6 +55,25 @@ if (isset($_GET['profile'])) {
 
     <title>Edit Profile</title>
     <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .error {
+            color: red;
+            font-size: 0.875rem;
+        }
+        .modal-backdrop{
+            z-index: 1;
+        }
+
         .bottom-right {
             position: fixed;
             bottom: 10px;
@@ -76,9 +95,10 @@ if (isset($_GET['profile'])) {
                 <button id="back" class="text-2xl"><i class="fas fa-chevron-left"></i></button>
                 <div class="relative">
                     <!-- Update button -->
-                    <button id="updatebtn" type="button" class="btn btn-primary update-btn" onclick="updateProfile()">
+                    <button id="updatebtn" type="button" class="btn btn-primary update-btn" data-bs-toggle="modal" data-bs-target="#updateDescriptionModal">
                         Update
                     </button>
+
                 </div>
             </div>
 
@@ -109,6 +129,31 @@ if (isset($_GET['profile'])) {
         </div>
     </div>
 
+    <!--Modal-->
+    <div class="modal fade" id="updateDescriptionModal" tabindex="-1" aria-labelledby="updateDescriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateDescriptionModalLabel">Update Description</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateDescriptionForm">
+                <div class="mb-3">
+                    <label for="newDescription" class="form-label">New Description</label>
+                    <textarea class="form-control" id="newDescription" name="newDescription" rows="3"></textarea>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitUpdate()">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="w-full max-w-6xl mt-4 text-right text-gray-500 bottom-right">
         <a href="troubleshoot.php" class="mr-4">Troubleshoot</a>
         <a href="login.php">Logout</a>
@@ -116,96 +161,100 @@ if (isset($_GET['profile'])) {
 </body>
 
 <script>
-    // Function to parse URL parameters using regex
-    var userProfile = new URLSearchParams(window.location.search).get('userProfile');
+  // Function to parse URL parameters using regex
+  var userProfile = new URLSearchParams(window.location.search).get('userProfile');
 
-    // Function to display the information based on user id
-    window.onload = function () {
+  // Function to display the information based on user id
+  window.onload = function () {
+    // Existing code for displaying user profile
 
-        // Get and display userProfile
-        document.getElementById("current_userProfile").innerHTML = userProfile;
+    // Get and display userProfile
+    document.getElementById("current_userProfile").innerHTML = userProfile;
 
-        // Create a new XMLHttpRequest object
-        var xhr = new XMLHttpRequest();
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
 
-        // Configure the request
-        xhr.open("POST", "../viewProfilePageController.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // Configure the request
+    xhr.open("POST", "../viewProfilePageController.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        // Define what happens on successful data submission/ if send and receive successful, alert response
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                // Handle successful response
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    // Access and display search results
-                    var viewData = response.data;
-                    if (viewData && viewData.length > 0) {
-                        // Clear previous search results
-                        var profileInfo = document.getElementById("view-profile-information");
-                        profileInfo.innerHTML = "";
+    // Define what happens on successful data submission/ if send and receive successful, alert response
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // Handle successful response
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          // Access and display search results
+          var viewData = response.data;
+          if (viewData && viewData.length > 0) {
+            // Clear previous search results
+            var profileInfo = document.getElementById("view-profile-information");
+            profileInfo.innerHTML = "";
 
-                        // Display profile information
-                        for (var i = 0; i < viewData.length; i++) {
-                            var profile = viewData[i];
-                            var output = '<tr>' +
-                                '<th scope="row">' + profile.account_id + '</th>' +
-                                '<td>' + profile.firstName + '</td>' +
-                                '<td>' + profile.lastName + '</td>' +
-                                '<td>' + profile.email + '</td>' +
-                                '<td>' + profile.profile + '</td>' +
-                                '<td>' + profile.company + '</td></tr>';
-                            profileInfo.innerHTML += output;
-                        }
-                    }
-                } else {
-                    // No view results found (theoretically impossible, for debugging only)
-                    document.getElementById("view-profile-information").innerHTML = "<tr><td colspan='8' style='padding-top: 20px;'>No results found</td></tr>";
-                }
-            } else {
-                // Handle error response
-                console.error("Error: " + xhr.status);
+            // Display profile information
+            for (var i = 0; i < viewData.length; i++) {
+              var profile = viewData[i];
+              var output = '<tr>' +
+                '<th scope="row">' + profile.account_id + '</th>' +
+                '<td>' + profile.firstName + '</td>' +
+                '<td>' + profile.lastName + '</td>' +
+                '<td>' + profile.email + '</td>' +
+                '<td>' + profile.profile + '</td>' +
+                '<td>' + profile.company + '</td></tr>';
+              profileInfo.innerHTML += output;
             }
-        };
-
-        // Construct the form data string
-        var formData = "userProfile=" + encodeURIComponent(userProfile);
-
-        // Send the request with the form data
-        xhr.send(formData);
+          }
+        } else {
+          // No view results found (theoretically impossible, for debugging only)
+          document.getElementById("view-profile-information").innerHTML = "<tr><td colspan='8' style='padding-top: 20px;'>No results found</td></tr>";
+        }
+      } else {
+        // Handle error response
+        console.error("Error: " + xhr.status);
+      }
     };
 
-    // Event listener for the back button
-    document.getElementById('back').addEventListener('click', function() {
-        window.location.href = "userProfile.php";
-    });
+    // Construct the form data string
+    var formData = "userProfile=" + encodeURIComponent(userProfile);
 
-    // Event listener for the update button
-    document.getElementById('updatebtn').addEventListener('click', function() {
-            var newDescription = prompt("Enter the new description:");
-            if (newDescription !== null && newDescription.trim() !== "") {
-                var updateRequest = new XMLHttpRequest();
-                updateRequest.open("POST", "editProfile.php", true);
-                updateRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                updateRequest.onreadystatechange = function() {
-                    if (updateRequest.readyState === XMLHttpRequest.DONE) {
-                        if (updateRequest.status === 200) {
-                            // Handle successful update
-                            alert("Description updated successfully!");
-                            // Optionally, update the description displayed on the page
-                            document.getElementById("description").innerHTML = newDescription;
-                        } else {
-                            // Handle error
-                            alert("Error occurred while updating description.");
-                        }
-                    }
-                };
-                updateRequest.send("profile=" + encodeURIComponent(userProfile) + "&description=" + encodeURIComponent(newDescription));
-            }
-        });
+    // Send the request with the form data
+    xhr.send(formData);
+  };
 
-  
+  // Event listener for the back button
+  document.getElementById('back').addEventListener('click', function() {
+    window.location.href = "userProfile.php";
+  });
 
+  // Function to submit the update description form
+  function submitUpdate() {
+    var newDescription = document.getElementById("newDescription").value;
+    if (newDescription.trim() !== "") {
+      var updateRequest = new XMLHttpRequest();
+      updateRequest.open("POST", "view_editProfile.php", true);
+      updateRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      updateRequest.onreadystatechange = function() {
+        if (updateRequest.readyState === XMLHttpRequest.DONE) {
+          if (updateRequest.status === 200) {
+            // Handle successful update
+            alert("Description updated successfully!");
+            // Optionally, update the description displayed on the page
+            document.getElementById("description").innerHTML = newDescription;
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(document.getElementById("updateDescriptionModal"));
+            modal.hide();
+          } else {
+            // Handle error
+            alert("Error occurred while updating description.");
+          }
+        }
+      };
+      updateRequest.send("profile=" + encodeURIComponent(userProfile) + "&description=" + encodeURIComponent(newDescription));
+    } else {
+      alert("Description cannot be empty.");
+    }
+  }
 </script>
+
 
 </html>
