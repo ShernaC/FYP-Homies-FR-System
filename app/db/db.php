@@ -16,6 +16,12 @@
         echo "Error creating database: ". $conn->error;
     }*/
     
+    $sql_profile = 'CREATE TABLE IF NOT EXISTS profile (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userProfile VARCHAR(255) NOT NULL, 
+        description VARCHAR(255) NOT NULL
+    )';
+
     $sql_sysadmin = "CREATE TABLE IF NOT EXISTS sysadmin (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userName VARCHAR(255) NOT NULL,
@@ -36,13 +42,14 @@
         company VARCHAR(255),
         suspend_status BOOLEAN DEFAULT FALSE
     )";
-    
+
+
     // Execute the table creation queries
-    /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE) {
+    if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
         echo "Tables sysadmin and businessowner created successfully";
     } else {
         echo "Error creating tables: ". $conn->error;
-    }*/
+    }
     
     // Optionally, close the connection if you're done with it
     //$conn->close();
