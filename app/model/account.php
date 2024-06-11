@@ -1,5 +1,5 @@
 <?php
-$conn = require_once 'db/db.php'; 
+$conn = require_once '../db/db.php'; 
 session_start();
 
 class SysAdmin{
@@ -77,40 +77,150 @@ class SysAdmin{
 
     public function createSysAdminAccount($SysAdmin)
     {
+        global $conn;
 
+        $response = array(
+            'success' => false,
+            'message' => ''
+        );
+
+        try {
+            // SQL query to insert a new SysAdmin account
+            $insertSysAdmin = "INSERT INTO sysadmin (userName, name, email, type, password) VALUES (?, ?, ?, 'System Admin', ?)";
+            $stmt = mysqli_prepare($conn, $insertSysAdmin);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: ". mysqli_error($conn));
+            }
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "ssss", $SysAdmin->getUsername(), $SysAdmin->getName(), $SysAdmin->getEmail(), $SysAdmin->getPassword());
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                $response['success'] = true;
+                $response['message'] = "SysAdmin account created successfully!";
+            } else {
+                throw new Exception("Error executing statement: ". mysqli_error($conn));
+            }
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: ". $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: ". $e->getMessage();
+        }
+
+        // Return JSON response
+        return json_encode($response);
     }
 
     
     public function createBusinessOwnerAccount($BusinessOwner)
     {
+        global $conn;
 
+        $response = array(
+            'success' => false,
+            'message' => ''
+        );
+
+        try {
+            // SQL query to insert a new BusinessOwner account
+            $insertBusinessOwner = "INSERT INTO businessowner (userName, name, email, type, password, company) VALUES (?, ?, ?, 'Business Owner', ?, ?)";
+            $stmt = mysqli_prepare($conn, $insertBusinessOwner);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: ". mysqli_error($conn));
+            }
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "sssss", $BusinessOwner->getUsername(), $BusinessOwner->getName(), $BusinessOwner->getEmail(), $BusinessOwner->getPassword(), $BusinessOwner->getCompany());
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                $response['success'] = true;
+                $response['message'] = "BusinessOwner account created successfully!";
+            } else {
+                throw new Exception("Error executing statement: ". mysqli_error($conn));
+            }
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: ". $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: ". $e->getMessage();
+        }
+
+        // Return JSON response
+        return json_encode($response); 
     }
 
     // System Admin - View (Read) user account (join, where for id)
-    public function viewAccount($id)
+    // System Admin - View (Read) user account
+    public function viewAccounts()
     {
+        global $conn;
+
+        $response = array(
+            'success' => false,
+            'message' => '',
+            'accounts' => []
+        );
+
+        try {
+            // SQL query to view all accounts
+            $viewAllAccounts = "(SELECT * FROM sysadmin WHERE suspend_status=0) 
+                                    UNION (SELECT id, userName, name, email, profile, password, suspend_status FROM businessowner 
+                                    WHERE suspend_status=0);";
+            $stmt = mysqli_prepare($conn, $viewAllAccounts);
+            if (!$stmt) {
+                throw new Exception("Error: ". mysqli_error($conn));
+            }
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Fetch all rows into an array
+                $result = mysqli_stmt_get_result($stmt);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $response['accounts'][] = $row;
+                }
+                $response['success'] = true;
+                $response['message'] = "Successfully retrieved all accounts.";
+            } else {
+                throw new Exception("Error executing statement: ". mysqli_error($conn));
+            }
+
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: ". $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: ". $e->getMessage();
+        }
+
+        // Return JSON response
+        return json_encode($response);
 
     }
 
-    // System Admin - Delete user account
-    public function suspendAccount($user_id)
+    // System Admin - Suspend user account
+    public function suspendAccount($accountId, $profile)
     {
         global $conn;
         $response = array(
             'success' => false, // False by default
             'message' => ''
         );
-        $temp = true;
+        //$temp = true;
+        echo "suspend account in db";
         try {
             // SQL query to delete the account based on user ID
-            $delete = "UPDATE userAccount SET suspend=? WHERE user_id=?";
+            if ($profile == 'System Admin'){
+                $delete = "UPDATE sysadmin SET suspend_status=1 WHERE id=?";
+            } else {
+                $delete = "UPDATE businessowner SET suspend_status=1 WHERE id=?";
+            }
+            
             $stmt = mysqli_prepare($conn, $delete);
             if (!$stmt) {
                 throw new Exception("Error preparing statement: " . mysqli_error($conn));
             }
 
             // Bind parameters
-            mysqli_stmt_bind_param($stmt, "ii", $temp, $user_id); // Assuming userId is an integer
+            mysqli_stmt_bind_param($stmt, "i", $accountId); // Assuming userId is an integer
 
             // Execute the statement
             if (mysqli_stmt_execute($stmt)) {
