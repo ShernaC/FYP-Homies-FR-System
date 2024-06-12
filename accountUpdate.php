@@ -187,7 +187,7 @@ $accounts = [
             isValid = false;
         }
         // Phone number validation
-        if (!/^\d{11}$/.test(phone)) {
+        if (!/^\d{1,10}$/.test(phone)) {
             document.getElementById('phoneError').innerText = "Invalid phone number format.";
             isValid = false;
         }
