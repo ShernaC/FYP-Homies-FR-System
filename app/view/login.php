@@ -14,6 +14,9 @@
 
 <body id="login-page">
     <div class="login-container">
+        <!-- Button for Verification -->
+        <button class="btn btn-primary position-fixed top-0 start-0 mt-3 ms-3" onclick="openVerificationPage()">Verification</button>
+
         <!--header-->
         <h2>Welcome to FaceLock!</h2>
         <!--image-->
@@ -51,6 +54,10 @@
     </div>
 
     <script>
+        function openVerificationPage() {
+        window.location.href = 'endUserVerification.php'; // Change 'verification.php' to the desired PHP page
+        }
+
         function enableLogin(element) {
             var selectedProfile = element.getAttribute('data-profile');
             document.getElementById('profileDropdown').innerText = selectedProfile;

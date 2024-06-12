@@ -7,6 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <title>Facial Verification</title>
   <style>
     .header {
@@ -17,21 +19,38 @@
       justify-content: center;
       align-items: center;
     }
-    #video {
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .video-container {
+      position: relative;
       width: 100%;
-      max-width: 700px;
-      height: 500px;
-      margin: 0 auto;
-      display: block;
+      height: 500px; /* Adjust this value to whatever fits your design */
+    }
+    #video {
+      position: absolute; /* Set the position to absolute */
+      top: 50%; /* Center vertically */
+      left: 50%; /* Center horizontally */
+      width: 100%;
+      height: auto; /* Adjust height automatically to maintain aspect ratio */
+      max-width: 700px; /* 100% of viewport width */
+      max-height: 500px; /* Limit the height */
+      transform: translate(-50%, -50%);
+      z-index: 1; /* Ensure video appears on top of other content */
     }
     #canvas {
       display: none;
     }
+
     .button-container {
-      margin-top: 20px;
+      position: absolute; /* Set the position to absolute */
+      top: 50%; /* Center the button vertically */
+      left: 50%; /* Center the button horizontally */
+      transform: translate(-50%, -50%); /* Adjust the position to center the button */
+      z-index: 2; /* Ensure button appears below the video */
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      flex-direction: column;
+      align-items: center;
     }
     .bottom-right {
       position: fixed;
@@ -43,6 +62,12 @@
     }
     .modal-success .modal-header {
       background-color: #d4edda;
+    }
+
+    .verifying-container {
+      display: none;
+      text-align: center;
+      margin-top: 16px;
     }
   </style>
 </head>
