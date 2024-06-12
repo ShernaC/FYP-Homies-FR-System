@@ -1,11 +1,14 @@
 <?php
 // 模拟从后端获取的数据
 $accounts = [
-    ["#0121", "FR-121","FR-121","1@gmail.com", "System Admin", "", 1],
-    ["#0122", "FR-122","FR-121", "2@gmail.com","System Admin",  "", 2],
-    ["#0123", "FR-123","FR-121", "3@gmail.com", "Business Owner", "CompanyA", 3],
-    ["#0124", "FR-124","FR-121", "4@gmail.com","Business Owner",  "CompanyB", 4],
-    ["#0125", "FR-125","FR-121", "5@gmail.com","Business Owner",  "", 5]
+    ["#0121", "FR","123","1@gmail.com", "System Admin", "", 1],
+    ["#0122", "FR","124", "2@gmail.com","System Admin",  "", 2],
+    ["#0123", "FR","125", "3@gmail.com", "Business Owner", "CompanyA", 3],
+    ["#0124", "FR","126", "4@gmail.com","Business Owner",  "CompanyB", 4],
+    ["#0125", "FR","127", "5@gmail.com","Business Owner",  "", 5],
+    ["#0125", "FR","128", "5@gmail.com","Business Owner",  "", 5],
+    ["#0125", "FR","129", "5@gmail.com","Business Owner",  "", 5],
+    ["#0125", "FR","130", "5@gmail.com","Business Owner",  "", 5],
 ];
 ?>
 <!DOCTYPE html>
@@ -13,18 +16,23 @@ $accounts = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Admin Profile Managemnet</title>
+    <title>System Admin Profile Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
-    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
     <style>
+        .bottom-right {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -48,23 +56,47 @@ $accounts = [
 <body class="bg-gray-100">
 <div class="flex flex-col items-center">
     <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Profile Managemnet</h1>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Page01</a></li>
-                <li class="page-item"><a class="page-link" href="#">Page02</a></li>
-                <li class="page-item"><a class="page-link" href="#">Page03</a></li>
-            </ul>
-        </nav>
+        <h1 class="text-xl font-bold">System Admin Profile Management</h1>
+        <!--        <nav aria-label="Page navigation">-->
+        <!--            <ul class="pagination">-->
+        <!--                <li class="page-item"><a class="page-link" href="#">Page01</a></li>-->
+        <!--                <li class="page-item"><a class="page-link" href="#">Page02</a></li>-->
+        <!--                <li class="page-item"><a class="page-link" href="#">Page03</a></li>-->
+        <!--            </ul>-->
+        <!--        </nav>-->
     </div>
     <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg">
         <div class="flex justify-between p-4">
-            <button class="text-2xl"><i class="fas fa-chevron-left"></i></button>
+            <button id="back" class="text-2xl"><i class="fas fa-chevron-left"></i></button>
             <div class="relative">
-                <input type="text" placeholder="Search" class="border rounded-full py-2 px-4">
+
+                <input type="text" id="searchInput" placeholder="Search" class="border rounded-full py-2 px-4">
                 <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
             </div>
         </div>
+
+        <style>
+            .scrollable-tbody {
+                max-height: 200px !important;
+                overflow-y: auto !important;
+            }
+            .scrollable-table-container {
+                max-height: 600px;
+                overflow-y: auto;
+            }
+
+            thead th {
+                position: sticky;
+                top: 0;
+                background: #f8f9fa; 
+                z-index: 1;
+                width:auto
+                /* box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4); */
+            }
+        
+
+        </style>
+    <div class="scrollable-table-container">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
@@ -75,31 +107,40 @@ $accounts = [
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-            <?php foreach ($accounts as $account) : ?>
-                <!--            <tr ondblclick="editAccount(<?php $account[5]; ?>)">-->
-                <tr >
+                <?php foreach ($accounts as $index=>$account) : ?>
+                    <tr class="account-row" data-account="<?= $account[0] ?>" data-info="<?= strtolower(implode(' ', $account)) ?>">
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[0] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[1] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[2] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[3] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account[4] ?></span></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[5] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= $account[6] ?>)" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                    
+                    </tr>
+                <?php endforeach; ?>
 
-                    <td class="px-6 py-4 whitespace-nowrap"><?= $account[0] ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= $account[1] ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= $account[2] ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= $account[3] ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account[4] ?></span></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= $account[5] ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?php $account[6]; ?>)" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+
+
+                <tr id="noAccountsFound" style="display: none;">
+                    <td colspan="7" class="text-center py-4 text-black-500">No Accounts Found!</td>
                 </tr>
-            <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+
     </div>
     <div class="mt-4">
         <button onclick="window.location.href='accountAdd.php'" class="text-4xl text-gray-600 hover:text-gray-900"><i class="fas fa-plus-circle"></i></button>
     </div>
-    <div class="w-full max-w-6xl mt-4 text-right text-gray-500">
+    <div class="w-full max-w-6xl mt-3 text-right text-gray-500 bottom-right">
         <a href="troubleshoot.php" class="mr-4">Troubleshoot</a>
-        <a href="#">Logout</a>
+        <a href="login.php">Logout</a>
     </div>
 </div>
 
@@ -139,7 +180,6 @@ $accounts = [
 </script>
 
 <script>
-    
     function confirmAction() {
         // Confirm action here
         $('#exampleModal').modal('hide');
@@ -156,6 +196,26 @@ $accounts = [
     function suspendAccount(accountId) {
         $('#exampleModal').modal('show');
     }
+
+    document.getElementById('back').addEventListener('click', function() {
+        window.location.href = "sysAdminPg.php";
+    });
+    document.getElementById('searchInput').addEventListener('input', function() {
+    var searchText = this.value.toLowerCase();
+    var rows = document.querySelectorAll('.account-row');
+    var found = false;
+
+    rows.forEach(function(row) {
+        var accountId = row.dataset.account.toLowerCase();
+        var display = accountId.includes(searchText) ? 'table-row' : 'none';
+        row.style.display = display;
+        if (display === 'table-row') {
+            found = true;
+        }
+    });
+
+    document.getElementById('noAccountsFound').style.display = found ? 'none' : 'table-row';
+});
 </script>
 
 </body>
