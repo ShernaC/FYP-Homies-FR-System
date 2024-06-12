@@ -196,6 +196,91 @@ class SysAdmin{
 
     }
 
+    // System Admin - Update user account
+    public function updateAccount($user_id, $username, $password, $name, $email, $company, $profile)
+    {
+        global $conn;
+        $response = array(
+            'success' => false, // False by default
+            'message' => ''
+        );
+        //$temp = true;
+        try {
+            // SQL query to update account
+            $check = "SELECT username FROM userAccount where user_id = ?";
+        
+            $stmt = mysqli_prepare($conn, $check);
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "ii", $temp, $user_id); // Assuming userId is an integer
+
+            // Execute the statement
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_store_result($stmt);
+            mysqli_stmt_bind_result($stmt, $tempname);
+            mysqli_stmt_fetch($stmt);  
+
+
+            $check2 = "SELECT userName FROM userAccount where userName = ?";
+
+            $stmt2 = mysqli_prepare($conn, $check);
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt2, "jj", $temp2, $this->userName); // Assuming userId is an integer
+
+            // Execute the statement
+            mysqli_stmt_execute($stmt2);
+
+            mysqli_stmt_store_result($stmt2);
+            mysqli_stmt_bind_result($stmt2, $tempname2);
+            mysqli_stmt_fetch($stmt2);
+
+
+            if($tempname2 != $tempname){//admin2 and s - 201 admin2 and admin2 - 207 IGNORE
+                if(mysqli_stmt_num_rows($stmt2) > 0){ //s>0 username taken -207,s=0 -202 IGNORE
+                    $response['message'] = "Username taken";
+                    return json_encode($response);
+                }
+            }
+
+
+            // Update statement
+            $update = "UPDATE userAccount SET userName=?, password=?, name=?, email=?, profile=? WHERE user_id=?";
+            $stmt = mysqli_prepare($conn, $update);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . mysqli_error($conn));
+            }
+
+            // Bind parameters
+            //mysqli_stmt_bind_param($stmt, "sssssssi", $this->userName, $this->password, $this->name, $this->email, $this->profile, $user_id);
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Check if any row was affected
+                if (mysqli_stmt_affected_rows($stmt) > 0) {
+                    $response['success'] = true;
+                    $response['message'] = "Account updated successfully!";
+                } else {
+                    $response['message'] = "Account not found.";
+                }
+            } else {
+                throw new Exception("Error executing statement: " . mysqli_error($conn));
+            }
+
+
+            
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: " . $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: " . $e->getMessage();
+        }
+
+        // Return JSON response
+        return json_encode($response);
+    }
+
+
     // System Admin - Suspend user account
     public function suspendAccount($accountId, $profile)
     {
@@ -246,30 +331,36 @@ class SysAdmin{
     }
 
     // System Admin - Search user account
-    public function searchAccount($username)
+    public function searchAccount($accountId, $profile)
     {
         $users = array();
         try {
             global $conn;
         
-            $search = "SELECT * FROM userAccount WHERE username=?";
+            if ($profile == 'System Admin'){
+                $search = "SELECT * FROM sysadmin WHERE id=?";
+            } else {
+                $search = "SELECT * FROM businessowner WHERE id=?";
+            }
+
             $stmt = mysqli_prepare($conn, $search);
             if (!$stmt) {
                 throw new Exception("Error: " . mysqli_error($conn));
             }
 
             // Bind parameters
-            mysqli_stmt_bind_param($stmt, "s", $username);
+            mysqli_stmt_bind_param($stmt, "s", $accountId);
 
             // Set parameter and execute
             mysqli_stmt_execute($stmt);
 
             // Get result
             $result = mysqli_stmt_get_result($stmt);
+            $user= mysqli_fetch_assoc($result);
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                $users[] = $row;
-            }
+            //while ($row = mysqli_fetch_assoc($result)) {
+            //    $users[] = $row;
+            //}
 
             mysqli_close($conn);
         } catch (mysqli_sql_exception $e) {
@@ -277,7 +368,8 @@ class SysAdmin{
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
-        return $users;
+
+        return $user;
     }
 
 }
@@ -293,12 +385,12 @@ class BusinessOwner{
     private String $name;
     private String $email;
     //private Face faceData;
-    //private $company;
+    private String $company;
     //private $subscription;
     private String $password;
 
 
-    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "")
+    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "", $company= "")
     {
         $this->id = $id;
         $this->name = $name;
@@ -308,17 +400,11 @@ class BusinessOwner{
         $this->password = $hash;
         
         $this->email = $email;
-
         
         $this->suspend_status = false;
-       
-       
-        //$company = new Company($companyname);
-        
+        $this->company = $company;
 
-        //$this->company = $company;
         //$this->subscription = $subscription;
-       
     }
     
     public function getSuspendStatus(){
@@ -341,11 +427,13 @@ class BusinessOwner{
         return $this->email;
     }
 
+    public function getCompany(){
+        return $this->company;
+    }
 
     public function setID($id){
         $this->id = $id;
     }
-
 
     public function setName($name){
         $this->name = $name;
@@ -365,6 +453,13 @@ class BusinessOwner{
 
     }
 
+    function setEmail($email){
+        $this->email = $email;
+    }
+
+    function setCompany($company){
+        $this->company = $company;
+    }
 
     // add subscription getset later
     public function uploadFaceData($face){

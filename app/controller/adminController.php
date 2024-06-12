@@ -23,6 +23,20 @@ switch ($action) {
         // Put logic for creation of account here (calling function from model)
 
         break;
+
+    case 'update':
+        // put logic for updating account here (calling function from model)
+        echo "update account action";
+        $accountId = $_POST['accountId'];
+        $profile = $_POST['profile'];
+        $username = $_POST['username'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $company = $_POST['company'];
+        $password = $_POST['password'];
+        
+        break;
+
     case 'suspend':
         echo "suspend account action";
         $accountId = $_POST['accountId'];
@@ -30,10 +44,12 @@ switch ($action) {
         $suspendAccount = new suspendUserAccount();
         $result = $suspendAccount->suspendAccount($accountId, $profile);
         break;
-    case 'search':
+
+    /*case 'search':
         $searchAccount = new searchUserAccount();
-        $userData = $searchAccount->handleSearchRequest($_POST['search']);
-        break;
+        $userData = $searchAccount->handleSearchRequest($accountId, $profile);
+        break;*/
+
     default:
         //echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
         break;
@@ -75,6 +91,36 @@ class viewAccountController
 
 }
 
+// Define the updateAccountPageController class
+class updateAccountPageController{
+    // Method to handle the update account functionality
+    public function updateAccount($username)
+    {
+        // Check if the form is submitted
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Extract form data
+            $user_id = $_POST["id"];
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $company = $_POST['company'];
+            //$faceData = $_POST['faceData'];  // this also?
+            $profile = trim($_POST['profile']);
+
+            // Create an instance of the class depending on profile type
+            if ($profile == "System Admin") {
+                $userAccount = new SysAdmin();
+            } else {
+                $userAccount = new BusinessOwner();
+            }
+            
+            // Encode the response as JSON and send it back
+            return $userAccount->updateAccount($user_id, $username, $password, $name, $email, $company, $profile);
+        }
+    }
+}
+
 class suspendUserAccount {
     public function suspendAccount($accountId, $profile) {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -88,16 +134,10 @@ class suspendUserAccount {
 }
 
 class searchUserAccount{
-    private $entity;
-
-    public function handleSearchRequest($search){
-        global $conn;
-        $sysAdmin = new SysAdmin($conn);
-
-        if (isset($_POST['search'])){
-            $userData = $sysAdmin->searchAccount($search);
-            return $userData;
-        }
+    public function handleSearchRequest($accountId, $profile) {
+        $sysAdmin = new SysAdmin();
+        $userData = $sysAdmin->searchAccount($accountId, $profile);
+        return $userData;
     }
 }
 
