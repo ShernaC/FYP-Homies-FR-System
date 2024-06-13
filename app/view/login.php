@@ -34,10 +34,10 @@
             </div>
 
             <div class="form-group mt-3">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" required disabled>
+                <label for="username">Username</label>
+                <input type="username" class="form-control" id="username" name="username" required disabled>
                 <div class="invalid-feedback">
-                    Please enter a valid email address.
+                    Please enter a valid username.
                 </div>
             </div>
             
@@ -63,19 +63,19 @@
             document.getElementById('profileDropdown').innerText = selectedProfile;
 
             // Enable form elements if a user type is selected
-            document.getElementById("email").disabled = false;
+            document.getElementById("username").disabled = false;
             document.getElementById("password").disabled = false;
             document.getElementById("login-btn").disabled = false;
         }
 
-        function redirect(profile, email) {
+        function redirect(profile, username) {
             var formAction;
             switch (profile) {
                 case "System Admin":
                     formAction = "sysAdminPg.php";
                     break;
                 case "Business Owner":
-                    formAction = "businessOwnerPg.html?email=" + email;
+                    formAction = "personal.php?username=" + username;
                     break;
                 default:
                     formAction = "#";
@@ -86,7 +86,7 @@
         function handleLogin() {
             event.preventDefault(); // Prevent the default form submission
 
-            var email = document.getElementById("email").value;
+            var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
             var profile = document.getElementById("profileDropdown").innerText;
 
@@ -106,7 +106,7 @@
                     console.error("Error: " + xhr.status);
                 }
             };
-            xhr.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&data-profile=" + encodeURIComponent(profile));
+            xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&data-profile=" + encodeURIComponent(profile));
         };
     </script>
 

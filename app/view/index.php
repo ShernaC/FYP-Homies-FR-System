@@ -1,14 +1,14 @@
 <?php
 // 模拟从后端获取的数据
 $accounts = [
-    ["#0121", "FN","LN","1@gmail.com", "System Admin", "", 1],
-    ["#0122", "FN","LN", "2@gmail.com","System Admin",  "", 2],
-    ["#0123", "FN","LN", "3@gmail.com", "Business Owner", "CompanyA", 3],
-    ["#0124", "FN","LN", "4@gmail.com","Business Owner",  "CompanyB", 4],
-    ["#0125", "FN","LN", "5@gmail.com","Business Owner",  "CompanyC", 5],
-    ["#0126", "FN","LN", "5@gmail.com","Business Owner",  "CompanyD", 5],
-    ["#0127", "FN","LN", "5@gmail.com","Business Owner",  "CompanyE", 5],
-    ["#0128", "FN","LN", "5@gmail.com","Business Owner",  "CompanyF", 5],
+    ["#0121", "u1","FN LN","1@gmail.com", "System Admin", "", 1],
+    ["#0122", "u2","FN LN", "2@gmail.com","System Admin",  "", 2],
+    ["#0123", "u3", "FN LN", "3@gmail.com", "Business Owner", "CompanyA", 3],
+    ["#0124", "u4", "FN LN", "4@gmail.com","Business Owner",  "CompanyB", 4],
+    ["#0125", "u5", "FN LN", "5@gmail.com","Business Owner",  "CompanyC", 5],
+    ["#0126", "u6", "FN LN", "5@gmail.com","Business Owner",  "CompanyD", 5],
+    ["#0127", "u7", "FN LN", "5@gmail.com","Business Owner",  "CompanyE", 5],
+    ["#0128", "u8", "FN LN", "5@gmail.com","Business Owner",  "CompanyF", 5],
 ];
 ?>
 <!DOCTYPE html>
@@ -101,8 +101,8 @@ $accounts = [
             <thead class="bg-gray-50">
             <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>

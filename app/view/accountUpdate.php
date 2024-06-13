@@ -1,10 +1,9 @@
 <?php
 // 模拟从后端获取的数据
 $accounts = [
-    "id" => 1,
+    "id" => "#0121",
     "name" => "FN LN",
-    "firstName" => "FN",
-    "lastName" => "LN",
+    "username" => "u1",
     "accountId" => "#0121",
     "profile" => "System Admin",
     "email" => "1@gmail.com",
@@ -57,7 +56,7 @@ $accounts = [
     <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
         <h1 class="text-xl font-bold">System Admin Page</h1>
         <div class="flex items-center space-x-4">
-            <h2 class="text-lg">Update Account</h2>
+            <h2 class="text-lg">View and/or Update Account</h2>
         </div>
     </div>
     <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg p-4">
@@ -69,17 +68,12 @@ $accounts = [
         </div>
         <form class="space-y-4" onsubmit="return validateForm()">
             <div>
-                <label for="accountId" class="block text-sm font-medium text-gray-700">Account ID</label>
-                <input value="<?php $accounts["accountId"]; ?>" type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="id" class="block text-sm font-medium text-gray-700">Account ID</label>
+                <input value="<?php $accounts["id"]; ?>" type="text" id="id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input value="<?php echo $accounts["firstName"]; ?>" type="text" id="firstName" placeholder="FirstName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="nameError" class="error"></span>
-            </div>
-            <div>
-                <label for="lastName" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input value="<?php echo $accounts["lastName"]; ?>" type="text" id="lastName" placeholder="LastName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="username" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input value="<?php echo $accounts["username"]; ?>" type="text" id="username" placeholder="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <span id="nameError" class="error"></span>
             </div>
             <div>
@@ -166,14 +160,12 @@ $accounts = [
         var isValid = true;
 
         var name = document.getElementById('name').value.trim();
-        var firstName = document.getElementById('firstName').value.trim();
-        var lastName = document.getElementById('lastName').value.trim();
+        var username = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
         var email = document.getElementById('email').value.trim();
 
         document.getElementById('nameError').innerText = "";
-        document.getElementById('firstNameError').innerText = "";
-        document.getElementById('lastNameError').innerText = "";
+        document.getElementById('usernameError').innerText = "";
         document.getElementById('passwordError').innerText = "";
         document.getElementById('emailError').innerText = "";
 
@@ -182,11 +174,7 @@ $accounts = [
             isValid = false;
         }
         if (firstName === "") {
-            document.getElementById('firstNameError').innerText = "First name cannot be empty.";
-            isValid = false;
-        }
-        if (lastName === "") {
-            document.getElementById('lastNameError').innerText = "Last name cannot be empty.";
+            document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }
         if (password === "") {

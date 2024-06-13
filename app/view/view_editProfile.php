@@ -115,8 +115,8 @@ if (isset($_GET['profile'])) {
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
@@ -196,8 +196,8 @@ if (isset($_GET['profile'])) {
               var profile = viewData[i];
               var output = '<tr>' +
                 '<th scope="row">' + profile.account_id + '</th>' +
-                '<td>' + profile.firstName + '</td>' +
-                '<td>' + profile.lastName + '</td>' +
+                '<td>' + profile.username + '</td>' +
+                '<td>' + profile.name + '</td>' +
                 '<td>' + profile.email + '</td>' +
                 '<td>' + profile.profile + '</td>' +
                 '<td>' + profile.company + '</td></tr>';

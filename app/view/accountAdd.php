@@ -59,14 +59,9 @@
                 <input type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input type="text" id="firstName" placeholder="First Name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="firstNameError" class="error"></span>
-            </div>
-            <div>
-                <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-                <input type="text" id="lastName" placeholder="Last Name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="lastNameError" class="error"></span>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" placeholder="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <span id="usernameError" class="error"></span>
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -184,14 +179,12 @@
         var isValid = true;
 
         var name = document.getElementById('name').value.trim();
-        var firstName = document.getElementById('firstName').value.trim();
-        var lastName = document.getElementById('lastName').value.trim();
+        var firstName = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
         var email = document.getElementById('email').value.trim();
 
         document.getElementById('nameError').innerText = "";
-        document.getElementById('firstNameError').innerText = "";
-        document.getElementById('lastNameError').innerText = "";
+        document.getElementById('usernameError').innerText = "";
         document.getElementById('passwordError').innerText = "";
         document.getElementById('emailError').innerText = "";
 
@@ -200,11 +193,7 @@
             isValid = false;
         }
         if (firstName === "") {
-            document.getElementById('firstNameError').innerText = "First name cannot be empty.";
-            isValid = false;
-        }
-        if (lastName === "") {
-            document.getElementById('lastNameError').innerText = "Last name cannot be empty.";
+            document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }
         if (password === "") {
@@ -214,11 +203,6 @@
         // Email validation
         if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
             document.getElementById('emailError').innerText = "Invalid email format.";
-            isValid = false;
-        }
-        // Phone number validation
-        if (!/^\d{1,10}$/.test(phone)) {
-            document.getElementById('phoneError').innerText = "Invalid phone number format.";
             isValid = false;
         }
 
