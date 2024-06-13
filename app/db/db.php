@@ -45,7 +45,31 @@
         suspend_status BOOLEAN DEFAULT FALSE
     )";
 
+    $sql_subscription = "CREATE TABLE IF NOT EXISTS subscription (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        description VARCHAR(255) NOT NULL
+    )";
 
+    $sql_subscription_details = "CREATE TABLE IF NOT EXISTS subscription_details (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        subscription_id INT NOT NULL,
+        businessowner_id INT NOT NULL,
+        startDate DATE NOT NULL,
+        endDate DATE NOT NULL,
+        FOREIGN KEY (subscription_id) REFERENCES subscription(id),
+        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
+    )";
+
+    $sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        subscription_id INT NOT NULL,
+        amount DECIMAL(10, 2) NOT NULL,
+        status VARCHAR(255) NOT NULL,
+        transaction_date DATE NOT NULL,
+        FOREIGN KEY (subscription_id) REFERENCES subscription(id)
+    )";
 
     // Execute the table creation queries
     /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {

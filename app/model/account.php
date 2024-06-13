@@ -17,14 +17,9 @@ class SysAdmin{
         $this->id = $id;
         $this->name = $name;
         $this->userName = $userName;
-
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->password = $hash;
-        
+        $this->password = $password;
         $this->email = $email;
-
         $this->suspend_status = false;
-       
     }
 
     public function getID(){
@@ -70,8 +65,7 @@ class SysAdmin{
     }
 
     function setPassword($password){
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->password = $hash;
+        $this->password = $password;
     }
 
 
