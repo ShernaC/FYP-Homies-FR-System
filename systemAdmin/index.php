@@ -56,7 +56,7 @@ $accounts = [
 <body class="bg-gray-100">
 <div class="flex flex-col items-center">
     <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Profile Management</h1>
+        <h1 class="text-xl font-bold">System Admin Account Management</h1>
         <!--        <nav aria-label="Page navigation">-->
         <!--            <ul class="pagination">-->
         <!--                <li class="page-item"><a class="page-link" href="#">Page01</a></li>-->
