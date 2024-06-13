@@ -3,12 +3,12 @@
 $accounts = [
     ["#0121", "u1","FN LN","1@gmail.com", "System Admin", "", 1],
     ["#0122", "u2","FN LN", "2@gmail.com","System Admin",  "", 2],
-    ["#0123", "u3", "FN LN", "3@gmail.com", "Business Owner", "CompanyA", 3],
-    ["#0124", "u4", "FN LN", "4@gmail.com","Business Owner",  "CompanyB", 4],
-    ["#0125", "u5", "FN LN", "5@gmail.com","Business Owner",  "CompanyC", 5],
-    ["#0126", "u6", "FN LN", "5@gmail.com","Business Owner",  "CompanyD", 5],
-    ["#0127", "u7", "FN LN", "5@gmail.com","Business Owner",  "CompanyE", 5],
-    ["#0128", "u8", "FN LN", "5@gmail.com","Business Owner",  "CompanyF", 5],
+    ["#0123", "u3", "FN LN", "3@gmail.com", "Business Owner", 3],
+    ["#0124", "u4", "FN LN", "4@gmail.com","Business Owner", 4],
+    ["#0125", "u5", "FN LN", "5@gmail.com","Business Owner", 5],
+    ["#0126", "u6", "FN LN", "5@gmail.com","Business Owner", 5],
+    ["#0127", "u7", "FN LN", "5@gmail.com","Business Owner", 5],
+    ["#0128", "u8", "FN LN", "5@gmail.com","Business Owner", 5],
 ];
 ?>
 <!DOCTYPE html>
@@ -105,7 +105,6 @@ $accounts = [
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
             </tr>
@@ -118,7 +117,9 @@ $accounts = [
                             <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[2] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[3] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account[4] ?></span></td>
+                            <!--
                             <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= $index ?>)"><?= $account[5] ?></td>
+                -->
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= $index ?>)" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= $account[6] ?>)" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
                         </tr>
