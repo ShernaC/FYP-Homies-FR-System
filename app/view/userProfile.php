@@ -80,7 +80,7 @@
         document.querySelectorAll('.profile-row').forEach(function(row) {
             row.addEventListener('click', function() {
                 var profileName = this.dataset.profile;
-                window.location.href = "editProfile.php?profile=" + encodeURIComponent(profileName);
+                window.location.href = "view_editProfile.php?profile=" + encodeURIComponent(profileName);
             });
         });
 

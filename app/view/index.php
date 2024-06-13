@@ -1,8 +1,8 @@
 <?php
 // 模拟从后端获取的数据
 $accounts = [
-    ["#0121", "u1","FN LN","1@gmail.com", "System Admin", "", 1],
-    ["#0122", "u2","FN LN", "2@gmail.com","System Admin",  "", 2],
+    ["1", "admin1","Olivia Nash","admin1@gmail.com", "System Admin", "", 1],
+    ["#2", "admin2","Richard Lyman", "admin2@gmail.com","System Admin",  "", 2],
     ["#0123", "u3", "FN LN", "3@gmail.com", "Business Owner", 3],
     ["#0124", "u4", "FN LN", "4@gmail.com","Business Owner", 4],
     ["#0125", "u5", "FN LN", "5@gmail.com","Business Owner", 5],
