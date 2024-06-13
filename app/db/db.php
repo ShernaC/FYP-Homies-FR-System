@@ -71,6 +71,15 @@
         FOREIGN KEY (subscription_id) REFERENCES subscription(id)
     )";
 
+    // KIV - Face Data
+    /*$sql_face_data = "CREATE TABLE IF NOT EXISTS face_data (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        businessowner_id INT NOT NULL,
+        employee_name VARCHAR(255) NOT NULL,
+        faceData BLOB NOT NULL,
+        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
+    )";*/
+
     // Execute the table creation queries
     /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
         echo "Tables sysadmin and businessowner created successfully";
