@@ -63,7 +63,7 @@
         });
 
         document.getElementById('account').addEventListener('click', function() {
-            window.location.href = "test.php"; /** changed from test.php to index.php */
+            window.location.href = "index.php"; /** changed from test.php to index.php */
         });
     </script>
 </body>
