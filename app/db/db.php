@@ -22,6 +22,8 @@
         description VARCHAR(255) NOT NULL
     )';
 
+    $sql_profile_data = "INSERT INTO profile (userProfile, description) VALUES ('System Admin', 'System Administrator'), ('Business Owner', 'Business Owner')";
+
     $sql_sysadmin = "CREATE TABLE IF NOT EXISTS sysadmin (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userName VARCHAR(255) NOT NULL,
@@ -44,12 +46,13 @@
     )";
 
 
+
     // Execute the table creation queries
-    if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
+    /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
         echo "Tables sysadmin and businessowner created successfully";
     } else {
         echo "Error creating tables: ". $conn->error;
-    }
+    }*/
     
     // Optionally, close the connection if you're done with it
     //$conn->close();
