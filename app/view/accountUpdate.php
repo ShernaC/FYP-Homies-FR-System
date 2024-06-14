@@ -1,15 +1,28 @@
 <?php
-// 模拟从后端获取的数据
-$accounts = [
-    "id" => "#0121",
-    "name" => "FN LN",
-    "username" => "u1",
-    "accountId" => "#0121",
-    "profile" => "System Admin",
-    "email" => "1@gmail.com",
-    "company" => "",
-    "password" => "123456"
-];
+include_once '../controller/adminController.php';
+
+if (isset($_GET['accountId'])) {
+    $accountId = $_GET['accountId'];
+    $profile = $_GET['profile'];
+}
+
+
+$adminController = new searchUserAccount();
+$account = $adminController->handleSearchRequest($accountId, $profile);
+
+$username = $account['userName'];
+$name = $account['name'];
+$email = $account['email'];
+
+if ($profile === 'System Admin'){
+    $company = "";
+}
+else {
+    $company = $account['company'];
+}
+
+$password = $account['password'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,43 +76,44 @@ $accounts = [
         <button onclick="window.location.href='index.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
         <div class="flex items-center mb-4">
             <img src="https://placehold.co/100" alt="User profile picture" class="w-16 h-16 rounded-full mr-4">
-            <input value="<?php echo $accounts["name"]; ?>" type="text" id="name" placeholder="Name" class="border-b-2 flex-1 py-2 px-4">
+            <input value="<?php echo $name; ?>" type="text" id="name" placeholder="Name" class="border-b-2 flex-1 py-2 px-4">
             <span id="nameError" class="error"></span>
         </div>
         <form class="space-y-4" onsubmit="return validateForm()">
             <div>
-                <label for="id" class="block text-sm font-medium text-gray-700">Account ID</label>
-                <input value="<?php $accounts["id"]; ?>" type="text" id="id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="accountId" class="block text-sm font-medium text-gray-700">Account ID</label>
+                <input value="<?php echo $accountId; ?>" type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
             </div>
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input value="<?php echo $accounts["username"]; ?>" type="text" id="username" placeholder="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="nameError" class="error"></span>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input value="<?php echo $username; ?>" type="text" id="username" placeholder="@username123" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <span id="usernameError" class="error"></span>
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input value="<?php echo $accounts["email"]; ?>" type="email" id="email" placeholder="email@domain.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input value="<?php echo $email; ?>" type="email" id="email" placeholder="email@domain.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <span id="emailError" class="error"></span>
             </div>
             <div>
                 <label for="profile" class="block text-sm font-medium text-gray-700">Profile</label>
                 <select id="profile" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="<?php echo $accounts["profile"]; ?>"><?php echo $accounts["profile"]; ?></option>
-                    <option>Profile type</option>
+                    <option value="System Admin"<?php echo ($profile === 'System Admin')? 'selected' : '';?>>System Admin</option>
+                    <option value="Business Owner"<?php echo ($profile === 'Business Owner')? 'selected' : '';?>>Business Owner</option>
                 </select>
             </div>
             <div>
                 <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-                <input value="<?php echo $accounts["company"]; ?>" type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input value="<?php echo $company; ?>" type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <div class="relative">
-                    <input value="<?php echo $accounts["password"]; ?>" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input value="<?php echo $password; ?>" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="togglePasswordVisibility()"><i id="passwordIcon" class="fas fa-eye"></i></button>
                 </div>
                 <span id="passwordError" class="error"></span>
             </div>
+            
             <div class="text-right">
                 <button type="button" onclick="showModal()" class="bg-black text-white py-2 px-4 rounded">Update</button>
             </div>
@@ -112,8 +126,6 @@ $accounts = [
 </div>
 
 <!-- Modal -->
-
-
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -129,7 +141,7 @@ $accounts = [
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="confirmAction()">Confirm</button>
+                <button type="button" class="btn btn-primary" onclick="confirmAction(accountId, username, name, email, profile, company, password)">Confirm</button>
             </div>
         </div>
     </div>
@@ -151,7 +163,26 @@ $accounts = [
         // Confirm action here
         closeModal();
         setTimeout(function() {
-            alert('Account updated successful!');
+            // Make an AJAX request to the PHP script
+            $.ajax({
+                url: '../controller/adminController.php', // URL to your PHP script
+                type: 'POST',
+                data: {
+                    action: 'update',
+                    accountId: accountId,
+                    profile: profile,
+                    username: username,
+                    name: name,
+                    email: email,
+                    company: company,
+                    password: password
+                },
+                success: function(response) {
+                    alert('Account updated successfully!');
+                    console.log(response); // Log the response from the server
+                    window.location.href = 'index.php';
+                }
+            });
             window.location.href = 'index.php';
         }, 500); // 延迟 500 毫秒后显示 alert
     }
@@ -163,7 +194,6 @@ $accounts = [
         var username = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
         var email = document.getElementById('email').value.trim();
-
         document.getElementById('nameError').innerText = "";
         document.getElementById('usernameError').innerText = "";
         document.getElementById('passwordError').innerText = "";
@@ -173,7 +203,7 @@ $accounts = [
             document.getElementById('nameError').innerText = "Name cannot be empty.";
             isValid = false;
         }
-        if (firstName === "") {
+        if (username === "") {
             document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }

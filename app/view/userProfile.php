@@ -1,8 +1,14 @@
 <?php
-    $profiles = [
-        ["System Admin"],
-        ["Business Owner"]
-    ];
+include_once '../controller/profileController.php';
+$profileController = new viewProfilePageController();
+$profiles = $profileController->viewProfile();
+$profiles = json_decode($profiles, true)['profiles'];
+
+
+// $profileController = new viewProfilePageController();
+// $profileData = $profileController->viewSingleProfile($profile);
+// $profileData = json_decode($profileData, true);
+// $description = $profileData['profile']['description'];
 ?>
 
 <!doctype html>
@@ -56,9 +62,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($profiles as $profile) : ?>
-                        <tr class="profile-row" data-profile="<?= $profile[0] ?>">
-                            <td class="px-6 py-4 whitespace-nowrap"><?= $profile[0] ?></td>
+                    <?php foreach ($profiles as $key => $profile) : ?>
+                        <tr class="profile-row">
+                            <td class="px-6 py-4 whitespace-nowrap" onclick="editProfile('<?php echo htmlspecialchars($profile['userProfile']); ?>')">
+                                <?php echo htmlspecialchars($profile['userProfile']); ?>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap"></td>
                         </tr>
                     <?php endforeach; ?>
@@ -73,15 +81,12 @@
     </div>
     
     <script>
+        function editProfile(profile) {
+            window.location.href = 'view_editProfile.php?profile=' + profile;
+        }
+
         document.getElementById('back').addEventListener('click', function() {
             window.location.href = "sysAdminPg.php";
-        });
-
-        document.querySelectorAll('.profile-row').forEach(function(row) {
-            row.addEventListener('click', function() {
-                var profileName = this.dataset.profile;
-                window.location.href = "view_editProfile.php?profile=" + encodeURIComponent(profileName);
-            });
         });
 
         document.getElementById('searchInput').addEventListener('input', function() {

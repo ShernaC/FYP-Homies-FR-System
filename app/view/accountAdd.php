@@ -54,12 +54,6 @@
             <span id="nameError" class="error"></span>
         </div>
         <form class="space-y-4" onsubmit="return validateForm()">
-            <!--
-            <div>
-                <label for="accountId" class="block text-sm font-medium text-gray-700">Account ID</label>
-                <input type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-    -->
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                 <input type="text" id="username" placeholder="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -79,13 +73,7 @@
                 </select>
 
             </div>
-            <!--
-            <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                <input type="text" id="phone" placeholder="Phone number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="phoneError" class="error"></span>
-            </div>
-            -->
+
             <div>
                 <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
                 <input type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -172,6 +160,27 @@
         // Confirm action here
         closeModal();
         setTimeout(function() {
+            // Make an AJAX request to the PHP script
+            $.ajax({
+                url: '../controller/adminController.php', // URL to your PHP script
+                type: 'POST',
+                data: {
+                    action: 'create',
+                    accountId: accountId,
+                    username: username,
+                    name: name,
+                    email: email,
+                    profile: profile,
+                    company:company,
+                    password: password
+                },
+                success: function(response) {
+                    alert('Creation successful!');
+                    console.log(response); // Log the response from the server
+                    window.location.href = 'index.php';
+                }
+            });
+
             alert('Account created successful!');
             window.location.href = 'index.php';
         }, 500); // 延迟 500 毫秒后显示 alert
@@ -181,7 +190,7 @@
         var isValid = true;
 
         var name = document.getElementById('name').value.trim();
-        var firstName = document.getElementById('username').value.trim();
+        var username = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
         var email = document.getElementById('email').value.trim();
 
@@ -194,7 +203,7 @@
             document.getElementById('nameError').innerText = "Name cannot be empty.";
             isValid = false;
         }
-        if (firstName === "") {
+        if (username === "") {
             document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }
@@ -213,4 +222,5 @@
 
 </script>
 </body>
+
 </html>

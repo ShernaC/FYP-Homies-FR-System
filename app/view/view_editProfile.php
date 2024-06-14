@@ -1,53 +1,25 @@
 <?php
-// editProfile.php
+
+include '../controller/profileController.php';
+include '../controller/adminController.php';
 
 if (isset($_GET['profile'])) {
-    $profileName = $_GET['profile'];
-    
-    // Here, you would typically retrieve the profile data from a database.
-    // For this example assuming a simple associative array of profile data.
-    $profiles = [
-        "System Admin" => [
-            "name" => "System Admin",
-            "description" => "Administrator of the system."
-        ],
-        "Business Owner" => [
-            "name" => "Business Owner",
-            "description" => "Owner of a business."
-        ]
-    ];
-    
-    // Check if the profile exists in the array
-    if (array_key_exists($profileName, $profiles)) {
-        $profile = $profiles[$profileName];
-        
-        // Update the description if a new description is provided
-        if (isset($_POST['description']) && !empty($_POST['description'])) {
-            $newDescription = $_POST['description'];
-            $profile['description'] = $newDescription;
-        }
-    } else {
-        // Handle the case where the profile does not exist
-        $error = "Profile not found.";
-    }
-} else {
-    // Handle the case where the profile parameter is missing
-    $error = "No profile specified.";
+    $profile = $_GET['profile'];
 }
 
-$isSystemAdmin = isset($profile) && $profile['name'] === 'System Admin';
+$profileController = new viewProfilePageController();
+$profileData = $profileController->viewSingleProfile($profile);
+$profileData = json_decode($profileData, true);
+$description = $profileData['profile']['description'];
 
-// Define the accounts array
-$accounts = [
-    ["#1", "admin1","Olivia Nash","admin1@gmail.com", "System Admin", "123456"],
-    ["#2", "admin2","Richard Lyman", "admin2@gmail.com","System Admin", "123456"],
-    ["#0123", "u3", "FN LN", "3@gmail.com", "Business Owner", "123456", "CompanyA"],
-    ["#0124", "u4", "FN LN", "4@gmail.com","Business Owner", "123456", "CompanyB"],
-    ["#0125", "u5", "FN LN", "5@gmail.com","Business Owner", "123456", "CompanyC"],
-    ["#0126", "u6", "FN LN", "5@gmail.com","Business Owner", "123456", "CompanyD"],
-    ["#0127", "u7", "FN LN", "5@gmail.com","Business Owner", "123456", "CompanyE"],
-    ["#0128", "u8", "FN LN", "5@gmail.com","Business Owner", "123456", "CompanyF"]
-];
+// Get accounts of the same profile type
+$adminController = new viewAccountController();
+if ($profile == 'System Admin') {
+    $accounts = $adminController->viewSystemAdminController();
+} else if ($profile == 'Business Owner') {
+    $accounts = $adminController->viewBusinessOwnerController();
+}
+$accounts = json_decode($accounts, true)['accounts'];
 
 ?>
 
@@ -116,46 +88,64 @@ $accounts = [
             </div>
 
             <div class="mb-4">
-                <h3 class="ms-4 font-medium text-gray-500 uppercase">User Profile: <span id="existingUserProfile"> <?php echo isset($profile) ? htmlspecialchars($profile['name']) : ''; ?></span></h3>
+                <h3 class="ms-4 font-medium text-gray-500 uppercase">User Profile: <span id="existingUserProfile"> <?= $profile ?></span></h3>
             </div>
             <div class="mb-4">
-                <h3 class="ms-4 font-medium text-gray-500 uppercase">Description: <span id="description"><?php echo isset($profile) ? htmlspecialchars($profile['description']) : ''; ?></span></h3>
+                <h3 class="ms-4 font-medium text-gray-500 uppercase">Description: <span id="description"></span> <?= $description ?></span></h3>
             </div>
+
 
             <div class="table-responsive">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
+                        <?php if ($profile == 'System Admin') : ?>
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Password</th>
-                            <?php if (!$isSystemAdmin): ?>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                            <?php endif; ?>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                         </tr>
+                        <?php elseif ($profile == 'Business Owner') : ?>
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                        </tr>
+                        <?php endif; ?>
                     </thead>
-                    <tbody id="view-profile-information">
-                        <?php
-                        foreach ($accounts as $account) {
-                            if (($isSystemAdmin && $account[4] === 'System Admin') || (!$isSystemAdmin && $account[4] === 'Business Owner')) {
-                                echo '<tr>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">' . htmlspecialchars($account[0]) . '</td>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[1]) . '</td>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[2]) . '</td>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[3]) . '</td>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[4]) . '</td>';
-                                echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[5]) . '</td>';
-                                if (!$isSystemAdmin && isset($account[6])) {
-                                    echo '<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">' . htmlspecialchars($account[6]) . '</td>';
-                                }
-                                echo '</tr>';
-                            }
-                        }
-                        ?>
+                    <tbody id="view-profile-information" class="bg-white divide-y divide-gray-200">
+                    <?php foreach ($accounts as $key => $account) : 
+                        if ($profile== 'System Admin') : ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['userName'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['name'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['email'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                            </tr>
+                    <?php elseif ($account['profile'] == 'Business Owner') : ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['userName'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['name'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['email'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
+                                <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['company'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                            </tr>            
+                    <?php endif; ?>
+                <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -171,112 +161,67 @@ $accounts = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateDescriptionForm" method="POST" action="view_editProfile.php">
+                <form id="updateDescriptionForm">
                 <div class="mb-3">
                     <label for="newDescription" class="form-label">New Description</label>
-                    <input type="text" class="form-control" id="newDescription" name="newDescription">
+                    <textarea class="form-control" id="newDescription" name="newDescription" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" onclick="submitUpdate(); return false;">Update</button>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitUpdate()">Save changes</button>
             </div>
             </div>
         </div>
     </div>
 
-    <script>
-    // JavaScript code to dynamically add account information to the table
-    window.onload = function () {
-        // Get and display userProfile
-        document.getElementById("existingUserProfile").innerHTML = <?php echo json_encode($profile['name']); ?>;
 
-        // Create a new XMLHttpRequest object
-        var xhr = new XMLHttpRequest();
-
-        // Configure the request
-        xhr.open("POST", "../viewProfilePageController.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        // Define what happens on successful data submission/ if send and receive successful, alert response
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                // Handle successful response
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    // Access and display search results
-                    var viewData = response.data;
-                    if (viewData && viewData.length > 0) {
-                        // Clear previous search results
-                        var profileInfo = document.getElementById("view-profile-information");
-                        profileInfo.innerHTML = "";
-
-                        // Display profile information
-                        for (var i = 0; i < viewData.length; i++) {
-                            var profile = viewData[i];
-                            var output = '<tr>' +
-                                '<th scope="row">' + profile.account_id + '</th>' +
-                                '<td>' + profile.username + '</td>' +
-                                '<td>' + profile.name + '</td>' +
-                                '<td>' + profile.email + '</td>' +
-                                '<td>' + profile.profile + '</td>' +
-                                '<td>' + profile.password + '</td>';
-                            if (!<?php echo json_encode($isSystemAdmin); ?> && profile.company) {
-                                output += '<td>' + profile.company + '</td>';
-                            }
-                            output += '</tr>';
-                            profileInfo.innerHTML += output;
-                        }
-                    }
-                } else {
-                    // No view results found (theoretically impossible, for debugging only)
-                    document.getElementById("view-profile-information").innerHTML = "<tr><td colspan='8' style='padding-top: 20px;'>No results found</td></tr>";
-                }
-            } else {
-                // Handle error response
-                console.error("Error: " + xhr.status);
-            }
-        };
-
-        // Construct the form data string
-        var formData = "userProfile=" + encodeURIComponent(<?php echo json_encode($profile['name']); ?>);
-
-        // Send the request with the form data
-        xhr.send(formData);
-    };
-
-    // Event listener for the back button
-    document.getElementById('back').addEventListener('click', function() {
-        window.location.href = "userProfile.php";
-    });
-
-    // Function to submit the update description form
-    function submitUpdate() {
-        var newDescription = document.getElementById("newDescription").value;
-        if (newDescription.trim() !== "") {
-            var updateRequest = new XMLHttpRequest();
-            updateRequest.open("POST", "view_editProfile.php", true);
-            updateRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            updateRequest.onreadystatechange = function() {
-                if (updateRequest.readyState === XMLHttpRequest.DONE) {
-                    if (updateRequest.status === 200) {
-                        // Handle successful update
-                        alert("Description updated successfully!");
-                        // Optionally, update the description displayed on the page
-                        document.getElementById("description").innerHTML = newDescription;
-                        // Close the modal
-                        var modal = bootstrap.Modal.getInstance(document.getElementById("updateDescriptionModal"));
-                        modal.hide();
-                    } else {
-                        // Handle error
-                        alert("Error occurred while updating description.");
-                    }
-                }
-            };
-            updateRequest.send("profile=" + encodeURIComponent(<?php echo json_encode($profile['name']); ?>) + "&description=" + encodeURIComponent(newDescription));
-        } else {
-            alert("Description cannot be empty.");
-        }
-    }
-    </script>
-
+    <div class="w-full max-w-6xl mt-4 text-right text-gray-500 bottom-right">
+        <a href="troubleshoot.php" class="mr-4">Troubleshoot</a>
+        <a href="login.php">Logout</a>
+    </div>
 </body>
+
+<script>
+  function editAccount(accountId, profile) {
+        window.location.href = 'accountUpdate.php?accountId=' + accountId + '&profile=' + profile;
+    }
+
+  // Event listener for the back button
+  document.getElementById('back').addEventListener('click', function() {
+    window.location.href = "userProfile.php";
+  });
+
+  // Function to submit the update description form
+  function submitUpdate() {
+    var newDescription = document.getElementById("newDescription").value;
+    if (newDescription.trim() !== "") {
+      var updateRequest = new XMLHttpRequest();
+      updateRequest.open("POST", "view_editProfile.php", true);
+      updateRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      updateRequest.onreadystatechange = function() {
+        if (updateRequest.readyState === XMLHttpRequest.DONE) {
+          if (updateRequest.status === 200) {
+            // Handle successful update
+            alert("Description updated successfully!");
+            // Optionally, update the description displayed on the page
+            document.getElementById("description").innerHTML = newDescription;
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(document.getElementById("updateDescriptionModal"));
+            modal.hide();
+          } else {
+            // Handle error
+            alert("Error occurred while updating description.");
+          }
+        }
+      };
+      updateRequest.send("profile=" + encodeURIComponent(userProfile) + "&description=" + encodeURIComponent(newDescription));
+    } else {
+      alert("Description cannot be empty.");
+    }
+  }
+</script>
+
+
 </html>
