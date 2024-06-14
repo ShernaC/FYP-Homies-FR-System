@@ -51,10 +51,6 @@
         </div>
         <form class="space-y-4" onsubmit="return validateForm()">
             <div>
-                <label for="accountId" class="block text-sm font-medium text-gray-700">Account ID</label>
-                <input type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div>
                 <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                 <input type="text" id="username" placeholder="@username123" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <span id="usernameError" class="error"></span>

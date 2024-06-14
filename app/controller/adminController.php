@@ -11,16 +11,8 @@ $action = isset($_POST['action'])? $_POST['action'] : '';
 
 switch ($action) {
     case 'create':
-        echo "create account action";
-        $accountId = $_POST['accountId'];
-        $profile = $_POST['profile'];
-        $username = $_POST['username'];
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $company = $_POST['company'];
-        $password = $_POST['password'];
-
-        // Put logic for creation of account here (calling function from model)
+        $createAccount = new createAccountController();
+        $result = $createAccount -> handleCreate();
 
         break;
 
@@ -38,7 +30,6 @@ switch ($action) {
         break;
 
     case 'suspend':
-        echo "suspend account action";
         $accountId = $_POST['accountId'];
         $profile = $_POST['profile'];
         $suspendAccount = new suspendUserAccount();
@@ -53,6 +44,47 @@ switch ($action) {
     default:
         //echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
         break;
+}
+
+class createAccountController{
+    function handleCreate() {
+        $profile = $_POST['profile'];
+        $username = $_POST['username'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $company = $_POST['company'];
+        $password = $_POST['password'];
+    
+        $response = ['success' => false, 'message' => ''];
+    
+        try {
+            if ($profile == 'System Admin') {
+                $newAccount = new SysAdmin(0, $username, $name, $email, $password);
+                $result = $newAccount->createSysAdminAccount($profile);
+            } elseif ($profile == 'Business Owner') {
+                $newAccount = new BusinessOwner(0, $username, $name, $email, $password);
+                $newAccount->setCompany($company); // 设置公司字段
+                $result = $newAccount->createBusinessOwnerAccount($profile);
+            } else {
+                $response['message'] = 'Invalid profile type';
+                throw new Exception('Invalid profile type');
+            }
+    
+            $result = json_decode($result, true);
+    
+            if ($result['success']) {
+                $response['success'] = true;
+                $response['message'] = 'Account created successfully';
+            } else {
+                $response['message'] = isset($result['message']) ? $result['message'] : 'Account creation failed';
+            }
+        } catch (Exception $e) {
+            error_log("Error during account creation: " . $e->getMessage());
+            $response['message'] = 'Server error. Please try again later.';
+        }
+    
+        return json_encode($response);
+    }
 }
 
 
@@ -71,6 +103,53 @@ class viewAccountController
         //echo $result;
 
         // Check the accounts result
+        if (!empty($result)) {
+            $response = array(
+                "success" => true,
+                "message" => "Successfully retrieved all accounts",
+                "accounts" => $result['accounts']
+            );
+        } else {
+            $response = array(
+                "success" => false,
+                "message" => "Failed to retrieve accounts"
+            );
+        }
+        
+        // Encode the response as JSON and send it back
+        //echo json_encode($response);
+        return json_encode($response);
+    }
+
+    public function viewSystemAdminController(){
+        $sysAdmin = new SysAdmin();
+        $result = $sysAdmin->viewSysAdminAccounts();
+        $result = json_decode($result, true);
+
+        if (!empty($result)) {
+            $response = array(
+                "success" => true,
+                "message" => "Successfully retrieved all accounts",
+                "accounts" => $result['accounts']
+            );
+        } else {
+            $response = array(
+                "success" => false,
+                "message" => "Failed to retrieve accounts"
+            );
+        }
+        
+        // Encode the response as JSON and send it back
+        //echo json_encode($response);
+        return json_encode($response);
+    
+    }
+
+    public function viewBusinessOwnerController(){
+        $sysAdmin = new SysAdmin();
+        $result = $sysAdmin->viewBusinessOwnerAccounts();
+        $result = json_decode($result, true);
+
         if (!empty($result)) {
             $response = array(
                 "success" => true,

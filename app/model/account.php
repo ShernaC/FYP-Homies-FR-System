@@ -1,13 +1,19 @@
 <?php
-$conn = require_once '../db/db.php'; 
-session_start();
-
+//$conn = require_once '../db/db.php'; 
+include_once '../db/db.php'; 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (!$conn || !$conn instanceof mysqli) {
+    die("Account: Database connection not established.");
+}
 class SysAdmin{
 
     private int $id;
     private String $password; 
     private String $userName;
     private String $name;
+    private String $profile;
     private String $email;
 
     private $suspend_status;
@@ -18,6 +24,7 @@ class SysAdmin{
         $this->name = $name;
         $this->userName = $userName;
         $this->password = $password;
+        $this->profile = "System Admin";
         $this->email = $email;
         $this->suspend_status = false;
     }
@@ -36,6 +43,10 @@ class SysAdmin{
 
     public function getEmail(){
         return $this->email;
+    }
+
+    public function getProfile(){
+        return $this->profile;
     }
 
     public function setID($id){
@@ -69,7 +80,7 @@ class SysAdmin{
     }
 
 
-    public function createSysAdminAccount($SysAdmin)
+    public function createSysAdminAccount($profile)
     {
         global $conn;
 
@@ -80,26 +91,33 @@ class SysAdmin{
 
         try {
             // SQL query to insert a new SysAdmin account
-            $insertSysAdmin = "INSERT INTO sysadmin (userName, name, email, type, password) VALUES (?, ?, ?, 'System Admin', ?)";
-            $stmt = mysqli_prepare($conn, $insertSysAdmin);
+            error_log("Original password: " . $this->password);
+            $hashedPassword = md5($this->password);
+            error_log("MD5 hashed password: " . $hashedPassword);
+            $stmt = $conn->prepare("INSERT INTO sysadmin (userName, name, email, profile, password) VALUES (?, ?, ?, ?, ?)");
             if (!$stmt) {
-                throw new Exception("Error preparing statement: ". mysqli_error($conn));
+                throw new Exception("Prepare statement failed: " . $conn->error);
             }
 
             // Bind parameters
-            mysqli_stmt_bind_param($stmt, "ssss", $SysAdmin->getUsername(), $SysAdmin->getName(), $SysAdmin->getEmail(), $SysAdmin->getPassword());
-
-            // Execute the statement
-            if (mysqli_stmt_execute($stmt)) {
-                $response['success'] = true;
-                $response['message'] = "SysAdmin account created successfully!";
+            $stmt->bind_param("sssss", $this->userName, $this->name, $this->email, $profile, $hashedPassword);
+            error_log("Binding parameters: Username={$this->userName}, Name={$this->name}, Email={$this->email}, Password=******, Profile={$profile}");
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    $response['success'] = true;
+                    $response['message'] = 'SysAdmin account created successfully';
+                    error_log("SysAdmin account created successfully.");
+                } else {
+                    throw new Exception("No rows affected, insert failed.");
+                }
             } else {
-                throw new Exception("Error executing statement: ". mysqli_error($conn));
+                throw new Exception("Execute statement failed: " . $stmt->error);
             }
-        } catch (mysqli_sql_exception $e) {
-            $response['message'] = "Database Error: ". $e->getMessage();
+    
+            $stmt->close();
         } catch (Exception $e) {
-            $response['message'] = "Error: ". $e->getMessage();
+            error_log("Error creating SysAdmin account: " . $e->getMessage());
+            $response['message'] = 'Database Error: ' . $e->getMessage();
         }
 
         // Return JSON response
@@ -188,6 +206,83 @@ class SysAdmin{
         // Return JSON response
         return json_encode($response);
 
+    }
+
+    public function viewSysAdminAccounts()
+    {
+        global $conn;
+
+        $response = array(
+            'success' => false,
+            'message' => '',
+            'accounts' => []
+        );
+    
+        try {
+            // SQL query to view all system admin accounts
+            
+            $viewAdmin = "SELECT * FROM sysadmin WHERE suspend_status=0";
+            $stmt = mysqli_prepare($conn, $viewAdmin);
+            if (!$stmt) {
+                throw new Exception("Error: ". mysqli_error($conn));
+            }
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Fetch all rows into an array
+                $result = mysqli_stmt_get_result($stmt);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $response['accounts'][] = $row;
+                }
+                $response['success'] = true;
+                $response['message'] = "Successfully retrieved all accounts.";
+            } else {
+                throw new Exception("Error executing statement: ". mysqli_error($conn));
+            }
+
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: ". $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: ". $e->getMessage();
+        }
+    
+        // Return JSON response
+        return json_encode($response);
+    }
+
+    public function viewBusinessOwnerAccounts()
+    {
+        global $conn;
+
+        $response = array(
+            'success' => false,
+            'message' => '',
+            'accounts' => []
+        );
+
+        try {
+            // SQL query to view all accounts
+            $viewBusinessOwners = "SELECT * FROM businessowner WHERE suspend_status=0";
+            $result = mysqli_query($conn, $viewBusinessOwners);
+            
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $response['accounts'][] = $row;
+                }
+                $response['success'] = true;
+                $response['message'] = "Successfully retrieved all system admin accounts.";
+            } else {
+                throw new Exception("Error executing query: ". mysqli_error($conn));
+            }
+    
+        } catch (mysqli_sql_exception $e) {
+            $response['message'] = "Database Error: ". $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = "Error: ". $e->getMessage();
+        }
+    
+        // Return JSON response
+        return json_encode($response);
     }
 
     // System Admin - Update user account
@@ -378,6 +473,7 @@ class BusinessOwner{
     private String $userName;
     private String $name;
     private String $email;
+    private String $profile;
     //private Face faceData;
     private String $company;
     //private $subscription;
@@ -389,12 +485,9 @@ class BusinessOwner{
         $this->id = $id;
         $this->name = $name;
         $this->userName = $userName;
-
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->password = $hash;
-        
+        $this->password = $password;
         $this->email = $email;
-        
+        $this->profile = "Business Owner";
         $this->suspend_status = false;
         $this->company = $company;
 
@@ -419,6 +512,10 @@ class BusinessOwner{
 
     public function getEmail(){
         return $this->email;
+    }
+
+    public function getProfile(){
+        return $this->profile;
     }
 
     public function getCompany(){
@@ -456,6 +553,43 @@ class BusinessOwner{
     }
 
     // add subscription getset later
+
+    public function createBusinessOwnerAccount($profile) {
+        global $conn;
+        $response = ['success' => false, 'message' => ''];
+    
+        try {
+            error_log("Original password: " . $this->password);
+            $hashedPassword = md5($this->password);
+            error_log("MD5 hashed password: " . $hashedPassword);
+            $stmt = $conn->prepare("INSERT INTO businessowner (userName, name, email, profile, password, company) VALUES (?, ?, ?, ?, ?, ?)");
+            if (!$stmt) {
+                throw new Exception("Prepare statement failed: " . $conn->error);
+            }
+    
+            $stmt->bind_param("ssssss", $this->userName, $this->name, $this->email, $profile, $hashedPassword, $this->company);
+            error_log("Binding parameters: Username={$this->userName}, Name={$this->name}, Email={$this->email}, Password=******, Profile={$profile}, Company={$this->company}");
+
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    $response['success'] = true;
+                    $response['message'] = 'BusinessOwner account created successfully';
+                    error_log("BusinessOwner account created successfully.");
+                } else {
+                    throw new Exception("No rows affected, insert failed.");
+                }
+            } else {
+                throw new Exception("Execute statement failed: " . $stmt->error);
+            }
+            $stmt->close();
+        } catch (Exception $e) {
+            error_log("Error creating BusinessOwner account: " . $e->getMessage());
+            $response['message'] = 'Database Error: ' . $e->getMessage();
+        }
+    
+        return json_encode($response);
+    }
+
     public function uploadFaceData($face){
 
         return 0;

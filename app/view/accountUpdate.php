@@ -109,20 +109,19 @@ $password = $account['password'];
                     <option value="Business Owner"<?php echo ($profile === 'Business Owner')? 'selected' : '';?>>Business Owner</option>
                 </select>
             </div>
-            <!--div>
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                <input value="<?php echo $account["phone"]; ?>" type="text" id="phone" placeholder="Phone number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="phoneError" class="error"></span>
-            </div-->
             <div>
                 <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
                 <input value="<?php echo $company; ?>" type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input value="<?php echo $password; ?>" type="password" id="password" placeholder="System Admin, Business Owner only" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div class="relative">
+                    <input value="<?php echo $password; ?>" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="togglePasswordVisibility()"><i id="passwordIcon" class="fas fa-eye"></i></button>
+                </div>
                 <span id="passwordError" class="error"></span>
             </div>
+            
             <div class="text-right">
                 <button type="button" onclick="showModal()" class="bg-black text-white py-2 px-4 rounded">Update</button>
             </div>
@@ -235,6 +234,20 @@ $password = $account['password'];
         //}
 
         return isValid;
+    }
+
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById('password');
+        var passwordIcon = document.getElementById('passwordIcon');
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordIcon.classList.remove("fa-eye");
+            passwordIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            passwordIcon.classList.remove("fa-eye-slash");
+            passwordIcon.classList.add("fa-eye");
+        }
     }
 
 </script>

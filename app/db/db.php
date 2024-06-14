@@ -25,7 +25,7 @@
     $sql_profile_data = "INSERT INTO profile (userProfile, description) VALUES ('System Admin', 'System Administrator'), ('Business Owner', 'Business Owner')";
 
     $sql_sysadmin = "CREATE TABLE IF NOT EXISTS sysadmin (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         userName VARCHAR(255) NOT NULL,
         name VARCHAR(255),
         email VARCHAR(255) UNIQUE,
@@ -35,7 +35,7 @@
     )";
     
     $sql_businessowner = "CREATE TABLE IF NOT EXISTS businessowner (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         userName VARCHAR(255) NOT NULL,
         name VARCHAR(255),
         email VARCHAR(255) UNIQUE,
@@ -44,6 +44,14 @@
         company VARCHAR(255),
         suspend_status BOOLEAN DEFAULT FALSE
     )";
+
+    $sql_trigger = "CREATE TRIGGER IF NOT EXISTS insert_businessowner_id
+        BEFORE INSERT ON businessowner
+        FOR EACH ROW BEGIN
+            IF NEW.id IS NULL OR NEW.id = '' THEN
+                SET NEW.id = UUID_SHORT();
+            END IF;
+        END";
 
     $sql_subscription = "CREATE TABLE IF NOT EXISTS subscription (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -81,6 +89,16 @@
     )";*/
 
     // Execute the table creation queries
+    $conn->query($sql_sysadmin);
+    $conn->query($sql_businessowner);
+    $conn->query($sql_profile);
+    $conn->query($sql_trigger);
+    //$conn->query($sql_profile_data);
+    //$conn->query($sql_subscription);
+    //$conn->query($sql_subscription_details);
+    //$conn->query($sql_transaction);
+    //$conn->query($sql_face_data);
+
     /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
         echo "Tables sysadmin and businessowner created successfully";
     } else {
