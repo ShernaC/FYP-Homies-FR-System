@@ -1,9 +1,9 @@
 <?php
 $list=[
-        ['icon'=>'icon-tags','value'=>'Username:user123'],
-    ['icon'=>'icon-envelope','value'=>'Email:12345@google.com'],
-    ['icon'=>'icon-zoom-in','value'=>'Subscription Name:Free Trial Plan'],
-    ['icon'=>'icon-home','value'=>'Company Name:CompanyB'],
+    ['icon'=>'icon-tags', 'label'=>'Username:', 'value'=>'user123', 'img'=>'static/images/id-card-regular.svg'],
+    ['icon'=>'icon-envelope', 'label'=>'Email:', 'value'=>'12345@google.com', 'img'=>'static/images/envelope-regular.svg'],
+    ['icon'=>'icon-zoom-in', 'label'=>'Subscription Name:','value'=>'Free Trial Plan', 'img'=>'static/images/calendar-days-regular.svg'],
+    ['icon'=>'icon-home', 'label'=>'Company Name:', 'value'=>'CompanyB', 'img'=>'static/images/building-regular.svg'],
 ];
 ?>
 <!DOCTYPE html>
@@ -38,13 +38,8 @@ $list=[
                 <div class="bottom-visiting-top">
                     <div class="visiting-top-image"> </div>
                     <div class="visiting-top-texts">
-                        <div class="large-font">
-                            <i class="icon-user"></i>
-                            <i>Name:xxx</i>
-                        </div>
-                        <div class="large-font">
-                            <i class="icon-headphones"></i>
-                            <i>Phone:xxx</i>
+                        <div class="large-font" style="text-align: left;">
+                            <i style="margin-left: 0;">Name: xxx</i>
                         </div>
                     </div>
                 </div>
@@ -53,12 +48,12 @@ $list=[
                         <div class="bottom-body-list">
                             <?php foreach ($list as $key) :?>
                             <div class="body-list-item">
-                                <i class="<?= $key["icon"]?>"></i>
-                                <i><?= $key["value"]?></i>
+                                <img src="<?= $key["img"] ?>" alt="<?= $key["label"] ?> icon" style="width: 20px; height: 20px;">
+                                <i><?= $key["label"] ?><?= $key["value"] ?></i>
                             </div>
                             <?php endforeach;?>
                             <div class="body-list-item">
-                                <button onclick="navigatorTo('subscription.php')">View my subsciption</button>
+                                <button onclick="navigatorTo('subscription.php')">View my subscription</button>
                             </div>
                             <div class="body-list-item">
                                 <button onclick="upload()">Upload datasets</button>
@@ -73,7 +68,7 @@ $list=[
                                 <p style="font-weight: bold" class="hidden" id="font1">Verified</p>
                             </div>
                             <div>
-                                <p style="color: red;font-weight: bold" class="hidden" id="font2">Rejected File Name XXX.Please Reupload.</p>
+                                <p style="color: red;font-weight: bold" class="hidden" id="font2">Rejected File Name XXX. Please Reupload.</p>
                             </div>
                         </div>
                     </div>
@@ -180,7 +175,7 @@ $list=[
     }
     .card-bottom-visiting{
         width: 70%;
-        height: 80%;
+        height: 60%;
         border-radius: 20px;
         overflow: hidden;
         display: flex;
@@ -216,6 +211,14 @@ $list=[
         margin-right: 20px;
         font-size:17px ;
     }
+    .large-font {
+        text-align: left; 
+    }
+    .large-font i {
+        margin-left: 0;
+    }
+
+
     .bottom-visiting-bottom{
         height: 100%;
         display: flex;
