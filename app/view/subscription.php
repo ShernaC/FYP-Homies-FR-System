@@ -1,7 +1,7 @@
 <?php
 $list=[
-    ['icon'=>'icon-time','value'=>'Start Date:',"time"=>"12 May 2024"],
-    ['icon'=>'icon-time','value'=>'End Date:',"time"=>"12 June 2024"],
+    ['icon'=>'icon-time','value'=>'Start Date:',"time"=>"12 May 2024&nbsp;&nbsp;&nbsp;",'img'=>'static/images/clock-regular.svg'],
+    ['icon'=>'icon-time','value'=>'End Date :',"time"=>"12 &nbsp;June 2024 ",'img'=>'static/images/clock-solid.svg'],
 ];
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,6 @@ $list=[
     <script src="static/js/public.js"></script>
     <link rel="stylesheet" href="static/css/main.css">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
-<!--    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
 <style>
     .header{
         background-color: #CBEAD0;
@@ -43,7 +42,6 @@ $list=[
         width: 100%;
         height: 100%;
         border-radius: 12px;
-        /*border: #777777 2px solid;*/
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -66,8 +64,8 @@ $list=[
         justify-content: center;
     }
     .card-bottom-visiting{
-        width: 70%;
-        height: 80%;
+        width: 50%;
+        height: 60%;
         border-radius: 20px;
         overflow: hidden;
         display: flex;
@@ -106,16 +104,23 @@ $list=[
     font-weight: bold;
     padding: 10px;
 }
-/* .bottom-visiting-body{
+.bottom-visiting-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
-} */
-.visiting-body-select{
+.visiting-body-select {
     display: flex;
     flex-wrap: nowrap;
     font-size: 20px;
     padding: 10px;
-    width: 50%;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    /*text-align: center;*/
 }
 .bottom-visiting-button{
     display: flex;
@@ -135,34 +140,43 @@ $list=[
         <div class="card-bottom">
             <div class="card-bottom-visiting">
                 <div class="bottom-visiting-title">
-                    <h3>Subscription details</h3>
+                    <h3>Subscription Details</h3>
                 </div>
-                <div class="bottom-visiting-body">
+                <div class="bottom-visiting-body" style="width:100%"; display:>
+<!--                    <div class="visiting-body-select">-->
+<!--                        <div>-->
+<!--                            <i class="icon-calendar"></i>-->
+<!--                            <p>Subscription Type:</p>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <span style="font-weight: bold; margin-left: 170px;">Free Trial</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="visiting-body-select">
-                        <div style="display: flex;flex-wrap: nowrap">
-                        <i class="icon-calendar"></i>
-                        <p>Subscription Type:</p>
+                        <div style="flex: 1;display: flex;justify-content: flex-end;margin-right: 40px">
+                            <i class="icon-calendar"></i>
+                            <p>Subscription Type:</p>
                         </div>
-                        <select>
-                            <option value="1">Free trial</option>
-                            <option value="2">Small Business</option>
-                            <option value="3">Medium-Sized Business</option>
-                            <option value="4">Large Enterprise</option>
-                        </select>
+                        <div style="flex: 1;display: flex;justify-content: flex-start">
+                            <p style="font-weight: bold;">Free Trial</p>
+                        </div>
                     </div>
-                    <?php foreach ($list as $key):?>
+                    <?php foreach ($list as $key): ?>
                     <div class="visiting-body-select">
-                        <div style="display: flex;flex-wrap: nowrap">
-                            <i class="<?= $key["icon"]?>"></i>
-                            <p><?= $key["value"]?></p>
+                        <div style="flex: 1;display: flex;justify-content: flex-end;margin-right: 40px">
+<!--                            <img src="--><?php //= $key['img'] ?><!--" alt="--><?php //= $key['value'] ?><!--" style="width: 20px; margin-right: 5px;">-->
+                            <p style="display:inline;"><?= $key["value"] ?></p>
                         </div>
-                        <p style="font-weight: bold"><?= $key["time"]?></p>
+                        <div style="flex: 1;display: flex;justify-content: flex-start">
+                            <p style="font-weight:bold"><?= $key["time"] ?></p>
+                        </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
                 <div class="bottom-visiting-button">
-                    <button onclick="navigatorTo('select.php')">Upgrade</button>
-                    <button data-toggle="modal" data-target="#exampleModal">Cancel</button>
+                    <button onclick="navigatorTo('select.php')" style="margin-left: 20px;">Upgrade Subscription</button>
+                    <button data-toggle="modal" data-target="#exampleModal" style="margin-right: 20px;">Cancel Subscription</button>
+                </div>
                 </div>
             </div>
             <div class="logout">
@@ -181,7 +195,7 @@ $list=[
                 </button>
             </div>
             <div class="modal-body">
-                Are you confirm the cancellation?
+                Confirm subscription cancellation?
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" style="background-color: #545b62">Cancel</button>
@@ -203,7 +217,6 @@ $list=[
                 Update successfully!
             </div>
             <div class="modal-footer">
-                
                 <button data-dismiss="modal" style="background-color: #2F67EF">OK</button>
             </div>
         </div>
@@ -211,12 +224,6 @@ $list=[
 </div>
 </body>
 <script>
-    // const getURLParameter=(name)=>{
-    //     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    //     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    //         results = regex.exec(location.search);
-    //     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    // }
     (function () {
         let paramValue = getURLParameter('isOne')
         if (paramValue === 'true')$('#exampleModal1').modal()
