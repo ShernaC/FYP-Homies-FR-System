@@ -21,8 +21,6 @@ else {
     $company = $account['company'];
 }
 
-$password = $account['password'];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,8 +32,7 @@ $password = $account['password'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
-    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
@@ -106,12 +103,30 @@ $password = $account['password'];
                 <input value="<?php echo $company; ?>" type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <label> 
+                    <input type="checkbox" id="toggleCheckbox"> Change Password?
+                </label>
+            </div>
+
+            <!-- New Password -->
+            <div class="d-none" id="newpassword">
+                <label for="password" class="block text-sm font-medium text-gray-700">New Password:</label>
                 <div class="relative">
-                    <input value="<?php echo $password; ?>" type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="togglePasswordVisibility()"><i id="passwordIcon" class="fas fa-eye"></i></button>
                 </div>
                 <span id="passwordError" class="error"></span>
+            </div>
+            <br>
+
+            <!-- Confirm Password -->
+            <div class="d-none" id="confirmpassword">
+                <label for="password2" class="block text-sm font-medium text-gray-700">Confirm Password:</label>
+                <div class="relative">
+                    <input type="password" id="password2" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="togglePasswordVisibility()"><i id="passwordIcon" class="fas fa-eye"></i></button>
+                </div>
+                <span id="passwordError2" class="error"></span>
             </div>
             
             <div class="text-right">
@@ -146,6 +161,18 @@ $password = $account['password'];
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" 
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
+        crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous">
+</script>
 <script>
     closeModal();
 
@@ -157,34 +184,52 @@ $password = $account['password'];
 
     function closeModal() {
         $('#myModal').modal('hide');
-    }
+    }    
 
     function confirmAction() {
-        // Confirm action here
+        // Collect form data
+        var accountId = "<?php echo $accountId; ?>";
+        var username = document.getElementById('username').value.trim();
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var profile = document.getElementById('profile').value;
+        if (document.getElementById('company') !== null) {
+            var company = document.getElementById('company').value.trim();
+        } else {
+            var company = "";
+        }
+        
+        if (document.getElementById('password') !== null) {
+            var password = document.getElementById('password').value.trim();
+        } else {
+            var password = "";
+        }
+
+        // Close the modal
         closeModal();
-        setTimeout(function() {
-            // Make an AJAX request to the PHP script
-            $.ajax({
-                url: '../controller/adminController.php', // URL to your PHP script
-                type: 'POST',
-                data: {
-                    action: 'update',
-                    accountId: accountId,
-                    profile: profile,
-                    username: username,
-                    name: name,
-                    email: email,
-                    company: company,
-                    password: password
-                },
-                success: function(response) {
-                    alert('Account updated successfully!');
-                    console.log(response); // Log the response from the server
-                    window.location.href = 'index.php';
-                }
-            });
-            window.location.href = 'index.php';
-        }, 500); // 延迟 500 毫秒后显示 alert
+
+        console.log(accountId, username, name, email, profile, company, password);
+
+        // Make an AJAX request to the PHP script        
+        $.ajax({
+            url: '../controller/adminController.php', // URL to your PHP script
+            type: 'POST',
+            data: {
+                action: 'update',
+                accountId: accountId,
+                profile: profile,
+                username: username,
+                name: name,
+                email: email,
+                company: company,
+                password: password
+            },
+            success: function(response) {
+                alert('Account updated successfully!');
+                console.log(response); // Log the response from the server
+            }
+        });
+        window.location.href = 'index.php';
     }
 
     function validateForm() {
@@ -193,11 +238,16 @@ $password = $account['password'];
         var name = document.getElementById('name').value.trim();
         var username = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
+        var confirmPassword = document.getElementById('password2').value.trim();
         var email = document.getElementById('email').value.trim();
         document.getElementById('nameError').innerText = "";
         document.getElementById('usernameError').innerText = "";
         document.getElementById('passwordError').innerText = "";
+        document.getElementById('passwordError2').innerText = "";
         document.getElementById('emailError').innerText = "";
+
+        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&!])[A-Za-z\d@$%*?&!]{8,}$/;
+
 
         if (name === "") {
             document.getElementById('nameError').innerText = "Name cannot be empty.";
@@ -207,8 +257,12 @@ $password = $account['password'];
             document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }
-        if (password === "") {
-            document.getElementById('passwordError').innerText = "Password cannot be empty.";
+        if (password === "" && passwordRegex.test(password)) {
+            document.getElementById('passwordError').innerText = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long..";
+            isValid = false;
+        }
+        if (confirmPassword !== password) {
+            document.getElementById('passwordError2').innerText = "Passwords do not match.";
             isValid = false;
         }
         // Email validation
@@ -222,17 +276,40 @@ $password = $account['password'];
 
     function togglePasswordVisibility() {
         var passwordInput = document.getElementById('password');
+        var passwordInput2 = document.getElementById('password2');
         var passwordIcon = document.getElementById('passwordIcon');
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
             passwordIcon.classList.remove("fa-eye");
             passwordIcon.classList.add("fa-eye-slash");
-        } else {
+        } else if (passwordInput2.type === "password") {
+            passwordInput2.type = "text";
+            passwordIcon.classList.remove("fa-eye");
+            passwordIcon.classList.add("fa-eye-slash");
+        } else if (passwordInput.type !== "password"){
             passwordInput.type = "password";
+            passwordIcon.classList.remove("fa-eye-slash");
+            passwordIcon.classList.add("fa-eye");
+        } else {
+            passwordInput2.type = "password";
             passwordIcon.classList.remove("fa-eye-slash");
             passwordIcon.classList.add("fa-eye");
         }
     }
+
+    document.getElementById('toggleCheckbox').addEventListener('change', function() {
+        var newPassword = document.getElementById('newpassword');
+        var confirmPassword = document.getElementById('confirmpassword');
+        if (this.checked) {
+            newPassword.classList.remove('d-none');
+            confirmPassword.classList.remove('d-none');
+        } else {
+            newPassword.classList.add('d-none');
+            confirmPassword.classList.add('d-none');
+        }
+    });
+
+
 
 </script>
 </body>

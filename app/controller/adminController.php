@@ -17,15 +17,26 @@ switch ($action) {
         break;
 
     case 'update':
-        // put logic for updating account here (calling function from model)
-        echo "update account action";
         $accountId = $_POST['accountId'];
         $profile = $_POST['profile'];
         $username = $_POST['username'];
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $company = $_POST['company'];
-        $password = $_POST['password'];
+
+        if (isset($_POST['company'])) {
+            $company = $_POST['company'];
+        } else {
+            $company = '';
+        }
+    
+        if (isset($_POST['password'])) {
+            $password = $_POST['password'];
+        } else {
+            $password = '';
+        }
+
+        $updateAccount = new updateAccountController();
+        $result = $updateAccount->updateAccount($accountId, $username, $name, $email, $profile, $password, $company);
         
         break;
 
@@ -171,39 +182,20 @@ class viewAccountController
 }
 
 // Define the updateAccountPageController class
-class updateAccountPageController{
+class updateAccountController{
     // Method to handle the update account functionality
-    public function updateAccount($username)
+    public function updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password)
     {
-        // Check if the form is submitted
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Extract form data
-            $user_id = $_POST["id"];
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $company = $_POST['company'];
-            //$faceData = $_POST['faceData'];  // this also?
-            $profile = trim($_POST['profile']);
-
-            // Create an instance of the class depending on profile type
-            if ($profile == "System Admin") {
-                $userAccount = new SysAdmin();
-            } else {
-                $userAccount = new BusinessOwner();
-            }
-            
+        $userAccount= new SysAdmin();
             // Encode the response as JSON and send it back
-            return $userAccount->updateAccount($user_id, $username, $password, $name, $email, $company, $profile);
-        }
-    }
+            $result = $userAccount->updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password);
+            return $result; 
+    } 
 }
 
 class suspendUserAccount {
     public function suspendAccount($accountId, $profile) {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            global $conn;
             echo "suspend account in controller";
             $sysAdmin = new SysAdmin();
             $result = $sysAdmin->suspendAccount($accountId, $profile);        

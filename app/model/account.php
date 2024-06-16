@@ -286,67 +286,153 @@ class SysAdmin{
     }
 
     // System Admin - Update user account
-    public function updateAccount($user_id, $username, $password, $name, $email, $company, $profile)
+    function updateAccount($user_id, $userName, $name, $email, $profile, $company, $new_password)
     {
         global $conn;
-        $response = array(
-            'success' => false, // False by default
-            'message' => ''
-        );
-        //$temp = true;
-        try {
-            // SQL query to update account
-            $check = "SELECT username FROM userAccount where user_id = ?";
         
-            $stmt = mysqli_prepare($conn, $check);
+        $response = array(
+        'success' => false, // False by default
+        'message' => ''
+        );
 
-            // Bind parameters
-            mysqli_stmt_bind_param($stmt, "ii", $temp, $user_id); // Assuming userId is an integer
+        try {
+            echo $user_id;
+            echo $userName;
+            echo $name;
+            echo $email;
+            echo $profile;
+            echo $company;
+            echo $new_password, '<br/>';
 
-            // Execute the statement
-            mysqli_stmt_execute($stmt);
-
-            mysqli_stmt_store_result($stmt);
-            mysqli_stmt_bind_result($stmt, $tempname);
-            mysqli_stmt_fetch($stmt);  
-
-
-            $check2 = "SELECT userName FROM userAccount where userName = ?";
-
-            $stmt2 = mysqli_prepare($conn, $check);
-
-            // Bind parameters
-            mysqli_stmt_bind_param($stmt2, "jj", $temp2, $this->userName); // Assuming userId is an integer
-
-            // Execute the statement
-            mysqli_stmt_execute($stmt2);
-
-            mysqli_stmt_store_result($stmt2);
-            mysqli_stmt_bind_result($stmt2, $tempname2);
-            mysqli_stmt_fetch($stmt2);
-
-
-            if($tempname2 != $tempname){//admin2 and s - 201 admin2 and admin2 - 207 IGNORE
-                if(mysqli_stmt_num_rows($stmt2) > 0){ //s>0 username taken -207,s=0 -202 IGNORE
-                    $response['message'] = "Username taken";
-                    return json_encode($response);
-                }
+            // Check if username and email already exist
+            if ($profile=='System Admin'){
+                $check_username = "SELECT id, username FROM sysadmin WHERE username = ?";
             }
-
-
-            // Update statement
-            $update = "UPDATE userAccount SET userName=?, password=?, name=?, email=?, profile=? WHERE user_id=?";
-            $stmt = mysqli_prepare($conn, $update);
+            else{
+                $check_username = "SELECT id, userName FROM businessowner WHERE userName = ?";
+            }
+        
+            // Check username
+            $stmt = mysqli_prepare($conn, $check_username);
             if (!$stmt) {
                 throw new Exception("Error preparing statement: " . mysqli_error($conn));
             }
 
             // Bind parameters
-            //mysqli_stmt_bind_param($stmt, "sssssssi", $this->userName, $this->password, $this->name, $this->email, $this->profile, $user_id);
+            mysqli_stmt_bind_param($stmt, "s", $userName);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
 
-            // Execute the statement
+            // Get the id from the result set
+            mysqli_stmt_bind_result($stmt, $id, $curr_username);
+            mysqli_stmt_fetch($stmt);
+
+
+            if (mysqli_stmt_num_rows($stmt) > 0 && $user_id != $stmt->id) {
+                $response['message'] = "Username taken!";
+                return json_encode($response);
+            }
+
+            // Check email
+            if ($profile=='System Admin'){
+                $check_email = "SELECT id, email FROM sysadmin WHERE email = ?";
+            }
+            else{
+                $check_email = "SELECT id, email FROM businessowner WHERE email = ?";
+            }
+
+            // Prepare statement
+            $stmt = mysqli_prepare($conn, $check_email);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . mysqli_error($conn));
+            }
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
+
+            // Get the id from the result set
+            mysqli_stmt_bind_result($stmt, $id, $curr_email);
+            mysqli_stmt_fetch($stmt);
+
+            if (mysqli_stmt_num_rows($stmt) > 0 && $user_id !=$id) {
+                    $response['message'] = "Email taken!";
+                    return json_encode($response);
+            }
+
+            // Check if new password is the same as the previous one
+            if ($new_password != ""){
+                echo 'Changing password...';
+
+                // Hash new password
+                $new_password_hash = md5($new_password);
+
+                // Query db to get current password
+                if ($profile=='System Admin')
+                    $prev_password_hash = "SELECT password FROM sysadmin WHERE id = ?";
+                else
+                    $prev_password_hash = "SELECT password FROM businessowner WHERE id = ?";
+
+                // Prepare statement
+                $stmt = mysqli_prepare($conn, $prev_password_hash);
+                if (!$stmt) {
+                    throw new Exception("Error preparing statement: " . mysqli_error($conn));
+                }
+
+                // Bind parameters
+                mysqli_stmt_bind_param($stmt, "i", $user_id);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                
+                // Check if there are any changes to the password
+                if (mysqli_stmt_num_rows($stmt) > 0) {
+                    // Get the current password hash
+                    mysqli_stmt_bind_result($stmt, $prev_password_hash);
+                    mysqli_stmt_fetch($stmt);
+                }
+
+                if ($profile=='System Admin')
+                {
+                    echo '</br> Here: System Admin </br> ';
+                    echo $user_id, "</br>";
+                    echo $userName, "</br>";
+                    echo $name, "</br>";
+                    echo $email, "</br>";
+                    echo $profile, "</br>";
+                    echo $new_password_hash, "</br>";
+
+                    $update = "UPDATE sysadmin SET username=?, name=?, email=?, password=? WHERE id=?";
+                    $stmt = mysqli_prepare($conn, $update);
+
+                    mysqli_stmt_bind_param($stmt, "ssssi", $userName, $name, $email, $new_password_hash, $user_id);
+                }
+                else
+                {
+                    echo 'Here: Business Owner';
+                    $update = "UPDATE businessowner SET username=?, name=?, email=?, password=?, company=? WHERE id=?";
+                    $stmt = mysqli_prepare($conn, $update);
+                    mysqli_stmt_bind_param($stmt, "sssssi", $userName, $name, $email, $new_password_hash, $company, $user_id);
+                }
+            } else {
+                echo 'Here: System Admin 2';
+                if ($profile=='System Admin')
+                {
+                    $update = "UPDATE sysadmin SET username=?, name=?, email=? WHERE id=?";
+                    $stmt = mysqli_prepare($conn, $update);
+                    mysqli_stmt_bind_param($stmt, "sssi", $userName, $name, $email, $user_id);
+                }
+                else
+                {
+                    echo 'Here: Business Owner 2';
+                    $update = "UPDATE businessowner SET username=?, name=?, email=?, company=? WHERE id=?";
+                    $stmt = mysqli_prepare($conn, $update);
+                    mysqli_stmt_bind_param($stmt, "ssssi", $userName, $name, $email, $company, $user_id);
+                }
+            }
+            
+            // Update statement
             if (mysqli_stmt_execute($stmt)) {
-                // Check if any row was affected
                 if (mysqli_stmt_affected_rows($stmt) > 0) {
                     $response['success'] = true;
                     $response['message'] = "Account updated successfully!";
@@ -357,16 +443,13 @@ class SysAdmin{
                 throw new Exception("Error executing statement: " . mysqli_error($conn));
             }
 
-
-            
         } catch (mysqli_sql_exception $e) {
             $response['message'] = "Database Error: " . $e->getMessage();
         } catch (Exception $e) {
             $response['message'] = "Error: " . $e->getMessage();
         }
 
-        // Return JSON response
-        return json_encode($response);
+    return json_encode($response);
     }
 
 
