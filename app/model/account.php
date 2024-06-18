@@ -7,6 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if (!$conn || !$conn instanceof mysqli) {
     die("Account: Database connection not established.");
 }
+
 class SysAdmin{
 
     private int $id;
@@ -261,14 +262,6 @@ class SysAdmin{
         );
 
         try {
-            echo $user_id;
-            echo $userName;
-            echo $name;
-            echo $email;
-            echo $profile;
-            echo $company;
-            echo $new_password, '<br/>';
-
             // Check if username and email already exist
             if ($profile=='System Admin'){
                 $check_username = "SELECT id, username FROM sysadmin WHERE username = ?";
@@ -292,12 +285,14 @@ class SysAdmin{
             mysqli_stmt_bind_result($stmt, $id, $curr_username);
             mysqli_stmt_fetch($stmt);
 
-
-            if (mysqli_stmt_num_rows($stmt) > 0 && $user_id != $stmt->id) {
-                $response['message'] = "Username taken!";
-                return json_encode($response);
+            if (mysqli_stmt_num_rows($stmt) > 0) {
+                if ($user_id != $id){
+                    echo 'Username taken! </br>';
+                    $response['message'] = "Username taken!";
+                    return json_encode($response);
+                }
             }
-
+            
             // Check email
             if ($profile=='System Admin'){
                 $check_email = "SELECT id, email FROM sysadmin WHERE email = ?";
@@ -327,20 +322,18 @@ class SysAdmin{
             }
 
             // Check if new password is the same as the previous one
-            if ($new_password != ""){
-                echo 'Changing password...';
-
+            if ($new_password != "" or $new_password != null){
                 // Hash new password
                 $new_password_hash = md5($new_password);
 
                 // Query db to get current password
                 if ($profile=='System Admin')
-                    $prev_password_hash = "SELECT password FROM sysadmin WHERE id = ?";
+                    $prev_password_query = "SELECT password FROM sysadmin WHERE id = ?";
                 else
-                    $prev_password_hash = "SELECT password FROM businessowner WHERE id = ?";
+                    $prev_password_query = "SELECT password FROM businessowner WHERE id = ?";
 
                 // Prepare statement
-                $stmt = mysqli_prepare($conn, $prev_password_hash);
+                $stmt = mysqli_prepare($conn, $prev_password_query);
                 if (!$stmt) {
                     throw new Exception("Error preparing statement: " . mysqli_error($conn));
                 }
@@ -359,14 +352,6 @@ class SysAdmin{
 
                 if ($profile=='System Admin')
                 {
-                    echo '</br> Here: System Admin </br> ';
-                    echo $user_id, "</br>";
-                    echo $userName, "</br>";
-                    echo $name, "</br>";
-                    echo $email, "</br>";
-                    echo $profile, "</br>";
-                    echo $new_password_hash, "</br>";
-
                     $update = "UPDATE sysadmin SET username=?, name=?, email=?, password=? WHERE id=?";
                     $stmt = mysqli_prepare($conn, $update);
 
@@ -374,13 +359,11 @@ class SysAdmin{
                 }
                 else
                 {
-                    echo 'Here: Business Owner';
                     $update = "UPDATE businessowner SET username=?, name=?, email=?, password=?, company=? WHERE id=?";
                     $stmt = mysqli_prepare($conn, $update);
                     mysqli_stmt_bind_param($stmt, "sssssi", $userName, $name, $email, $new_password_hash, $company, $user_id);
                 }
             } else {
-                echo 'Here: System Admin 2';
                 if ($profile=='System Admin')
                 {
                     $update = "UPDATE sysadmin SET username=?, name=?, email=? WHERE id=?";
@@ -401,9 +384,22 @@ class SysAdmin{
                 if (mysqli_stmt_affected_rows($stmt) > 0) {
                     $response['success'] = true;
                     $response['message'] = "Account updated successfully!";
+                    
                 } else {
                     $response['message'] = "Account not found.";
                 }
+
+                $response['test'] = $profile;
+                    $response['test2'] = $company;
+                    $response['msg'] = "hah";
+                    $response['msg2'] = "Update Account in Controller: </br>";
+                    $response['ID'] = "Account ID: " . $user_id ."</br>";
+                    $response['username'] = "Username: " . $userName ."</br>";
+                    $response['name'] = "Name: " . $name ."</br>";
+                    $response['email'] = "Email: " . $email ."</br>";
+                    $response['profile'] = "Profile: " . $profile ."</br>";
+                    $response['company'] = "Company: " . $company ."</br>";
+                    $response['password'] = "Password: " . $new_password ."</br>";
             } else {
                 throw new Exception("Error executing statement: " . mysqli_error($conn));
             }
@@ -470,13 +466,12 @@ class SysAdmin{
     // System Admin - Search user account
     public function searchAccount($accountId, $profile)
     {
-        $users = array();
         try {
             global $conn;
         
             if ($profile == 'System Admin'){
                 $search = "SELECT * FROM sysadmin WHERE id=?";
-            } else {
+            } else if ($profile == 'Business Owner'){
                 $search = "SELECT * FROM businessowner WHERE id=?";
             }
 
@@ -495,10 +490,6 @@ class SysAdmin{
             $result = mysqli_stmt_get_result($stmt);
             $user= mysqli_fetch_assoc($result);
 
-            //while ($row = mysqli_fetch_assoc($result)) {
-            //    $users[] = $row;
-            //}
-
             mysqli_close($conn);
         } catch (mysqli_sql_exception $e) {
             echo "Error: " . $e->getMessage();
@@ -508,6 +499,7 @@ class SysAdmin{
 
         return $user;
     }
+
     public function login($username, $password) {
         global $conn;
         if (!$conn instanceof mysqli) {

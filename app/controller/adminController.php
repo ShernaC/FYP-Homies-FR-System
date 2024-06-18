@@ -22,21 +22,23 @@ switch ($action) {
         $username = $_POST['username'];
         $name = $_POST['name'];
         $email = $_POST['email'];
-
-        if (isset($_POST['company'])) {
-            $company = $_POST['company'];
-        } else {
-            $company = '';
-        }
-    
+        
         if (isset($_POST['password'])) {
             $password = $_POST['password'];
         } else {
             $password = '';
         }
 
+        if ($profile === 'Business Owner'){
+            $company = $_POST['company'];
+        }
+        else{
+            $company = '';
+        }
+
         $updateAccount = new updateAccountController();
         $result = $updateAccount->updateAccount($accountId, $username, $name, $email, $profile, $password, $company);
+        echo $result;
         
         break;
 
@@ -47,15 +49,11 @@ switch ($action) {
         $result = $suspendAccount->suspendAccount($accountId, $profile);
         break;
 
-    /*case 'search':
-        $searchAccount = new searchUserAccount();
-        $userData = $searchAccount->handleSearchRequest($accountId, $profile);
-        break;*/
-
     default:
         //echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
         break;
 }
+
 class createAccountController{
     function handleCreate() {
         $profile = $_POST['profile'];
@@ -182,14 +180,16 @@ class viewAccountController
 
 // Define the updateAccountPageController class
 class updateAccountController{
+
     // Method to handle the update account functionality
-    public function updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password)
-    {
-        $userAccount= new SysAdmin();
-            // Encode the response as JSON and send it back
-            $result = $userAccount->updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password);
-            return $result; 
-    } 
+    public function updateAccount($accountId, $username, $name, $email, $profile, $new_password, $company) {
+        $userAccount = new SysAdmin();
+
+
+        // Encode the response as JSON and send it back
+        $result = $userAccount->updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password);
+        return $result;
+    }
 }
 
 class suspendUserAccount {

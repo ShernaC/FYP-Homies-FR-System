@@ -1,26 +1,26 @@
 <?php
 include_once '../controller/adminController.php';
 
+$account = null;
 if (isset($_GET['accountId'])) {
     $accountId = $_GET['accountId'];
     $profile = $_GET['profile'];
+
+    $adminController = new searchUserAccount();
+    $account = $adminController->handleSearchRequest($accountId, $profile);
 }
 
+if ($account) {
+    $username = $account['userName'];
+    $name = $account['name'];
+    $email = $account['email'];
 
-$adminController = new searchUserAccount();
-$account = $adminController->handleSearchRequest($accountId, $profile);
-
-$username = $account['userName'];
-$name = $account['name'];
-$email = $account['email'];
-
-if ($profile === 'System Admin'){
-    $company = "";
+    if ($profile === 'System Admin') {
+        $company = "";
+    } else {
+        $company = $account['company'];
+    }
 }
-else {
-    $company = $account['company'];
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -193,26 +193,24 @@ else {
         var name = document.getElementById('name').value.trim();
         var email = document.getElementById('email').value.trim();
         var profile = document.getElementById('profile').value;
-        if (document.getElementById('company') !== null) {
-            var company = document.getElementById('company').value.trim();
-        } else {
-            var company = "";
-        }
-        
-        if (document.getElementById('password') !== null) {
+        if (document.getElementById('toggleCheckbox').checked) {
             var password = document.getElementById('password').value.trim();
-        } else {
-            var password = "";
         }
+        var company = (profile === 'Business Owner') ? document.getElementById('company').value.trim() : "";
+        
+        
+        // if (document.getElementById('password') !== null) {
+        //     var password = document.getElementById('password').value.trim();
+        // } else {
+        //     var password = "";
+        // }
 
         // Close the modal
         closeModal();
 
-        //console.log(accountId, username, name, email, profile, company, password);
-
         // Make an AJAX request to the PHP script        
         $.ajax({
-            url: '../controller/adminController.php', // URL to your PHP script
+            url: '../controller/adminController.php',
             type: 'POST',
             data: {
                 action: 'update',
@@ -221,15 +219,16 @@ else {
                 username: username,
                 name: name,
                 email: email,
-                company: company,
-                password: password
+                password: password,
+                company: company
             },
             success: function(response) {
                 alert('Account updated successfully!');
-                console.log(response); // Log the response from the server
+                console.log(response);
+                window.location.href = 'index.php';
             }
         });
-        window.location.href = 'index.php';
+      
     }
 
     function validateForm() {

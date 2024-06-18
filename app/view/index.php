@@ -97,12 +97,12 @@ $accounts = json_decode($accounts, true)['accounts'];
                 <?php foreach ($accounts as $key => $account) : ?>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['userName'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['name'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['email'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['userName'] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['name'] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['email'] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
                     </tr>            
                 <?php endforeach; ?>
 
@@ -187,6 +187,7 @@ $accounts = json_decode($accounts, true)['accounts'];
     }
 
     function editAccount(accountId, profile) {
+        console.log(accountId, profile)
         window.location.href = 'accountUpdate.php?accountId=' + accountId + '&profile=' + profile;
     }
 
