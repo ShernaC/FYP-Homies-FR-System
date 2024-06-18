@@ -31,8 +31,12 @@ $accounts = json_decode($accounts, true)['accounts'];
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -193,34 +197,33 @@ $accounts = json_decode($accounts, true)['accounts'];
     window.location.href = "userProfile.php";
   });
 
-  // Function to submit the update description form
+  // Event listener for the update button
   function submitUpdate() {
-    var newDescription = document.getElementById("newDescription").value;
-    if (newDescription.trim() !== "") {
-      var updateRequest = new XMLHttpRequest();
-      updateRequest.open("POST", "view_editProfile.php", true);
-      updateRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      updateRequest.onreadystatechange = function() {
-        if (updateRequest.readyState === XMLHttpRequest.DONE) {
-          if (updateRequest.status === 200) {
-            // Handle successful update
-            alert("Description updated successfully!");
-            // Optionally, update the description displayed on the page
-            document.getElementById("description").innerHTML = newDescription;
-            // Close the modal
-            var modal = bootstrap.Modal.getInstance(document.getElementById("updateDescriptionModal"));
-            modal.hide();
-          } else {
-            // Handle error
-            alert("Error occurred while updating description.");
-          }
-        }
-      };
-      updateRequest.send("profile=" + encodeURIComponent(userProfile) + "&description=" + encodeURIComponent(newDescription));
-    } else {
-      alert("Description cannot be empty.");
-    }
-  }
+    // Confirm action here
+    $('#updateDescriptionModal').modal('hide');
+    setTimeout(function() {
+        // Make an AJAX request to the PHP script
+        $.ajax({
+            url: '../controller/profileController.php', // URL to your PHP script
+            type: 'POST',
+            data: {
+                action: 'update',
+                userProfile: '<?= $profile ?>',
+                description: $('#newDescription').val()
+            },
+            success: function(response) {
+                alert('Update successful!');
+                console.log(response); // Log the response from the server
+                window.location.href = 'userProfile.php';
+            },
+            error: function(xhr, status, error) {
+                alert('Update failed: ' + error);
+                console.log(xhr.responseText);
+            }
+        });
+    }, 500); 
+}
+
 </script>
 
 

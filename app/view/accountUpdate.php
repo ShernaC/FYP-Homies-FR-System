@@ -208,7 +208,7 @@ else {
         // Close the modal
         closeModal();
 
-        console.log(accountId, username, name, email, profile, company, password);
+        //console.log(accountId, username, name, email, profile, company, password);
 
         // Make an AJAX request to the PHP script        
         $.ajax({

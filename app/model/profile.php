@@ -21,14 +21,6 @@ class Profile
         $this->id = $id;
         $this->userProfile = $userProfile;
         $this->description = $description;
-
-       /*
-        $this->db = new database();
-        $this->jdbcurl = $this->db->getURL();
-        $this->jdbcname = $this->db->getName();
-        $this->jdbcpass = $this->db->getPass();
-        $this->dbname = $this->db->getDbname();
-        */
     }
 
     public function getuserProfile()
@@ -129,97 +121,41 @@ class Profile
     }
 
     // System Admin - Update user profile
-    public function updateProfile($userProfile)
+    public function updateProfile($userProfile, $description)
     {
-        /*
+        global $conn;
+
         $response = array(
             'success' => false, // False by default
             'message' => ''
         );
-        */
 
-/*
         try {
-
-            $check = "SELECT userProfile FROM userProfile where userProfile = ?";
-            $ch = mysqli_prepare($con,$check);
-            mysqli_stmt_bind_param($ch,"s", $this->userProfile);
-            mysqli_stmt_execute($ch);
-            mysqli_stmt_store_result($ch);
-            mysqli_stmt_bind_result($ch, $tempname);
-            mysqli_stmt_fetch($ch);           
-
-        
-
-            // Update statement
-            $update = "UPDATE userProfile SET description=? WHERE userProfile=?";
-            $stmt = mysqli_prepare($con, $update);
-            if (!$stmt) {
-                throw new Exception("Error preparing statement: " . mysqli_error($conn));
-            }
-
-            // Bind parameters
-            mysqli_stmt_bind_param($stmt, "sss", $this->userProfile, $this->description, $userProfile);
-
-            // Execute the statement
-            if (mysqli_stmt_execute($stmt)) {
-                // Check if any row was affected
-                if (mysqli_stmt_affected_rows($stmt) > 0) {
-                    $response['success'] = true;
-                    $response['message'] = "Profile updated successfully!";
-                }
-            } else {
-                throw new Exception("Error executing statement: " . mysqli_error($conn));
-            }
-
-            
-        } catch (mysqli_sql_exception $e) {
-            $response['message'] = "Database Error: " . $e->getMessage();
-        } catch (Exception $e) {
-            $response['message'] = "Error: " . $e->getMessage();
-        }
-*/
-        // Return JSON response
-        //return json_encode($response);
-    }
-
-
-
-    // System Admin - Search user profile
-    public function searchProfile($userProfile)
-    {
-        $users = array();
-        /*
-        try {
-            
-            $search = "SELECT * FROM userProfile WHERE userProfile=?";
-            $stmt = mysqli_prepare($con, $search);
+            // SQL query to update profile by userProfile
+            $updateProfileQuery = "UPDATE profile SET description = ? WHERE userProfile = ?";
+            $stmt = mysqli_prepare($conn, $updateProfileQuery);
             if (!$stmt) {
                 throw new Exception("Error: " . mysqli_error($conn));
             }
 
             // Bind parameters
-            mysqli_stmt_bind_param($stmt, "s", $userProfile);
+            mysqli_stmt_bind_param($stmt, "ss", $description, $userProfile);
 
-            // Set parameter and execute
-            mysqli_stmt_execute($stmt);
-
-            // Get result
-            $result = mysqli_stmt_get_result($stmt);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-                $users[] = $row;
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                $response['success'] = true;
+                $response['message'] = "Profile updated successfully.";
+            } else {
+                throw new Exception("Error executing statement: " . mysqli_error($conn));
             }
 
-           
         } catch (mysqli_sql_exception $e) {
-            echo "Error: " . $e->getMessage();
+            $response['message'] = "Database Error: " . $e->getMessage();
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            $response['message'] = "Error: " . $e->getMessage();
         }
-        */
-        return $users;
 
+        // Return JSON response
+        return json_encode($response);
     }
-    
 }
