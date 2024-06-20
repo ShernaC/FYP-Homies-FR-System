@@ -3,7 +3,7 @@ $list=[
     ['title'=>'Free Trial Plan','body1'=>'Free ',"body2"=>"","body3"=>"for one-month","select"=>["3 facial slots for trial users","Free for users."]],
     ['title'=>'Small Business Plan','body1'=>'S$50 ',"body2"=>"SGD","body3"=>"per year","select"=>["50 face datasets","S$4.17 SGD charged monthly"]],
     ['title'=>'Medium-Sized Business Plan','body1'=>'S$100 ',"body2"=>"SGD","body3"=>"per year","select"=>["100 face datasets","S$8.33 SGD charged monthly"]],
-    ['title'=>'Large Enterprise Plan','body1'=>'S$125 ',"body2"=>"SGD","body3"=>"per year","select"=>["200 face datasets","S$10.42 SGD charged monthly"]],
+    ['title'=>'Large Enterprise Plan','body1'=>'S$125 ',"body2"=>"SGD","body3"=>"per year","select"=>["Unlimited face datastes","S$10.42 SGD charged monthly"]],
 ];
 ?>
 <!DOCTYPE html>
@@ -212,10 +212,10 @@ $list=[
         position: fixed;
         left: 0;
         right: 0;
-        width: 500px; /* 需要指定一个宽度 */
+        width: 500px; 
         margin: auto;
-        top: 50%; /* 可选，使元素在垂直方向上居中 */
-        transform: translateY(-50%); /* 可选，配合top使用以垂直居中 */
+        top: 50%; 
+        transform: translateY(-50%); 
     }
     .fixx{
         display: flex;
