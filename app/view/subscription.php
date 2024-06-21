@@ -263,10 +263,10 @@ $list=[
         if (paramValue === 'true')$('#exampleModal1').modal()
     })()
 
-    const loadNav=()=>{
+    function loadNav() {
         setTimeout(()=>{
             $('#exampleModal').modal('hide');
-            if ((<?php $_GET['subscriptionId']?>) != 1){
+            if ((<?php echo $_GET['subscriptionId']?>) != 1){
                 // Make an AJAX request to the PHP script        
                 $.ajax({
                     url: '../controller/businessOwnerController.php',
@@ -286,6 +286,10 @@ $list=[
                         alert('Failed to update subscription details. Please try again.');
                     }
                 });
+            }
+            else
+            {
+                alert('You are on free trial. Please upgrade your subscription to cancel it.')
             }
             // Comment out this line to prevent immediate redirection
             // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
