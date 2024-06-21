@@ -1,7 +1,40 @@
 <?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (isset($_GET['username']) && isset($_GET['subscriptionId'])) {
+    $username = $_GET['username'];
+    $subscriptionId = $_GET['subscriptionId'];
+}
+
+
+include_once '../controller/businessOwnerController.php';
+$businessOwner = new searchBusinessOwnerAccount();
+$userData = $businessOwner->handleSearchRequest($username);
+
+include_once '../controller/subscriptionController.php';
+$subscription = new viewSubscriptionController();
+$subscriptionData = $subscription->viewSubscription($subscriptionId);
+$subscriptionName = $subscriptionData['name'];
+$subscriptionPrice = $subscriptionData['price'];
+$subscriptionDescription = $subscriptionData['description'];
+
+if ($subscriptionId == 1) {
+    $startTime = '-';
+    $endTime = '-';
+} else {
+    include_once '../controller/subscriptionController.php';
+    $subscriptionDetails = new viewSubscriptionDetailsController();
+    $subscriptionData = $subscriptionDetails->viewSubscriptionDetails($userData['id'], $subscriptionId);
+    $startTime = $subscriptionData['startDate'];
+    $endTime = $subscriptionData['endDate'];
+}
+
 $list=[
-    ['icon'=>'icon-time','value'=>'Start Date:',"time"=>"12 May 2024&nbsp;&nbsp;&nbsp;",'img'=>'static/images/clock-regular.svg'],
-    ['icon'=>'icon-time','value'=>'End Date :',"time"=>"12 &nbsp;June 2024 ",'img'=>'static/images/clock-solid.svg'],
+    ['icon'=>'icon-time','value'=>'Start Date:',"time"=>$startTime,'img'=>'../view/images/clock-regular.svg'],
+    ['icon'=>'icon-time','value'=>'End Date :',"time"=>$endTime,'img'=>'../view/images/clock-solid.svg'],
 ];
 ?>
 <!DOCTYPE html>
@@ -9,21 +42,20 @@ $list=[
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="static/js/public.js"></script>
-    <script src="static/js/jquery-3.2.1.slim.min.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/popper.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="../view/public.js"></script>
+    <script src="../view/jquery-3.2.1.slim.min.js"></script>
+    <script src="../view/jquery.min.js"></script>
+    <script src="../view/popper.min.js"></script>
+    <script src="../view/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/main.css">
-    <script src="static/js/public.js"></script>
-    <link rel="stylesheet" href="static/css/main.css">
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../view/main.css">
+    <script src="../view/public.js"></script>
+    <link rel="stylesheet" href="../view/main.css">
+    <link rel="stylesheet" href="../view/bootstrap.min.css">
 <style>
     .header{
         background-color: #CBEAD0;
@@ -136,7 +168,7 @@ $list=[
             <h3> View Subscription Page</h3>
             <p style="font-size: 25px;">Business owner</p>
         </div>
-        <i class="back fas fa-chevron-left" onclick="navigatorTo('personal.php')"></i>
+        <i class="back fas fa-chevron-left" onclick="navigatorTo('personal.php?username=<?php echo urlencode($username)?>')"></i>
         <div class="card-bottom">
             <div class="card-bottom-visiting">
                 <div class="bottom-visiting-title">
@@ -158,7 +190,7 @@ $list=[
                             <p>Subscription Type:</p>
                         </div>
                         <div style="flex: 1;display: flex;justify-content: flex-start">
-                            <p style="font-weight: bold;">Free Trial</p>
+                            <p style="font-weight: bold;"><?php echo $subscriptionName?></p>
                         </div>
                     </div>
                     <?php foreach ($list as $key): ?>
@@ -174,7 +206,9 @@ $list=[
                     <?php endforeach; ?>
                 </div>
                 <div class="bottom-visiting-button">
-                    <button onclick="navigatorTo('select.php')" style="margin-left: 20px;">Upgrade Subscription</button>
+                    <!-- ERROR HERE -->
+                    <button onclick="navigatorTo('select.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')">Upgrade Subscription</button>
+                    <!--<button onclick="navigatorTo('select.php?username=<?php echo $username?>&subscriptionId=<?php echo $subscriptionId?>')" style="margin-left: 20px;">Upgrade Subscription</button>-->
                     <button data-toggle="modal" data-target="#exampleModal" style="margin-right: 20px;">Cancel Subscription</button>
                 </div>
                 </div>
@@ -199,7 +233,7 @@ $list=[
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" style="background-color: #545b62">Cancel</button>
-                <button data-dismiss="modal" onclick="navigatorTo('personal.php?isOne=true')" style="background-color: #2F67EF">Submit</button>
+                <button data-dismiss="modal" onclick="loadNav()" style="background-color: #2F67EF">Submit</button>
             </div>
         </div>
     </div>
@@ -228,6 +262,35 @@ $list=[
         let paramValue = getURLParameter('isOne')
         if (paramValue === 'true')$('#exampleModal1').modal()
     })()
+
+    const loadNav=()=>{
+        setTimeout(()=>{
+            $('#exampleModal').modal('hide');
+            if ((<?php $_GET['subscriptionId']?>) != 1){
+                // Make an AJAX request to the PHP script        
+                $.ajax({
+                    url: '../controller/businessOwnerController.php',
+                    type: 'POST',
+                    data: {
+                        action: 'update',
+                        subscriptionId: 1, 
+                        ownerId: '<?php echo $userData['id'];?>'
+                    },
+                    success: function(response) {
+                        //alert('successfully!');
+                        console.log(response);
+                        window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=" + 1)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                        alert('Failed to update subscription details. Please try again.');
+                    }
+                });
+            }
+            // Comment out this line to prevent immediate redirection
+            // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
+        },2000)
+    }
 </script>
 
 </html>

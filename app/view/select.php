@@ -1,9 +1,24 @@
 <?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (isset($_GET['username']))
+{
+    $username = $_GET['username'];
+    $subscriptionId = $_GET['subscriptionId'];
+}
+
+include_once '../controller/businessOwnerController.php';
+$businessOwner = new searchBusinessOwnerAccount();
+$userData = $businessOwner->handleSearchRequest($username);
+
 $list=[
-    ['title'=>'Free Trial Plan','body1'=>'Free ',"body2"=>"","body3"=>"for one-month","select"=>["3 facial slots for trial users","Free for users."]],
-    ['title'=>'Small Business Plan','body1'=>'S$50 ',"body2"=>"SGD","body3"=>"per year","select"=>["50 face datasets","S$4.17 SGD charged monthly"]],
-    ['title'=>'Medium-Sized Business Plan','body1'=>'S$100 ',"body2"=>"SGD","body3"=>"per year","select"=>["100 face datasets","S$8.33 SGD charged monthly"]],
-    ['title'=>'Large Enterprise Plan','body1'=>'S$125 ',"body2"=>"SGD","body3"=>"per year","select"=>["200 face datasets","S$10.42 SGD charged monthly"]],
+    ['id'=>1, 'title'=>'Free Trial Plan','body1'=>'Free ',"body2"=>"","body3"=>"for one-month","select"=>["3 facial slots for trial users","Free for users."]],
+    ['id'=>2, 'title'=>'Small Business Plan','body1'=>'S$50 ',"body2"=>"SGD","body3"=>"per year","select"=>["50 face datasets","S$4.17 SGD charged monthly"]],
+    ['id'=>3, 'title'=>'Medium-Sized Business Plan','body1'=>'S$100 ',"body2"=>"SGD","body3"=>"per year","select"=>["100 face datasets","S$8.33 SGD charged monthly"]],
+    ['id'=>4, 'title'=>'Large Enterprise Plan','body1'=>'S$125 ',"body2"=>"SGD","body3"=>"per year","select"=>["200 face datasets","S$10.42 SGD charged monthly"]],
 ];
 ?>
 <!DOCTYPE html>
@@ -11,18 +26,17 @@ $list=[
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="static/js/public.js"></script>
-    <script src="static/js/jquery-3.2.1.slim.min.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/popper.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="../view/public.js"></script>
+    <script src="../view/jquery-3.2.1.slim.min.js"></script>
+    <script src="../view/jquery.min.js"></script>
+    <script src="../view/popper.min.js"></script>
+    <script src="../view/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="../view/main.css">
 </head>
 <body>
 <div class="main">
@@ -31,7 +45,7 @@ $list=[
             <h3>Select Subscription Page</h3>
             <p style="font-size: 25px;">Business owner</p>
         </div>
-        <i class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php')"></i>
+        <i class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')"></i>
         <div class="card-bottom">
             <div class="card-bottom-card">
                 <?php foreach ($list as $key):?>
@@ -49,7 +63,7 @@ $list=[
                         <li style="margin-top: 10px"><?= $value?></li>
                         <?php endforeach;?>
                     </ul>
-                    <button data-toggle="modal" data-target="#exampleModal">Select</button>
+                    <button data-toggle="modal" data-target="#exampleModal" data-id="<?= $key['id']?>">Select</button>
                 </div>
                 <?php endforeach;?>
             </div>
@@ -93,17 +107,53 @@ $list=[
         </div>
     </div>
 </div>
-</body>
 <script>
+    $(document).ready(function(){
+        // Event listener for showing the modal
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id'); // Extract info from data-* attributes
+            // Store the ID in a global variable or local storage for later use
+            window.selectedId = id;
+            console.log('Modal triggered, selectedId set to:', window.selectedId);
+        });
+    });
+
     const loadNav=()=>{
         document.getElementById("loadd").classList.remove("hidden")
         setTimeout(()=>{
             document.getElementById("loadd").classList.add("hidden")
-            // $('#exampleModal').modal()
-            window.location.replace("subscription.php?isOne=true")
+            //$('#exampleModal').modal()
+
+            console.log('Selected ID before AJAX:', window.selectedId)
+            
+            // Make an AJAX request to the PHP script        
+            $.ajax({
+                url: '../controller/businessOwnerController.php',
+                type: 'POST',
+                data: {
+                    action: 'update',
+                    subscriptionId: window.selectedId, 
+                    ownerId: '<?php echo $userData['id'];?>'
+                },
+                success: function(response) {
+                    //alert('successfully!');
+                    console.log(response);
+                    window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=" + window.selectedId)
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    alert('Failed to update subscription details. Please try again.');
+                }
+            });
+
+            // Comment out this line to prevent immediate redirection
+            // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
         },2000)
     }
+    
 </script>
+</body>
 <style>
     .hidden{
         display: none;

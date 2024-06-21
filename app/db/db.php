@@ -42,10 +42,11 @@
         profile VARCHAR(255),
         password VARCHAR(255) NOT NULL,
         company VARCHAR(255),
+        subscription_id INT DEFAULT 1,
         suspend_status BOOLEAN DEFAULT FALSE
     )";
 
-    $sql_trigger = "CREATE TRIGGER IF NOT EXISTS insert_businessowner_id
+    $sql_business_owner_trigger = "CREATE TRIGGER IF NOT EXISTS insert_businessowner_id
         BEFORE INSERT ON businessowner
         FOR EACH ROW BEGIN
             IF NEW.id IS NULL OR NEW.id = '' THEN
@@ -63,21 +64,28 @@
     $sql_subscription_details = "CREATE TABLE IF NOT EXISTS subscription_details (
         id INT AUTO_INCREMENT PRIMARY KEY,
         subscription_id INT NOT NULL,
-        businessowner_id INT NOT NULL,
+        businessowner_id BIGINT UNSIGNED NOT NULL,
         startDate DATE NOT NULL,
-        endDate DATE NOT NULL,
-        FOREIGN KEY (subscription_id) REFERENCES subscription(id),
-        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
+        endDate DATE NOT NULL
+        /*FOREIGN KEY (subscription_id) REFERENCES subscription(id),
+        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)*/
     )";
 
-    $sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
+    $sql_subscription_data = "INSERT INTO subscription (name, price, description) VALUES 
+                                ('Free trial', 0.00, 'One-month access to 3 facial slots for trial users.'), 
+                                ('Small Business Plan', 50.00, 'Supports up to 50 face datasets.'), 
+                                ('Medium-Sized Business Plan', 100.00, 'Supports up to 100 face datasets'), 
+                                ('Large Enterprise Plan', 125.00, 'Supports unlimited face datasets.');";    
+
+    
+    /*$sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
         id INT AUTO_INCREMENT PRIMARY KEY,
         subscription_id INT NOT NULL,
         amount DECIMAL(10, 2) NOT NULL,
         status VARCHAR(255) NOT NULL,
         transaction_date DATE NOT NULL,
         FOREIGN KEY (subscription_id) REFERENCES subscription(id)
-    )";
+    )";*/
 
     // KIV - Face Data
     /*$sql_face_data = "CREATE TABLE IF NOT EXISTS face_data (
@@ -92,10 +100,11 @@
     $conn->query($sql_sysadmin);
     $conn->query($sql_businessowner);
     $conn->query($sql_profile);
-    $conn->query($sql_trigger);
+    $conn->query($sql_business_owner_trigger);
     //$conn->query($sql_profile_data);
-    //$conn->query($sql_subscription);
-    //$conn->query($sql_subscription_details);
+    $conn->query($sql_subscription);
+    $conn->query($sql_subscription_details);
+    $conn->query($sql_subscription_data);
     //$conn->query($sql_transaction);
     //$conn->query($sql_face_data);
 

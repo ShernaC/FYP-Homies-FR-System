@@ -1,30 +1,59 @@
 <?php
+// $list=[
+//     ['icon'=>'icon-tags', 'label'=>'Username:', 'value'=>'user123', 'img'=>'../view/images/id-card-regular.svg'],
+//     ['icon'=>'icon-envelope', 'label'=>'Email:', 'value'=>'12345@google.com', 'img'=>'../view/images/envelope-regular.svg'],
+//     ['icon'=>'icon-zoom-in', 'label'=>'Subscription Name:','value'=>'Free Trial Plan', 'img'=>'../view/images/calendar-days-regular.svg'],
+//     ['icon'=>'icon-home', 'label'=>'Company Name:', 'value'=>'CompanyB', 'img'=>'../view/images/building-regular.svg'],
+// ];
+
+include_once '../controller/businessOwnerController.php';
+include_once '../controller/subscriptionController.php';
+
+if (isset($_GET['username'])) {
+    $username = $_GET['username'];
+}
+
+$businessOwner = new searchBusinessOwnerAccount();
+$userData = $businessOwner->handleSearchRequest($username);
+
+$accountId = $userData['id'];
+$name = $userData['name'];
+$subscriptId = $userData['subscription_id'];
+
+$subscription = new viewSubscriptionController();
+$subscriptionData = $subscription->viewSubscription($subscriptId);
+$subscriptionPrice = $subscriptionData['price'];
+$subscriptionDescription = $subscriptionData['description'];
+
 $list=[
-    ['icon'=>'icon-tags', 'label'=>'Username:', 'value'=>'user123', 'img'=>'static/images/id-card-regular.svg'],
-    ['icon'=>'icon-envelope', 'label'=>'Email:', 'value'=>'12345@google.com', 'img'=>'static/images/envelope-regular.svg'],
-    ['icon'=>'icon-zoom-in', 'label'=>'Subscription Name:','value'=>'Free Trial Plan', 'img'=>'static/images/calendar-days-regular.svg'],
-    ['icon'=>'icon-home', 'label'=>'Company Name:', 'value'=>'CompanyB', 'img'=>'static/images/building-regular.svg'],
+    ['icon'=>'icon-tags', 'label'=>'Username:', 'value'=>$userData['userName'], 'img'=>'../view/images/id-card-regular.svg'],
+    ['icon'=>'icon-envelope', 'label'=>'Email:', 'value'=>$userData['email'], 'img'=>'../view/images/envelope-regular.svg'],
+    ['icon'=>'icon-zoom-in', 'label'=>'Subscription Name:','value'=>$subscriptionData['name'], 'img'=>'../view/images/calendar-days-regular.svg'],
+    ['icon'=>'icon-home', 'label'=>'Company Name:', 'value'=>$userData['company'], 'img'=>'../view/images/building-regular.svg'],
 ];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="static/js/public.js"></script>
-    <script src="static/js/jquery-3.2.1.slim.min.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/popper.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src='../view/public.js'></script>
+    <script src="../view/jquery-3.2.1.slim.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="../view/jquery.min.js"></script>
+    <script src="../view/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/main.css">
-    <script src="static/js/public.js"></script>
-    <link rel="stylesheet" href="static/css/main.css">
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../view/main.css">
+    <script src="../view/public.js"></script>
+    <link rel="stylesheet" href="../view/main.css">
+    <link rel="stylesheet" href="../view/bootstrap.min.css">
 <!--    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
 </head>
 <body>
@@ -39,7 +68,7 @@ $list=[
                     <div class="visiting-top-image"> </div>
                     <div class="visiting-top-texts">
                         <div class="large-font" style="text-align: left;">
-                            <i style="margin-left: 0;">Name: xxx</i>
+                            <i style="margin-left: 0;">Name: <?php echo $name ?></i>
                         </div>
                     </div>
                 </div>
@@ -48,12 +77,12 @@ $list=[
                         <div class="bottom-body-list">
                             <?php foreach ($list as $key) :?>
                             <div class="body-list-item">
-                                <img src="<?= $key["img"] ?>" alt="<?= $key["label"] ?> icon" style="width: 20px; height: 20px;">
-                                <i><?= $key["label"] ?><?= $key["value"] ?></i>
+                                <img src="<?= $key['img'] ?>" alt="<?= $key['label'] ?> icon" style="width: 20px; height: 20px;">
+                                <i><?= $key['label'] ?><?= $key['value'] ?></i>
                             </div>
                             <?php endforeach;?>
                             <div class="body-list-item">
-                                <button onclick="navigatorTo('subscription.php')">View my subscription</button>
+                                <button id="viewSubscriptionBtn" onclick="navigatorTo()">View my subscription</button>
                             </div>
                             <div class="body-list-item">
                                 <button onclick="upload()">Upload datasets</button>
@@ -74,9 +103,9 @@ $list=[
                     </div>
                 </div>
             </div>
-            <div class="logout">
-                <p>Logout</p>
-            </div>
+        </div>
+        <div class="w-full max-w-6xl mt-3 text-right text-gray-500">
+            <a href="login.php" style="font-size: 24px;">Logout</a>
         </div>
     </div>
 </div>
@@ -120,9 +149,9 @@ $list=[
         },2000)
     }
     //跳转subscript页面
-    // const navigatorTo=()=>{
-    //     window.location.href="subscription.php"
-    // }
+    document.getElementById('viewSubscriptionBtn').addEventListener('click', function() {
+        window.location.href = "subscription.php?username=" + "<?php echo $username;?>" + "&subscriptionId=" + "<?php echo $subscriptId;?>";
+    });
 </script>
 <style>
     .header{
@@ -193,7 +222,7 @@ $list=[
 
     }
     .visiting-top-image{
-        background-image: url("static/images/img.png");
+        background-image: url("../view/images/img.png");
         height: 100px;
         width: 100px;
         background-size: 100% 100%;

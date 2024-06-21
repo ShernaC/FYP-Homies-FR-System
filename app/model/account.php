@@ -1,6 +1,8 @@
 <?php
 //$conn = require_once '../db/db.php'; 
 include_once '../db/db.php'; 
+include_once '../model/subscription.php';
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -115,7 +117,7 @@ class SysAdmin{
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
     
-            $stmt->close();
+            //$stmt->close();
         } catch (Exception $e) {
             error_log("Error creating SysAdmin account: " . $e->getMessage());
             $response['message'] = 'Database Error: ' . $e->getMessage();
@@ -490,7 +492,7 @@ class SysAdmin{
             $result = mysqli_stmt_get_result($stmt);
             $user= mysqli_fetch_assoc($result);
 
-            mysqli_close($conn);
+            //mysqli_close($conn);
         } catch (mysqli_sql_exception $e) {
             echo "Error: " . $e->getMessage();
         } catch (Exception $e) {
@@ -534,7 +536,7 @@ class SysAdmin{
                 error_log("Invalid username or password for SysAdmin.");
             }
 
-            $stmt->close();
+            //$stmt->close();
         } catch (Exception $e) {
             error_log("Error in SysAdmin login: " . $e->getMessage());
             $response['message'] = 'Database Error: ' . $e->getMessage();
@@ -656,7 +658,7 @@ class BusinessOwner{
                 throw new Exception("Username already exists");
             }
     
-            $checkStmt->close();
+            //$checkStmt->close();
     
             // Hash the password using MD5
             error_log("Original password: " . $this->password);
@@ -682,7 +684,7 @@ class BusinessOwner{
             } else {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
-            $stmt->close();
+            //$stmt->close();
         } catch (Exception $e) {
             error_log("Error creating BusinessOwner account: " . $e->getMessage());
             $response['message'] = $e->getMessage() == 'Username already exists' ? 'Username already exists' : 'Database Error: ' . $e->getMessage();
@@ -690,6 +692,41 @@ class BusinessOwner{
     
         return json_encode($response);
     }
+
+    function searchAccount($username)
+    {
+        try {
+            global $conn;
+
+            $search = "SELECT * FROM businessowner WHERE username=?";
+            
+
+            $stmt = mysqli_prepare($conn, $search);
+            if (!$stmt) {
+                throw new Exception("Error: " . mysqli_error($conn));
+            }
+
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "s", $username);
+
+            // Set parameter and execute
+            mysqli_stmt_execute($stmt);
+
+            // Get result
+            $result = mysqli_stmt_get_result($stmt);
+            $user= mysqli_fetch_assoc($result);
+
+            //mysqli_close($conn);
+        } catch (mysqli_sql_exception $e) {
+            echo "Error: " . $e->getMessage();
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+
+        return $user;
+    }
+
+
     public function login($username, $password) {
         global $conn;
         if (!$conn instanceof mysqli) {
@@ -724,7 +761,7 @@ class BusinessOwner{
                 error_log("Invalid username or password.");
             }
 
-            $stmt->close();
+            //$stmt->close();
         } catch (Exception $e) {
             error_log("Error logging in: " . $e->getMessage());
             $response['message'] = 'Database Error: ' . $e->getMessage();
@@ -746,12 +783,39 @@ class BusinessOwner{
     }
 
 
-    public function updateSubscriptionDetails(){
+    function updateSubscriptionDetails($ownerId, $subscriptionId){
+        global $conn;
+        $response = ['success' => false, 'message' => ''];
+        
+        try {
+            $stmt = $conn->prepare("UPDATE businessowner SET subscription_id = ? WHERE id = ?");
+            if (!$stmt) {
+                throw new Exception("Prepare statement failed: " . $conn->error);
+            }
 
-        return 0;
+            $stmt->bind_param("ii", $subscriptionId, $ownerId);
 
+            $subscriptionDetails = new subscriptionDetails();
+            $result = $subscriptionDetails->updateSubscriptionDetails($ownerId, $subscriptionId);
+
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0 && $result) {
+                    $response['success'] = true;
+                    $response['message'] = 'Subscription details updated successfully';
+                } else {
+                    $response['message'] = 'No rows affected, update failed';
+                }
+            } else {
+                throw new Exception("Execute statement failed: " . $stmt->error);
+            }
+            
+        } catch (Exception $e) {
+            $response['message'] = 'Database Error: ' . $e->getMessage();
+        }
+            
+        return json_encode($response);
     }
-
+    
     public function cancelSubscriptionDetails(){
 
         return 0;
