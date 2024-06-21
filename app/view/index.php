@@ -66,12 +66,13 @@ $accounts = json_decode($accounts, true)['accounts'];
                 overflow-y: auto !important;
             }
             .scrollable-table-container {
-                max-height: 600px;
+                display: block;
+                max-height: 420px;
                 overflow-y: auto;
             }
 
             thead th {
-                position: sticky;
+                /*position: sticky;*/
                 top: 0;
                 background: #f8f9fa; 
                 z-index: 1;
@@ -95,7 +96,7 @@ $accounts = json_decode($accounts, true)['accounts'];
                 </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 <?php foreach ($accounts as $key => $account) : ?>
-                    <tr>
+                    <tr class="account-row" data-account="<?= $account['id'] ?>" data-info="<?= strtolower(implode(' ', $account)) ?>">
                         <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
                         <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['userName'] ?></td>
                         <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['name'] ?></td>
@@ -201,6 +202,7 @@ $accounts = json_decode($accounts, true)['accounts'];
     document.getElementById('back').addEventListener('click', function() {
         window.location.href = "sysAdminPg.php";
     });
+    
     document.getElementById('searchInput').addEventListener('input', function() {
     var searchText = this.value.toLowerCase();
     var rows = document.querySelectorAll('.account-row');

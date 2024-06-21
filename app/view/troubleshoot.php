@@ -49,7 +49,7 @@
         <h1 class="text-lg ">Troubleshoot</h1>
     </div>
     <div style="padding-left: 20px;">
-        <button onclick="window.location.href='index.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="window.location.href='sysAdminPg.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
     </div>
 
 
