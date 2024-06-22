@@ -229,7 +229,10 @@ $list=[
                 </button>
             </div>
             <div class="modal-body">
-                Confirm subscription cancellation?
+                Confirm subscription cancellation? 
+                <?php if (date("Y-m-d") < $endTime): ?>
+                    <p style="color:red;"><br>Note: You will not be refunded for the remaining days of your subscription.</p>
+                <?php endif; ?>
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" style="background-color: #545b62">Cancel</button>

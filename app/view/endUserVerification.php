@@ -76,6 +76,9 @@
   <div class="header">
     <h1 class="text-xl font-bold">Facial Verification</h1>
   </div>
+  <div style="padding-left: 20px;">
+    <button onclick="window.location.href='login.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
+  </div>
   <div class="container flex flex-col items-center mt-4">
     <div class="button-container">
       <button id="startVerificationBtn" class="btn btn-primary mb-4">

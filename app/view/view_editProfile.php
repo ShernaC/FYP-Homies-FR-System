@@ -79,7 +79,7 @@ $accounts = json_decode($accounts, true)['accounts'];
             </div>
         </div>
 
-        <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg">
+        <div class="w-full max-w-screen-xl mt-4 bg-white shadow-md rounded-lg">
             <div class="flex justify-between p-4">
                 <button id="back" class="text-2xl"><i class="fas fa-chevron-left"></i></button>
                 <div class="relative">
