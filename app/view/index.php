@@ -10,7 +10,7 @@ $accounts = json_decode($accounts, true)['accounts'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Admin Profile Management</title>
+    <title>System Admin Account Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -49,7 +49,7 @@ $accounts = json_decode($accounts, true)['accounts'];
 <body class="bg-gray-100">
 <div class="flex flex-col items-center">
     <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Profile Management</h1>
+        <h1 class="text-xl font-bold">System Admin Account Management</h1>
     </div>
     <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg">
         <div class="flex justify-between p-4">
@@ -107,9 +107,9 @@ $accounts = json_decode($accounts, true)['accounts'];
                     </tr>            
                 <?php endforeach; ?>
 
-                <tr id="noAccountsFound" style="display: none;">
+                <!--tr id="noAccountsFound" style="display: none;">
                     <td colspan="7" class="text-center py-4 text-black-500">No Accounts Found!</td>
-                </tr>
+                </tr-->
             </tbody>
         </table>
     </div>

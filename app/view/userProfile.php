@@ -63,7 +63,7 @@ $profiles = json_decode($profiles, true)['profiles'];
                 </thead>
                 <tbody>
                     <?php foreach ($profiles as $key => $profile) : ?>
-                        <tr class="profile-row">
+                        <tr class="profile-row" data-profile="<?php echo htmlspecialchars($profile['userProfile']);?>">
                             <td class="px-6 py-4 whitespace-nowrap" onclick="editProfile('<?php echo htmlspecialchars($profile['userProfile']); ?>')">
                                 <?php echo htmlspecialchars($profile['userProfile']); ?>
                             </td>

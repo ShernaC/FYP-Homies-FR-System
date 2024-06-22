@@ -214,7 +214,7 @@ $list=[
                 </div>
             </div>
             <div class="logout">
-                <p>Logout</p>
+                <a href="login.php" style="font-size: 24px;">Logout</a>
             </div>
         </div>
     </div>
