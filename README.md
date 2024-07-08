@@ -3,6 +3,7 @@
 DCGAN Model
 
 To run "training.py":
+
 install latest python
 
 install lib with command below:
