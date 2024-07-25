@@ -4,7 +4,7 @@ $host = "localhost";
 $port = "3306";
 $dbname = "FaceRecognition";
 $user = "root";
-$password = "idiazul";
+$password = "";
 
 return [
     'host' => $host,

@@ -18,10 +18,10 @@ class SysAdmin{
     private String $name;
     private String $profile;
     private String $email;
-
+    private int $otp;
     private $suspend_status;
 
-    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "")
+    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "", $otp=00000)
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,6 +29,7 @@ class SysAdmin{
         $this->password = $password;
         $this->profile = "System Admin";
         $this->email = $email;
+        $this->otp = $otp;
         $this->suspend_status = false;
     }
 
@@ -50,6 +51,10 @@ class SysAdmin{
 
     public function getProfile(){
         return $this->profile;
+    }
+
+    public function getOTP(){
+        return $this->otp;
     }
 
     public function setID($id){
@@ -82,6 +87,9 @@ class SysAdmin{
         $this->password = $password;
     }
 
+    function setOTP($otp){
+        $this->otp = $otp;
+    }
 
     public function createSysAdminAccount($profile)
     {
@@ -127,10 +135,6 @@ class SysAdmin{
         return json_encode($response);
     }
 
-    
-    
-
-    // System Admin - View (Read) user account (join, where for id)
     // System Admin - View (Read) user account
     public function viewAccounts()
     {

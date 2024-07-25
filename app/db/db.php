@@ -31,6 +31,7 @@
         email VARCHAR(255) UNIQUE,
         profile VARCHAR(255),
         password VARCHAR(255) NOT NULL,
+        otp VARCHAR(255) NOT NULL,
         suspend_status BOOLEAN DEFAULT FALSE
     )";
     
@@ -43,6 +44,7 @@
         password VARCHAR(255) NOT NULL,
         company VARCHAR(255),
         subscription_id INT DEFAULT 1,
+        otp VARCHAR(255) NOT NULL,
         suspend_status BOOLEAN DEFAULT FALSE
     )";
 

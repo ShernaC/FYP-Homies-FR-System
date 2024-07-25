@@ -11,6 +11,12 @@ switch ($action) {
     case 'login':
         handleLogin();
         break;
+    case 'send_otp':
+        handleSendOtp();
+        break;
+    case 'validate_otp':
+        handleValidateOtp();
+        break;
     default:
         echo json_encode(['success' => false, 'message' => 'Invalid action']);
         break;
@@ -38,4 +44,31 @@ function handleLogin() {
 
     echo $response;
 }
+
+function handleSendOtp() {
+    $email = $_POST['email'];
+
+    // Ensure the email is provided
+    if (empty($email)) {
+        echo json_encode(['success' => false, 'message' => 'Email cannot be empty']);
+        return;
+    }
+
+    // Include the send_otp script
+    include '../model/send_otp.php';
+}
+
+function handleValidateOtp() {
+    $otp = $_POST['otp'];
+
+    // Ensure the OTP is provided
+    if (empty($otp)) {
+        echo json_encode(['success' => false, 'message' => 'OTP cannot be empty']);
+        return;
+    }
+
+    // Include the validate_otp script
+    include '../model/validate_otp.php';
+}
+
 ?>
