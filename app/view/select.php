@@ -15,11 +15,12 @@ $businessOwner = new searchBusinessOwnerAccount();
 $userData = $businessOwner->handleSearchRequest($username);
 
 $list=[
-    ['id'=>1, 'title'=>'Free Trial Plan','body1'=>'Free ',"body2"=>"","body3"=>"for one-month","select"=>["3 facial slots for trial users","Free for users."]],
-    ['id'=>2, 'title'=>'Small Business Plan','body1'=>'S$50 ',"body2"=>"SGD","body3"=>"per year","select"=>["50 face datasets","S$4.17 SGD charged monthly"]],
-    ['id'=>3, 'title'=>'Medium-Sized Business Plan','body1'=>'S$100 ',"body2"=>"SGD","body3"=>"per year","select"=>["100 face datasets","S$8.33 SGD charged monthly"]],
-    ['id'=>4, 'title'=>'Large Enterprise Plan','body1'=>'S$125 ',"body2"=>"SGD","body3"=>"per year","select"=>["200 face datasets","S$10.42 SGD charged monthly"]],
+    ['title'=>'Free Trial Plan','cost'=>'Free ',"body2"=>"for one-month","select"=>["3 facial slots for trial users","Basic facial recognition"]],
+    ['title'=>'Small Business Plan','cost'=>'S$50 ',"body2"=>"per year","select"=>["50 face datasets","Upgrade face recognition","S$4.17 SGD charged monthly"]],
+    ['title'=>'Medium-Sized Business Plan','cost'=>'S$100 ',"body2"=>"per year","select"=>["100 face datasets","Advanced facial recognition","Role based permission system","Attendance function","S$8.33 SGD charged monthly"]],
+    ['title'=>'Large Enterprise Plan','cost'=>'S$125 ',"body2"=>"per year","select"=>["200 face datastes","All functions of Medium-Sized Business Plan are included","Identity recognition function","S$10.42 SGD charged monthly"]],
 ];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,42 +32,65 @@ $list=[
     <script src="../view/jquery.min.js"></script>
     <script src="../view/popper.min.js"></script>
     <script src="../view/bootstrap.min.js"></script>
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="style2.css">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="../view/main.css">
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        
 </head>
 <body>
-<div class="main">
-    <div class="card1 shadow-sm bg-white rounded">
+<div>
+    <div>
         <div class="card-top">
-            <h3>Select Subscription Page</h3>
-            <p style="font-size: 25px;">Business owner</p>
+            <h3>  Select Subscription Plans</h3>
         </div>
-        <i class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')"></i>
         <div class="card-bottom">
-            <div class="card-bottom-card">
+            <section class="pricing">
+                <div class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')"></div>
                 <?php foreach ($list as $key):?>
-                <div class="bottom-card-item">
-                    <p><?= $key["title"]?></p>
-                    <div class="card-item-texts">
-                        <h1><?= $key["body1"]?></h1>
-                        &nbsp;
-                        <H3><?= $key["body2"]?></H3>
-                        &nbsp;
-                        <p><?= $key["body3"]?></p>
+                <div class="card-wrapper">
+                    <!-- card header -->
+                    <div class="card-header">
+                        <h3><?= $key["title"]?></h3>
                     </div>
-                    <ul>
-                        <?php foreach ($key["select"] as $value):?>
-                        <li style="margin-top: 10px"><?= $value?></li>
-                        <?php endforeach;?>
-                    </ul>
-                    <button data-toggle="modal" data-target="#exampleModal" data-id="<?= $key['id']?>">Select</button>
+                    
+                    <!-- card detail -->
+                    <?php foreach ($key["select"] as $value):?>
+                    <div class="card-detail">
+                        <p><span class="fas fa-check check"></span><?=$value?></p> 
+                    </div>
+                    <?php endforeach;?> 
+                    
+                    <!-- card price -->
+                    <div class="card-price">
+                        <p><?=$key["cost"]?><sub><?=$key["body2"]?></sub></p>
+                    </div>
+                    
+                    <!-- button -->
+                    <div>
+                        <?php if ($key["title"] == 'Small Business Plan'): ?>
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=2 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_00g9Bl5H48I59xubII', '_blank'); }, 2000);">Select</button>
+                        <?php elseif ($key["title"] == 'Medium-Sized Business Plan'): ?>
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=3 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_3cseVF8TgcYl3967st', '_blank'); }, 2000);">Select</button>
+                        <?php elseif ($key["title"] == 'Large Enterprise Plan'): ?>
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=4 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_28odRB0mKgax4da4gi'); }, 2000);">Select</button>    
+                        <?php else:?>
+                             <button data-toggle="modal" data-target="#exampleModal" data-id=1 class="card-button">Select</button>  
+                        <?php endif;?>
+                    </div>
                 </div>
                 <?php endforeach;?>
-            </div>
+            </section>
             <div class="logout" id="111">
                 <p>Logout</p>
             </div>
@@ -74,6 +98,7 @@ $list=[
     </div>
 </div>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="zhezhao">
         <div class="modal-dialog">
@@ -134,7 +159,7 @@ $list=[
                 data: {
                     action: 'update',
                     subscriptionId: window.selectedId, 
-                    ownerId: '<?php echo $userData['id'];?>'
+                    username: '<?php echo $username;?>'
                 },
                 success: function(response) {
                     //alert('successfully!');
@@ -181,12 +206,12 @@ $list=[
     .card-top{
         display: flex;
         flex-direction: row;
-        justify-content:space-between;
+        justify-content:center;
         align-items: center;
-        height: 100px;
-        background-color: #D3E5FD;
-        border-bottom: #DFEDF6 1px solid;
-        padding: 10px;
+        height: 75px;
+        background-color: transparent;
+        /* border-bottom: #DFEDF6 1px solid; */
+        padding: 20px;
     }
     .card-bottom{
         height: 100%;
@@ -212,7 +237,7 @@ $list=[
         font-size: 20px;
         font-weight: 400;
         padding-right: 20px;
-        color: #595F6D;
+        color: black;
         cursor: pointer;
     }
     .back{

@@ -1,11 +1,4 @@
 <?php
-// $list=[
-//     ['icon'=>'icon-tags', 'label'=>'Username:', 'value'=>'user123', 'img'=>'../view/images/id-card-regular.svg'],
-//     ['icon'=>'icon-envelope', 'label'=>'Email:', 'value'=>'12345@google.com', 'img'=>'../view/images/envelope-regular.svg'],
-//     ['icon'=>'icon-zoom-in', 'label'=>'Subscription Name:','value'=>'Free Trial Plan', 'img'=>'../view/images/calendar-days-regular.svg'],
-//     ['icon'=>'icon-home', 'label'=>'Company Name:', 'value'=>'CompanyB', 'img'=>'../view/images/building-regular.svg'],
-// ];
-
 include_once '../controller/businessOwnerController.php';
 include_once '../controller/subscriptionController.php';
 
@@ -44,31 +37,33 @@ $list=[
     <script src="../view/jquery.min.js"></script>
     <script src="../view/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link rel="stylesheet" href="../view/main.css">
     <script src="../view/public.js"></script>
     <link rel="stylesheet" href="../view/main.css">
     <link rel="stylesheet" href="../view/bootstrap.min.css">
-<!--    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
+    <!--    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
 </head>
 <body>
 <div class="main">
     <div class="card shadow-sm bg-white rounded">
         <div class="card-top">
-            <h3>Business Owner Profile Page</h3>
+            <h3>Profile Page</h3>
         </div>
-        <div class="card-bottom">
+        <div class="card-bottom" style="font-family:montserrat">
             <div class="card-bottom-visiting">
                 <div class="bottom-visiting-top">
                     <div class="visiting-top-image"> </div>
                     <div class="visiting-top-texts">
                         <div class="large-font" style="text-align: left;">
-                            <i style="margin-left: 0;">Name: <?php echo $name ?></i>
+                            <i style="margin-left: 0;" >Welcome, <?php echo $name ?></i>
                         </div>
                     </div>
                 </div>
@@ -246,8 +241,6 @@ $list=[
     .large-font i {
         margin-left: 0;
     }
-
-
     .bottom-visiting-bottom{
         height: 100%;
         display: flex;
@@ -295,5 +288,12 @@ $list=[
         display: flex;
         justify-content: flex-end;
     }
+    .montserrat{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    }
+    
 </style>
 </html>

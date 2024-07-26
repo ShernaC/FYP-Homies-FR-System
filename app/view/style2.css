@@ -1,0 +1,125 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    width: 100%;
+    height: auto;
+    background-color:lightcyan;
+    background-image: linear-gradient(45deg, lightcyan 0%, rgb(14, 118, 255) 100%);
+}
+
+h2 {
+    font-size: 20px;
+}
+
+h3 {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.pricing {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    height: auto;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 5px 14px rgba(0,0,0,.25), 0 5px 5px rgba(0,0,0,.22);
+    padding: .5rem;
+    margin: 1rem;
+    /* transform: all 0.2s ease-in-out; */
+    transition: all 0.2s ease-in-out;
+}
+
+.card-wrapper:hover {
+    transform: scale(1.1);
+}
+
+.card-header {
+    margin: 1rem;
+    text-align: center;
+}
+
+.card-wrapper:hover .card-header>h2 {
+    transform: scale(1.1);
+    color: rgb(68, 114, 255);
+    letter-spacing: 2px;
+}
+
+.card-header >img {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.card-detail {
+    width: 100%;
+}
+
+.card-detail > p{
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.check {
+    color: rgb(23, 181, 52);
+}
+
+.nocheck {
+    color: rgb(255, 0, 0);
+}
+
+.card-detail > p.hover {
+    background-color: #d5d5d5;
+}
+
+.card-price {
+    display: flex;
+    align-items: flex-start;
+    margin: 1rem;
+}
+
+.card-price > p {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.card-price > p > sup,
+.card-price > p > sub {
+    font-size: 1rem;
+}
+
+.card-button {
+    padding: .6rem, 3rem;
+    border: 2px solid #5222d0;
+    background-color: #5222d0;
+    color: #fff;
+    border-radius: 20px;
+    width:160px;
+    height:40px;
+    cursor: pointer;
+    transition: all 50ms ease-in-out;
+}
+
+.card-button:hover {
+    border: 2px solid #5222d0;
+    background-color: transparent;
+    color: #5222d0;
+    font-weight: 800;
+}

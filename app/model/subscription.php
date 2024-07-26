@@ -209,21 +209,44 @@ class subscriptionDetails
         $this->endDate = $endDate;
     }
 
+    // Add subscription details
+    function createSubscriptionDetails($username, $subscriptionId)
+    {
+        global $conn;
+
+        $stmt = $conn->prepare("INSERT INTO subscription_details (username, subscription_id, startDate, endDate) VALUES (?, ?, ?, ?);");
+        if (!$stmt) {
+            throw new Exception("Prepare statement failed: " . $conn->error);
+        }
+
+        // Bind the parameters
+        $stmt->bind_param("siss",  $username, $subscriptionId, "1999-01-01", "2199-01-01");
+
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            $success = true;
+        }
+
+        return $success;
+    }
+
+
     // View subscription details
-    function getSubscriptionDetails($ownerId, $subscriptionId)
+    function getSubscriptionDetails($username, $subscriptionId)
     {
         global $conn;
 
         try {
             // SQL query to view all subscriptions
-            $viewAllSubscriptions = "(SELECT * FROM subscription_details WHERE businessowner_id=? AND subscription_id=?);";
+            $viewAllSubscriptions = "(SELECT * FROM subscription_details WHERE username=? AND subscription_id=?);";
             $stmt = mysqli_prepare($conn, $viewAllSubscriptions);
             if (!$stmt) {
                 throw new Exception("Error: " . mysqli_error($conn));
             }
 
             // Bind the parameters
-            mysqli_stmt_bind_param($stmt, "ii", $ownerId, $subscriptionId);
+            mysqli_stmt_bind_param($stmt, "si", $username, $subscriptionId);
 
             // Execute the statement
             // Set parameter and execute
@@ -243,13 +266,13 @@ class subscriptionDetails
     }
 
     // Update subscription details
-    function updateSubscriptionDetails($ownerId, $subscriptionId)
+    function updateSubscriptionDetails($username, $subscriptionId)
     {
         global $conn;
 
         $success = false;
 
-        $stmt = $conn->prepare("UPDATE subscription_details SET subscription_id = ?, startDate = ?, endDate = ? WHERE businessowner_id = ?;");
+        $stmt = $conn->prepare("UPDATE subscription_details SET subscription_id = ?, startDate = ?, endDate = ? WHERE username = ?;");
         if (!$stmt) {
             throw new Exception("Prepare statement failed: " . $conn->error);
         }
@@ -258,7 +281,7 @@ class subscriptionDetails
         $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
 
         // Bind the parameters
-        $stmt->bind_param("issi", $subscriptionId, $currentDate, $nextYearDate,  $ownerId);
+        $stmt->bind_param("isss", $subscriptionId, $currentDate, $nextYearDate,  $username);
 
         $stmt->execute();
 

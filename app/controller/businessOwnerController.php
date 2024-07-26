@@ -10,11 +10,11 @@ if (!isset($_SESSION)) {
 $action = isset($_POST['action'])? $_POST['action'] : '';
 
 if ($action == 'update') {
-    $ownerId = $_POST['ownerId'];
+    $username = $_POST['username'];
     $subscriptionId = $_POST['subscriptionId'];
 
     $updateSubscriptionDetails = new updateSubscriptionDetailsController();
-    $result = $updateSubscriptionDetails->updateSubscriptionDetails($ownerId, $subscriptionId);
+    $result = $updateSubscriptionDetails->updateSubscriptionDetails($username, $subscriptionId);
     echo $result;
 }
 
@@ -28,14 +28,12 @@ class searchBusinessOwnerAccount{
 
 class updateSubscriptionDetailsController
 {
-    function updateSubscriptionDetails($ownerId, $subscriptionId)
+    function updateSubscriptionDetails($username, $subscriptionId)
     {
         $businessOwner = new BusinessOwner();
-        $result = $businessOwner->updateSubscriptionDetails($ownerId, $subscriptionId);
+        $result = $businessOwner->updateSubscriptionDetails($username, $subscriptionId);
         return $result;
     }  
     
 }
-
-
 ?>

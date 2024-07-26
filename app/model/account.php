@@ -689,6 +689,11 @@ class BusinessOwner{
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
             //$stmt->close();
+
+            // Create subscription details  
+            $subscriptionDetails = new subscriptionDetails();
+            $result = $subscriptionDetails->createSubscriptionDetails($this->userName, 1);
+
         } catch (Exception $e) {
             error_log("Error creating BusinessOwner account: " . $e->getMessage());
             $response['message'] = $e->getMessage() == 'Username already exists' ? 'Username already exists' : 'Database Error: ' . $e->getMessage();
@@ -787,20 +792,20 @@ class BusinessOwner{
     }
 
 
-    function updateSubscriptionDetails($ownerId, $subscriptionId){
+    function updateSubscriptionDetails($username, $subscriptionId){
         global $conn;
         $response = ['success' => false, 'message' => ''];
         
         try {
-            $stmt = $conn->prepare("UPDATE businessowner SET subscription_id = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE businessowner SET subscription_id = ? WHERE username = ?");
             if (!$stmt) {
                 throw new Exception("Prepare statement failed: " . $conn->error);
             }
 
-            $stmt->bind_param("ii", $subscriptionId, $ownerId);
+            $stmt->bind_param("is", $subscriptionId, $username);
 
             $subscriptionDetails = new subscriptionDetails();
-            $result = $subscriptionDetails->updateSubscriptionDetails($ownerId, $subscriptionId);
+            $result = $subscriptionDetails->updateSubscriptionDetails($username, $subscriptionId);
 
             if ($stmt->execute()) {
                 if ($stmt->affected_rows > 0 && $result) {
@@ -812,6 +817,8 @@ class BusinessOwner{
             } else {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
+
+            
             
         } catch (Exception $e) {
             $response['message'] = 'Database Error: ' . $e->getMessage();

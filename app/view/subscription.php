@@ -9,7 +9,6 @@ if (isset($_GET['username']) && isset($_GET['subscriptionId'])) {
     $subscriptionId = $_GET['subscriptionId'];
 }
 
-
 include_once '../controller/businessOwnerController.php';
 $businessOwner = new searchBusinessOwnerAccount();
 $userData = $businessOwner->handleSearchRequest($username);
@@ -27,7 +26,7 @@ if ($subscriptionId == 1) {
 } else {
     include_once '../controller/subscriptionController.php';
     $subscriptionDetails = new viewSubscriptionDetailsController();
-    $subscriptionData = $subscriptionDetails->viewSubscriptionDetails($userData['id'], $subscriptionId);
+    $subscriptionData = $subscriptionDetails->viewSubscriptionDetails($username, $subscriptionId);
     $startTime = $subscriptionData['startDate'];
     $endTime = $subscriptionData['endDate'];
 }
@@ -49,7 +48,7 @@ $list=[
     <script src="../view/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link rel="stylesheet" href="../view/main.css">
@@ -175,15 +174,6 @@ $list=[
                     <h3>Subscription Details</h3>
                 </div>
                 <div class="bottom-visiting-body" style="width:100%"; display:>
-<!--                    <div class="visiting-body-select">-->
-<!--                        <div>-->
-<!--                            <i class="icon-calendar"></i>-->
-<!--                            <p>Subscription Type:</p>-->
-<!--                        </div>-->
-<!--                        <div>-->
-<!--                            <span style="font-weight: bold; margin-left: 170px;">Free Trial</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="visiting-body-select">
                         <div style="flex: 1;display: flex;justify-content: flex-end;margin-right: 40px">
                             <i class="icon-calendar"></i>
@@ -277,7 +267,7 @@ $list=[
                     data: {
                         action: 'update',
                         subscriptionId: 1, 
-                        ownerId: '<?php echo $userData['id'];?>'
+                        username: '<?php echo $username;?>'
                     },
                     success: function(response) {
                         //alert('successfully!');

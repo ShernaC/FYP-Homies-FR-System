@@ -66,11 +66,11 @@
     $sql_subscription_details = "CREATE TABLE IF NOT EXISTS subscription_details (
         id INT AUTO_INCREMENT PRIMARY KEY,
         subscription_id INT NOT NULL,
-        businessowner_id BIGINT UNSIGNED NOT NULL,
+        userName VARCHAR(255) NOT NULL,
         startDate DATE NOT NULL,
-        endDate DATE NOT NULL
-        /*FOREIGN KEY (subscription_id) REFERENCES subscription(id),
-        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)*/
+        endDate DATE NOT NULL,
+        FOREIGN KEY (subscription_id) REFERENCES subscription(id)
+       /* FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)*/
     )";
 
     $sql_subscription_data = "INSERT INTO subscription (name, price, description) VALUES 
@@ -80,14 +80,16 @@
                                 ('Large Enterprise Plan', 125.00, 'Supports unlimited face datasets.');";    
 
     
-    /*$sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+    $sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        businessowner_id BIGINT UNSIGNED NOT NULL, 
         subscription_id INT NOT NULL,
-        amount DECIMAL(10, 2) NOT NULL,
-        status VARCHAR(255) NOT NULL,
+        paid_amount FLOAT(10, 2) NOT NULL,
+        payment_status VARCHAR(255) NOT NULL,
         transaction_date DATE NOT NULL,
-        FOREIGN KEY (subscription_id) REFERENCES subscription(id)
-    )";*/
+        FOREIGN KEY (subscription_id) REFERENCES subscription(id),
+        FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
+    )";
 
     // KIV - Face Data
     /*$sql_face_data = "CREATE TABLE IF NOT EXISTS face_data (
@@ -99,15 +101,16 @@
     )";*/
 
     // Execute the table creation queries
+    // $conn->query($sql);
     $conn->query($sql_sysadmin);
     $conn->query($sql_businessowner);
     $conn->query($sql_profile);
     $conn->query($sql_business_owner_trigger);
-    //$conn->query($sql_profile_data);
+    $conn->query($sql_profile_data);
     $conn->query($sql_subscription);
     $conn->query($sql_subscription_details);
     $conn->query($sql_subscription_data);
-    //$conn->query($sql_transaction);
+    $conn->query($sql_transaction);
     //$conn->query($sql_face_data);
 
     /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {

@@ -11,9 +11,9 @@ class viewSubscriptionController{
 }
 
 class viewSubscriptionDetailsController{
-    public function viewSubscriptionDetails($ownerId, $subscriptionId){
+    public function viewSubscriptionDetails($username, $subscriptionId){
         $viewSubscription = new subscriptionDetails();
-        $result = $viewSubscription->getSubscriptionDetails($ownerId, $subscriptionId);
+        $result = $viewSubscription->getSubscriptionDetails($username, $subscriptionId);
         return $result;
     }
 }
