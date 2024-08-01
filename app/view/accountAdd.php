@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -36,30 +36,57 @@
             bottom: 10px;
             right: 10px;
         }
+        .header {
+            background-color: #333;
+            color: white;
+        }
+        .has-danger .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+        .has-danger .invalid-feedback {
+            display: block;
+            color: #dc3545;
+        }
+
+        .btn-primary, .btn-secondary {
+            text-transform: none !important; /* Ensure text is not in uppercase */
+        }
+
+        .btn-primary {
+            background-color: #000 ; /* Black background */
+            border-color: #000 ; /* Black border */
+            color: #FFF ; 
+            padding: 0.5rem 1rem;
+            border-radius: 0.3rem;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #444 ; /* Dark gray background on hover */
+            border-color: #444 ; /* Dark gray border on hover */
+        }
+        .fas.fa-chevron-left {
+            color: #000; /* Set chevron to black */
+        }
+        .fas.fa-chevron-left:hover {
+            color: #555; /* Change to a lighter black or dark gray on hover */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 <div class="flex flex-col items-center">
-    <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Page</h1>
-        <div class="flex items-center space-x-4">
-            <h2 class="text-lg">Create Account</h2>
-        </div>
+    <div class="header w-full p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">System Admin Account Management</h1>
     </div>
     <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg p-4">
-        <button onclick="window.location.href='index.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="window.location.href='index.php'"><i class="text-xl mb-4 fas fa-chevron-left"></i></button>
         <div class="flex items-center mb-4">
             <img src="https://placehold.co/100" alt="User profile picture" class="w-16 h-16 rounded-full mr-4">
             <input type="text" id="name" placeholder="Name" class="border-b-2 flex-1 py-2 px-4">
             <span id="nameError" class="error"></span>
         </div>
         <form class="space-y-4" onsubmit="return validateForm()">
-            <!--
-            <div>
-                <label for="accountId" class="block text-sm font-medium text-gray-700">Account ID</label>
-                <input type="text" id="accountId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-    -->
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                 <input type="text" id="username" placeholder="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -79,13 +106,7 @@
                 </select>
 
             </div>
-            <!--
-            <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                <input type="text" id="phone" placeholder="Phone number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <span id="phoneError" class="error"></span>
-            </div>
-            -->
+
             <div>
                 <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
                 <input type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -99,7 +120,7 @@
                 <span id="passwordError" class="error"></span>
             </div>
             <div class="text-right">
-                <button type="button" onclick="showModal()" class="bg-black text-white py-2 px-4 rounded">Create</button>
+                <button type="button" onclick="showModal()" class="btn btn-primary">Create</button>
             </div>
         </form>
     </div>
@@ -172,6 +193,26 @@
         // Confirm action here
         closeModal();
         setTimeout(function() {
+            // Make an AJAX request to the PHP script
+            $.ajax({
+                url: '../controller/adminController.php', // URL to your PHP script
+                type: 'POST',
+                data: {
+                    action: 'create',
+                    username: document.getElementById('username').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    profile: document.getElementById('profile').value,
+                    company: document.getElementById('company').value,
+                    password: document.getElementById('password').value
+                },
+                success: function(response) {
+                    alert('Creation successful!');
+                    console.log(response); // Log the response from the server
+                    window.location.href = 'index.php';
+                }
+            });
+
             alert('Account created successful!');
             window.location.href = 'index.php';
         }, 500); // 延迟 500 毫秒后显示 alert
@@ -181,7 +222,7 @@
         var isValid = true;
 
         var name = document.getElementById('name').value.trim();
-        var firstName = document.getElementById('username').value.trim();
+        var username = document.getElementById('username').value.trim();
         var password = document.getElementById('password').value.trim();
         var email = document.getElementById('email').value.trim();
 
@@ -194,7 +235,7 @@
             document.getElementById('nameError').innerText = "Name cannot be empty.";
             isValid = false;
         }
-        if (firstName === "") {
+        if (username === "") {
             document.getElementById('usernameError').innerText = "Username cannot be empty.";
             isValid = false;
         }
@@ -213,4 +254,5 @@
 
 </script>
 </body>
+
 </html>
