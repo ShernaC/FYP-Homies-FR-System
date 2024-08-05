@@ -53,146 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ajax']) && $_POST['aja
 }
 ?>
 
-<!-- <!doctype html>
-<html lang="en">
-<head> -->
-    <!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <title>Login Page</title>
-    <link rel="stylesheet" href="style.css"> -->
-
-<!-- </head> -->
-
-<!-- <body id="login-page"> -->
-    <!-- <div class="login-container"> -->
-        <!-- Button for Verification -->
-        <!-- <button class="btn btn-primary position-fixed top-0 start-0 mt-3 ms-3" onclick="openVerificationPage()">Verification</button> -->
-
-        <!--header-->
-        <!-- <h2>Welcome to FaceLock!</h2> -->
-        <!--image-->
-        <!-- <img class="logo" src="images/face1.png" height="130" width="130" alt="Logo"> -->
-
-        <!-- <form method="post" action="login.php" id="loginForm" novalidate>
-            <div class="dropdown text-center mt-3">
-                <button type="button" class="btn btn-primary dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown">
-                    Select Profile
-                </button>
-                <div class="dropdown-menu dropdown-menu-center">
-                    <a class="dropdown-item" href="#" data-profile="System Admin" onclick="enableLogin(this)">System Admin</a>
-                    <a class="dropdown-item" href="#" data-profile="Business Owner" onclick="enableLogin(this)">Business Owner</a>
-                </div>
-            </div> -->
-
-            <!-- <div class="form-group mt-3">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required disabled>
-                <div class="invalid-feedback">
-                    Please enter a valid username.
-                </div>
-            </div>
-            
-            <div class="form-group mt-3">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required disabled>
-                <div class="invalid-feedback">
-                    Please enter your password.
-                </div>
-            </div> -->
-<!-- 
-            <input type="hidden" id="profile" name="profile">
-            <button type="submit" class="btn btn-primary btn-block mt-3" id="login-btn" onclick="handleLogin(event)" disabled>Login</button>
-        </form>
-
-        <div id="loginMessage" class="mt-3"></div> 
-    </div> -->
-
-    <!-- <script>
-        function openVerificationPage() {
-        window.location.href = 'endUserVerification.php'; // Change 'verification.php' to the desired PHP page
-        }
-
-        function enableLogin(element) {
-            var selectedProfile = element.getAttribute('data-profile');
-            document.getElementById('profileDropdown').innerText = selectedProfile;
-
-            // Enable form elements if a user type is selected
-            document.getElementById("username").disabled = false;
-            document.getElementById("password").disabled = false;
-            document.getElementById("login-btn").disabled = false;
-
-            // Set hidden profile field
-            document.getElementById("profile").value = selectedProfile;
-        }
-
-        function redirect(profile, username) {
-            var formAction;
-            switch (profile) {
-                case "System Admin":
-                    formAction = "sysAdminPg.php";
-                    break;
-                case "Business Owner":
-                    formAction = "personal.php?username=" + username;
-                    break;
-                default:
-                    formAction = "#";
-            }
-            console.log("Redirecting to:", formAction);
-            window.location.href = formAction;
-        }
-
-        function handleLogin(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var profile = document.getElementById("profile").value;
-
-            console.log("Sending AJAX request with data:", { username, password, profile }); 
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "login.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        var loginMessage = document.getElementById("loginMessage");
-
-                        console.log("Response:", response);
-
-                        if (response.success) {
-                            loginMessage.innerHTML = '<div class="alert alert-success">Login successful. Redirecting...</div>';
-                            setTimeout(function() {
-                                redirect(response.profile, response.data); 
-                            }, 1000);
-                        } else {
-                            loginMessage.innerHTML = '<div class="alert alert-danger">' + response.data + '</div>';
-                        }
-                    } catch (e) {
-                        console.error("Error parsing response:", e);
-                        document.getElementById("loginMessage").innerHTML = '<div class="alert alert-danger">Invalid server response.</div>';
-                    }
-                } else {
-                    console.error("Error: " + xhr.status);
-                    document.getElementById("loginMessage").innerHTML = '<div class="alert alert-danger">Server error.</div>';
-                }
-            };
-            xhr.onerror = function() {
-                console.error("Request failed");
-                document.getElementById("loginMessage").innerHTML = '<div class="alert alert-danger">Request failed.</div>';
-            };
-            xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&profile=" + encodeURIComponent(profile) + "&ajax=login");
-        }
-    </script> -->
-<!-- 
-</body>
-</html> -->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -263,7 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ajax']) && $_POST['aja
                     <input type="text" class="form-control" id="otpInput" placeholder="Enter OTP">
                     <div class="invalid-feedback">
                         Invalid OTP. Please try again.
-                    </div>
+                    </div><br>
+                    <div class="timer" id="timer">Time remaining: 05:00</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -368,6 +229,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ajax']) && $_POST['aja
             };
             xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&profile=" + encodeURIComponent(profile) + "&action=login");
         }
+
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "Time remaining: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                    // Handle timer expiry here if needed
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            const time = 60 * 5, // 5 minutes in seconds
+                display = document.querySelector('#timer');
+            startTimer(time, display);
+        };
 
         //OTP related functions
         function validateOTP() {

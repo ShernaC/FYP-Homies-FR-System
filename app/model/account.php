@@ -148,9 +148,10 @@ class SysAdmin{
 
         try {
             // SQL query to view all accounts
-            $viewAllAccounts = "(SELECT * FROM sysadmin WHERE suspend_status=0) 
+            $viewAllAccounts = "(SELECT id, userName, name, email, profile, password, suspend_status FROM sysadmin WHERE suspend_status=0) 
                                     UNION (SELECT id, userName, name, email, profile, password, suspend_status FROM businessowner 
-                                    WHERE suspend_status=0);";
+                                    WHERE suspend_status=0);
+                                    ";
             $stmt = mysqli_prepare($conn, $viewAllAccounts);
             if (!$stmt) {
                 throw new Exception("Error: ". mysqli_error($conn));
@@ -688,11 +689,21 @@ class BusinessOwner{
             } else {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
-            //$stmt->close();
+            
+            // // Add free account record to subscription details table
+            // $stmt2 = $conn->prepare("INSERT INTO subscription_details (subscription_id, userName, startDate, endDate) values (?, ?, ?, ?)");
+            
+            // $currentDate = date('Y-m-d');
+            // $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
+
+            // $stmt2->bind_param("isss", 1, $this->userName, $currentDate, $nextYearDate);
 
             // Create subscription details  
             $subscriptionDetails = new subscriptionDetails();
             $result = $subscriptionDetails->createSubscriptionDetails($this->userName, 1);
+
+            if ($result)
+                echo('Subscription details added!');
 
         } catch (Exception $e) {
             error_log("Error creating BusinessOwner account: " . $e->getMessage());

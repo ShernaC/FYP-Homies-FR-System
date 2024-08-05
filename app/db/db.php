@@ -10,19 +10,14 @@
     //echo "Connected successfully";
 
     $sql = "CREATE DATABASE IF NOT EXISTS FaceRecognition";
-    /*if ($conn->query($sql) === TRUE) {
-        echo "Database created successfully";
-    } else {
-        echo "Error creating database: ". $conn->error;
-    }*/
-    
+
     $sql_profile = 'CREATE TABLE IF NOT EXISTS profile (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userProfile VARCHAR(255) NOT NULL, 
         description VARCHAR(255) NOT NULL
     )';
 
-    $sql_profile_data = "INSERT INTO profile (userProfile, description) VALUES ('System Admin', 'System Administrator'), ('Business Owner', 'Business Owner')";
+    // $sql_profile_data = "INSERT INTO profile (userProfile, description) VALUES ('System Admin', 'System Administrator'), ('Business Owner', 'Business Owner')";
 
     $sql_sysadmin = "CREATE TABLE IF NOT EXISTS sysadmin (
         id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +26,7 @@
         email VARCHAR(255) UNIQUE,
         profile VARCHAR(255),
         password VARCHAR(255) NOT NULL,
-        otp VARCHAR(255) NOT NULL,
+        otp VARCHAR(255),
         suspend_status BOOLEAN DEFAULT FALSE
     )";
     
@@ -44,7 +39,7 @@
         password VARCHAR(255) NOT NULL,
         company VARCHAR(255),
         subscription_id INT DEFAULT 1,
-        otp VARCHAR(255) NOT NULL,
+        otp VARCHAR(255),
         suspend_status BOOLEAN DEFAULT FALSE
     )";
 
@@ -100,16 +95,21 @@
         FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
     )";*/
 
+    // $sql_sysadmin_add = "INSERT INTO sysadmin (userName, name, email, profile, password) VALUES ('testAdmin', 'Test Admin', 'fyp24s215@gmail.com', 'System Admin', '0cef1fb10f60529028a71f58e54ed07b')";
+    // $sql_businessowner_add = "INSERT INTO businessowner (userName, name, email, profile, password, company) VALUES ('testOwner', 'Test Owner', 'fyp24s215@gmail.com, 'Business Owner', '0cef1fb10f60529028a71f58e54ed07b', 'Test Company')";
+
     // Execute the table creation queries
     // $conn->query($sql);
     $conn->query($sql_sysadmin);
     $conn->query($sql_businessowner);
+    // $conn->query($sql_sysadmin_add);
+    // $conn->query($sql_businessowner_add);
     $conn->query($sql_profile);
     $conn->query($sql_business_owner_trigger);
-    $conn->query($sql_profile_data);
+    // $conn->query($sql_profile_data);
     $conn->query($sql_subscription);
     $conn->query($sql_subscription_details);
-    $conn->query($sql_subscription_data);
+    // $conn->query($sql_subscription_data);
     $conn->query($sql_transaction);
     //$conn->query($sql_face_data);
 

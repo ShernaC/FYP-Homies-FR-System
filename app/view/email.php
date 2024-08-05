@@ -48,7 +48,7 @@ function send_otp($to, $name, $subject, $content){
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = $subject;
         $mail->Body    = "Dear $name,<br><br><font size='4'>Your OTP For Login: <b>".$content."</b><br>
-        This OTP is valid for Only One Time.
+        This OTP is valid for 5 minutes.
         </font>";
         
         $mail->send();

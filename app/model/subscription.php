@@ -218,12 +218,24 @@ class subscriptionDetails
         if (!$stmt) {
             throw new Exception("Prepare statement failed: " . $conn->error);
         }
+        
+        if ($subscriptionId==1){
+            $currentDate = '1990-01-01';
+            $nextYearDate = '1990-01-01';
+        }
+        else {
+            // Calculate current date and next year date
+            $currentDate = date('Y-m-d');
+            $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
+        }
+        
 
-        // Bind the parameters
-        $stmt->bind_param("siss",  $username, $subscriptionId, "1999-01-01", "2199-01-01");
+        // Bind the parameters with the calculated dates
+        $stmt->bind_param("siss", $username, $subscriptionId, $currentDate, $nextYearDate);
 
         $stmt->execute();
 
+        $success = false;
         if ($stmt->affected_rows > 0) {
             $success = true;
         }
@@ -277,8 +289,16 @@ class subscriptionDetails
             throw new Exception("Prepare statement failed: " . $conn->error);
         }
 
-        $currentDate = date('Y-m-d');
-        $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
+        if ($subscriptionId==1){
+            $currentDate = '1990-01-01';
+            $nextYearDate = '1990-01-01';
+        }
+        else {
+            // Calculate current date and next year date
+            $currentDate = date('Y-m-d');
+            $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
+        }
+        
 
         // Bind the parameters
         $stmt->bind_param("isss", $subscriptionId, $currentDate, $nextYearDate,  $username);

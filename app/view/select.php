@@ -14,6 +14,9 @@ include_once '../controller/businessOwnerController.php';
 $businessOwner = new searchBusinessOwnerAccount();
 $userData = $businessOwner->handleSearchRequest($username);
 
+include_once '../controller/paymentController.php';
+$paymentController = new PaymentController();
+
 $list=[
     ['title'=>'Free Trial Plan','cost'=>'Free ',"body2"=>"for one-month","select"=>["3 facial slots for trial users","Basic facial recognition"]],
     ['title'=>'Small Business Plan','cost'=>'S$50 ',"body2"=>"per year","select"=>["50 face datasets","Upgrade face recognition","S$4.17 SGD charged monthly"]],
@@ -46,6 +49,9 @@ $list=[
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+
+    <!--Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
         
 </head>
 <body>
@@ -79,11 +85,11 @@ $list=[
                     <!-- button -->
                     <div>
                         <?php if ($key["title"] == 'Small Business Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=2 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_00g9Bl5H48I59xubII', '_blank'); }, 2000);">Select</button>
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=2 class="card-button">Select</button>
                         <?php elseif ($key["title"] == 'Medium-Sized Business Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=3 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_3cseVF8TgcYl3967st', '_blank'); }, 2000);">Select</button>
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=3 class="card-button">Select</button>   
                         <?php elseif ($key["title"] == 'Large Enterprise Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=4 class="card-button" onclick="setTimeout(() => { window.open('https://buy.stripe.com/test_28odRB0mKgax4da4gi'); }, 2000);">Select</button>    
+                            <button data-toggle="modal" data-target="#exampleModal" data-id=4 class="card-button">Select</button>                                
                         <?php else:?>
                              <button data-toggle="modal" data-target="#exampleModal" data-id=1 class="card-button">Select</button>  
                         <?php endif;?>
@@ -114,7 +120,10 @@ $list=[
                 </div>
                 <div class="modal-footer">
                     <button  data-dismiss="modal" style="background-color: #545b62">Cancel</button>
-                    <button onclick="loadNav()" data-dismiss="modal" style="background-color: #2F67EF">Submit</button>
+                    <button id="checkout-button" data-dismiss="modal" style="background-color: #2F67EF">Submit</button>
+                    <script>
+                       
+                    </script>
                 </div>
             </div>
         </div>
@@ -135,47 +144,125 @@ $list=[
 <script>
     $(document).ready(function(){
         // Event listener for showing the modal
+        $(document).ready(function(){
         $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var id = button.data('id'); // Extract info from data-* attributes
-            // Store the ID in a global variable or local storage for later use
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
             window.selectedId = id;
-            console.log('Modal triggered, selectedId set to:', window.selectedId);
+            const btn = document.getElementById('checkout-button');
+            var stripe = Stripe('pk_test_51PbbhBIIYoco0kNrrJljmbnplFpnPQMSdNJx3v2FyV5iZE5mrDbUV8uHXHRYqAP7M0PcF6lekiKPBWvROAyCDyFl00dZqWqxw0');
+            btn.addEventListener('click', function(){
+                $.ajax({
+                    url: '../controller/paymentController.php',
+                    type: 'POST',
+                    data: {
+                        action: 'create_checkout_session',
+                        subscriptionId: window.selectedId,
+                        username: '<?php echo $username; ?>',
+                    },
+                    success: function(response) {
+                        var sessionId = response.sessionId;
+                        stripe.redirectToCheckout({
+                            sessionId: sessionId
+                        }).then(function (result) {
+                            if (result.error) {
+                                alert(result.error.message);
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error){
+                        console.error('AJAX Error:', error);
+                        alert('Failed to create checkout session. Please try again.');
+                    }
+                });
+            });
         });
     });
+});
 
-    const loadNav=()=>{
-        document.getElementById("loadd").classList.remove("hidden")
-        setTimeout(()=>{
-            document.getElementById("loadd").classList.add("hidden")
-            //$('#exampleModal').modal()
-
-            console.log('Selected ID before AJAX:', window.selectedId)
+            // if (selectedId==2){
+            //     console.log('here in 2');
+                <?php // $checkoutSessionId = $paymentController->createCheckoutSession(
+                                            //     5000, // Amount in cents
+                                            //     'sgd',
+                                            //     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 2,
+                                            //     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 2,
+                                            // );
+            //     ?>
+            // }
+            // else if (selectedId==3){
+            //     console.log('here in 3');
+            //     <?php //$checkoutSessionId = $paymentController->createCheckoutSession(
+            //                                     10000, // Amount in cents
+            //                                     'sgd',
+            //                                     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 3,
+            //                                     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 3,
+            //                                 );
+            //     ?>
+            // }
+            // else if (selectedId==4){
+            //     <?php //$checkoutSessionId = $paymentController->createCheckoutSession(
+            //                                     12500, // Amount in cents
+            //                                     'sgd',
+            //                                     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 4,
+            //                                     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 4,
+            //                                 );
+            //     ?>
+            // }
             
-            // Make an AJAX request to the PHP script        
-            $.ajax({
-                url: '../controller/businessOwnerController.php',
-                type: 'POST',
-                data: {
-                    action: 'update',
-                    subscriptionId: window.selectedId, 
-                    username: '<?php echo $username;?>'
-                },
-                success: function(response) {
-                    //alert('successfully!');
-                    console.log(response);
-                    window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=" + window.selectedId)
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    alert('Failed to update subscription details. Please try again.');
-                }
-            });
 
-            // Comment out this line to prevent immediate redirection
-            // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
-        },2000)
-    }
+            // console.log('Checkout session ID:', '<?php //echo $checkoutSessionId; ?>');
+
+            // btn.addEventListener('click', function () {
+            //     stripe.redirectToCheckout({
+            //         sessionId: '<?php //echo $checkoutSessionId; ?>'
+            //     });
+            // });
+            // loadNav();
+  
+
+    // const loadNav=()=>{
+    //     // document.getElementById("loadd").classList.remove("hidden")
+    //     setTimeout(()=>{
+    //         document.getElementById("loadd").classList.add("hidden")
+    //         //$('#exampleModal').modal()
+
+    //         // console.log('Selected ID before AJAX:', window.selectedId)
+
+    //         if (window.selectedId == 1) {
+    //             window.location.replace();
+    //         } else if (window.selectedId == 2) {
+    //             window.location.replace('https://buy.stripe.com/test_00g9Bl5H48I59xubII');
+    //         } else if (window.selectedId == 3) {
+    //             window.location.replace('https://buy.stripe.com/test_3cseVF8TgcYl3967st');
+    //         } else if (window.selectedId == 4) {
+    //             window.location.replace('https://buy.stripe.com/test_28odRB0mKgax4da4gi');
+    //         }
+            
+    //         // // Make an AJAX request to the PHP script        
+    //         // $.ajax({
+    //         //     url: '../controller/businessOwnerController.php',
+    //         //     type: 'POST',
+    //         //     data: {
+    //         //         action: 'update',
+    //         //         subscriptionId: window.selectedId, 
+    //         //         username: '<?php echo $username;?>'
+    //         //     },
+    //         //     success: function(response) {
+    //         //         //alert('successfully!');
+    //         //         console.log(response);
+    //         //         window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=" + window.selectedId)
+    //         //     },
+    //         //     error: function(xhr, status, error) {
+    //         //         console.error('AJAX Error:', error);
+    //         //         alert('Failed to update subscription details. Please try again.');
+    //         //     }
+    //         // });
+
+    //         // Comment out this line to prevent immediate redirection
+    //         // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
+    //     },2000)
+    // }
     
 </script>
 </body>
