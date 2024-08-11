@@ -30,114 +30,99 @@ $list=[
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
     <script src="../view/public.js"></script>
-    <script src="../view/jquery-3.2.1.slim.min.js"></script>
-    <script src="../view/jquery.min.js"></script>
-    <script src="../view/popper.min.js"></script>
-    <script src="../view/bootstrap.min.js"></script>
-
-    <!-- font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
-    <!-- icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <link rel="stylesheet" href="style2.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!--Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
         
+    <style>
+        .bottom-right {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+        .row.flex-nowrap {
+            flex-wrap: wrap; /* Wrap into the next row if the width exceeds the container */
+        }
+
+        .col-md-3 {
+            min-width: 250px; /* Adjust the width to ensure no overlap */
+        }
+    </style>
 </head>
 <body>
-<div>
-    <div>
-        <div class="card-top">
-            <h3>  Select Subscription Plans</h3>
-        </div>
-        <div class="card-bottom">
-            <section class="pricing">
-                <div class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')"></div>
-                <?php foreach ($list as $key):?>
-                <div class="card-wrapper">
-                    <!-- card header -->
-                    <div class="card-header">
-                        <h3><?= $key["title"]?></h3>
+<div class="container mb-4 my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 w-100">
+        <div class="back fas fa-chevron-left" onclick="navigatorTo('subscription.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')"></div>
+        <h3 class="text-xl font-bold text-center">Select Subscription Plans</h3>
+        <div></div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="row flex-nowrap" style="padding-top: 100px; gap: 20px;">
+            <?php foreach ($list as $key):?>
+            <div class="mb-4 d-flex align-items-stretch">
+                <div class="card h-100 w-100">
+                    <div class="card-header text-center">
+                        <h4><?= $key["title"] ?></h4>
+                    </div>
+                    <div class="card-body">
+                        <?php foreach ($key["select"] as $value):?>
+                            <p><span class="fas fa-check check" style="color:forestgreen; padding-right:10px;"></span><?=$value?></p><br>
+                        <?php endforeach;?> 
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class="h5"><?=$key["cost"]?><sub><?=$key["body2"]?></sub></p><br>
+                        <div>
+                            <?php if (($key["title"] == 'Small Business Plan') && ($subscriptionId!=2)):?>
+                                <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" data-id=2>Select</button>
+                            <?php elseif (($key["title"] == 'Medium-Sized Business Plan') && ($subscriptionId!=3)): ?>
+                                <button data-toggle="modal" data-target="#exampleModal" data-id=3 class="btn btn-primary">Select</button>   
+                            <?php elseif ($key["title"] == 'Large Enterprise Plan' && ($subscriptionId!=4)): ?>
+                                <button data-toggle="modal" data-target="#exampleModal" data-id=4 class="btn btn-primary">Select</button>                                
+                            <?php else:?>
+                                <button data-toggle="modal" data-target="#exampleModal" data-id=1 class="btn btn-primary" disabled>Select</button>  
+                            <?php endif;?>
+                        </div>
                     </div>
                     
-                    <!-- card detail -->
-                    <?php foreach ($key["select"] as $value):?>
-                    <div class="card-detail">
-                        <p><span class="fas fa-check check"></span><?=$value?></p> 
-                    </div>
-                    <?php endforeach;?> 
                     
-                    <!-- card price -->
-                    <div class="card-price">
-                        <p><?=$key["cost"]?><sub><?=$key["body2"]?></sub></p>
-                    </div>
-                    
-                    <!-- button -->
-                    <div>
-                        <?php if ($key["title"] == 'Small Business Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=2 class="card-button">Select</button>
-                        <?php elseif ($key["title"] == 'Medium-Sized Business Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=3 class="card-button">Select</button>   
-                        <?php elseif ($key["title"] == 'Large Enterprise Plan'): ?>
-                            <button data-toggle="modal" data-target="#exampleModal" data-id=4 class="card-button">Select</button>                                
-                        <?php else:?>
-                             <button data-toggle="modal" data-target="#exampleModal" data-id=1 class="card-button">Select</button>  
-                        <?php endif;?>
-                    </div>
                 </div>
-                <?php endforeach;?>
-            </section>
-            <div class="logout" id="111">
-                <p>Logout</p>
             </div>
+            <?php endforeach;?>
         </div>
     </div>
+</div>
+<div class="text-end bottom-right">
+    <a href="login.php" class="btn btn-secondary">Logout</a>
 </div>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="zhezhao">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                     <h6 class="modal-title" id="exampleModalLabel" style="color:green;">Confirm selection</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure select this?
-                </div>
-                <div class="modal-footer">
-                    <button  data-dismiss="modal" style="background-color: #545b62">Cancel</button>
-                    <button id="checkout-button" data-dismiss="modal" style="background-color: #2F67EF">Submit</button>
-                    <script>
-                       
-                    </script>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Confirm selection</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
-</div>
-<div class="card fix hidden" id="loadd">
-    <div class="card-body fixx">
-        <p>Redirecting</p>
-        <p>to</p>
-        <p>third-party</p>
-        <p>payment</p>
-        <p>website</p>
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+            <div class="modal-body">
+                Are you sure you want to select this plan?
+            </div>
+            <div class="modal-footer">
+                <button  data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                <button id="checkout-button" data-dismiss="modal" class="btn btn-primary">Submit</button>
+            </div>
         </div>
     </div>
 </div>
@@ -150,6 +135,7 @@ $list=[
             var id = button.data('id');
             window.selectedId = id;
             const btn = document.getElementById('checkout-button');
+            console.log('Selected ID:', window.selectedId);
             var stripe = Stripe('pk_test_51PbbhBIIYoco0kNrrJljmbnplFpnPQMSdNJx3v2FyV5iZE5mrDbUV8uHXHRYqAP7M0PcF6lekiKPBWvROAyCDyFl00dZqWqxw0');
             btn.addEventListener('click', function(){
                 $.ajax({
@@ -179,94 +165,10 @@ $list=[
         });
     });
 });
-
-            // if (selectedId==2){
-            //     console.log('here in 2');
-                <?php // $checkoutSessionId = $paymentController->createCheckoutSession(
-                                            //     5000, // Amount in cents
-                                            //     'sgd',
-                                            //     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 2,
-                                            //     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 2,
-                                            // );
-            //     ?>
-            // }
-            // else if (selectedId==3){
-            //     console.log('here in 3');
-            //     <?php //$checkoutSessionId = $paymentController->createCheckoutSession(
-            //                                     10000, // Amount in cents
-            //                                     'sgd',
-            //                                     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 3,
-            //                                     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 3,
-            //                                 );
-            //     ?>
-            // }
-            // else if (selectedId==4){
-            //     <?php //$checkoutSessionId = $paymentController->createCheckoutSession(
-            //                                     12500, // Amount in cents
-            //                                     'sgd',
-            //                                     'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . $username . '&subscriptionId=' . 4,
-            //                                     'http://localhost:8080/FaceRecognition/app/view/payment_cancel.php?username=' . $username . '&subscriptionId=' . 4,
-            //                                 );
-            //     ?>
-            // }
-            
-
-            // console.log('Checkout session ID:', '<?php //echo $checkoutSessionId; ?>');
-
-            // btn.addEventListener('click', function () {
-            //     stripe.redirectToCheckout({
-            //         sessionId: '<?php //echo $checkoutSessionId; ?>'
-            //     });
-            // });
-            // loadNav();
-  
-
-    // const loadNav=()=>{
-    //     // document.getElementById("loadd").classList.remove("hidden")
-    //     setTimeout(()=>{
-    //         document.getElementById("loadd").classList.add("hidden")
-    //         //$('#exampleModal').modal()
-
-    //         // console.log('Selected ID before AJAX:', window.selectedId)
-
-    //         if (window.selectedId == 1) {
-    //             window.location.replace();
-    //         } else if (window.selectedId == 2) {
-    //             window.location.replace('https://buy.stripe.com/test_00g9Bl5H48I59xubII');
-    //         } else if (window.selectedId == 3) {
-    //             window.location.replace('https://buy.stripe.com/test_3cseVF8TgcYl3967st');
-    //         } else if (window.selectedId == 4) {
-    //             window.location.replace('https://buy.stripe.com/test_28odRB0mKgax4da4gi');
-    //         }
-            
-    //         // // Make an AJAX request to the PHP script        
-    //         // $.ajax({
-    //         //     url: '../controller/businessOwnerController.php',
-    //         //     type: 'POST',
-    //         //     data: {
-    //         //         action: 'update',
-    //         //         subscriptionId: window.selectedId, 
-    //         //         username: '<?php echo $username;?>'
-    //         //     },
-    //         //     success: function(response) {
-    //         //         //alert('successfully!');
-    //         //         console.log(response);
-    //         //         window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=" + window.selectedId)
-    //         //     },
-    //         //     error: function(xhr, status, error) {
-    //         //         console.error('AJAX Error:', error);
-    //         //         alert('Failed to update subscription details. Please try again.');
-    //         //     }
-    //         // });
-
-    //         // Comment out this line to prevent immediate redirection
-    //         // window.location.replace("subscription.php?isOne=true&username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>")
-    //     },2000)
-    // }
     
 </script>
 </body>
-<style>
+<!-- <style>
     .hidden{
         display: none;
     }
@@ -386,5 +288,5 @@ $list=[
         font-weight: bold;
         font-size: 24px;
     }
-</style>
+</style> -->
 </html>

@@ -31,79 +31,196 @@ $list=[
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Business Owner Home Page</title>
     <script src='../view/public.js'></script>
     <script src="../view/jquery-3.2.1.slim.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="../view/jquery.min.js"></script>
-    <script src="../view/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="../view/main.css">
-    <script src="../view/public.js"></script>
-    <link rel="stylesheet" href="../view/main.css">
-    <link rel="stylesheet" href="../view/bootstrap.min.css">
-    <!--    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .profile-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        .profile-header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            text-align: center;
+            font-size: 1.25rem;
+        }
+        .profile-content {
+            padding: 2rem;
+            font-size: 1.10rem;
+        }
+        .profile-content img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+        .profile-content .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .profile-content .item i {
+            margin-left: 0.5rem;
+        }
+        .profile-content button {
+            background-color: #000;
+            color: #FFF;
+            padding: 0.5rem 1rem;
+            border-radius: 0.3rem;
+            border: none;
+            margin-right: 1rem;
+            font-size: 1rem;
+        }
+        .profile-content .spinner-border {
+            display: none;
+        }
+        .profile-content .spinner-border.show {
+            display: inline-block;
+        }
+        .modal-header {
+            background-color: #333;
+            color: white;
+        }
+        .bottom-right {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-primary {
+            background-color: #333;
+            border-color: #333;
+        }
+        .btn-primary:hover {
+            background-color: #444;
+            border-color: #444;
+        }
+        .btn-secondary {
+            text-transform: none !important;
+        }
+        .hidden {
+            display: none;
+        }
+        .output-group {
+            display: flex;
+            /* justify-content: flex-end; Align items to the right */
+            margin-top: 2.6rem; /* Space between the button group and the output */
+            margin-left: 535px; /* Move to the left */
+        }
+        #output {
+            margin-top: 1rem; /* Add margin to ensure it's spaced nicely below the button */
+            display: block;
+        }
+    </style>
+
 </head>
 <body>
-<div class="main">
-    <div class="card shadow-sm bg-white rounded">
-        <div class="card-top">
-            <h3>Profile Page</h3>
+<div class="profile-container">
+    <div class="profile-header">
+        <h2 class="font-bold text-white">Profile Page</h2>
+    </div>
+    <div class="profile-content">
+        <div class="item">
+            <i>Welcome, <?php echo $name; ?> ...</i>
         </div>
-        <div class="card-bottom" style="font-family:montserrat">
-            <div class="card-bottom-visiting">
-                <div class="bottom-visiting-top">
-                    <div class="visiting-top-image"> </div>
-                    <div class="visiting-top-texts">
-                        <div class="large-font" style="text-align: left;">
-                            <i style="margin-left: 0;" >Welcome, <?php echo $name ?></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="bottom-visiting-bottom">
-                    <div class="visiting-bottom-body">
-                        <div class="bottom-body-list">
-                            <?php foreach ($list as $key) :?>
-                            <div class="body-list-item">
-                                <img src="<?= $key['img'] ?>" alt="<?= $key['label'] ?> icon" style="width: 20px; height: 20px;">
-                                <i><?= $key['label'] ?><?= $key['value'] ?></i>
-                            </div>
-                            <?php endforeach;?>
-                            <div class="body-list-item">
-                                <button id="viewSubscriptionBtn" onclick="navigatorTo()">View my subscription</button>
-                            </div>
-                            <div class="body-list-item">
-                                <button onclick="upload()">Upload datasets</button>
-                                <div class="spinner-border hidden" id="load" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                            <div  class="body-list-item">
-                                <p style="font-weight: bold"></p>
-                            </div>
-                            <div  class="body-list-item">
-                                <p style="font-weight: bold" class="hidden" id="font1">Verified</p>
-                            </div>
-                            <div>
-                                <p style="color: red;font-weight: bold" class="hidden" id="font2">Rejected File Name XXX. Please Reupload.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <?php foreach ($list as $key): ?>
+        <div class="item">
+            <img src="<?= $key['img'] ?>" alt="<?= $key['label'] ?> icon">
+            <i><?= $key['label'] ?><?= $key['value'] ?></i>
+        </div>
+        <?php endforeach; ?>
+        <div class="button-group">
+            <div class="item">
+                <button id="viewSubscriptionBtn">View my Subscription</button>
+            </div>
+            <div class="item">
+                <button class="btn btn-primary" onclick="showUploadModal()" style="font-size: 12px;">Upload Datasets</button>
             </div>
         </div>
-        <div class="w-full max-w-6xl mt-3 text-right text-gray-500">
-            <a href="login.php" style="font-size: 24px;">Logout</a>
+
+        <div class="output-group">
+            <div id="output" style="font-size: 12px;"></div>
+        </div>
+
+        <div class="item">
+            <p id="font1" class="hidden" style="font-weight: bold;">Verified</p>
+        </div>
+        <div class="item">
+            <p id="font2" class="hidden" style="color: red; font-weight: bold;">Rejected File Name XXX. Please Reupload.</p>
         </div>
     </div>
 </div>
+<div class="w-full max-w-6xl mt-3 text-right text-gray-500 bottom-right">
+    <a href="login.php">Logout</a>
+</div>
+       
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="uploadForm" enctype="multipart/form-data" action="Scripts/upload_and_process.php" method="POST">
+                <input type="hidden" name="MAX_FILE_SIZE" value="52428800" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel" style="color: white;">Upload Zip File and Excel File</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color: black;">
+
+                    <div id="tier" style="display:block;">
+                    <label for="tierDropdown">Tier: <?php echo $subscriptionData['name']?></label>
+                    </div>
+
+                    <label for="zipFile">Select Zip File:</label>
+                    <input type="file" name="zipFile" id="zipFile" accept=".zip" required><br><br>
+
+                    <label for="excelFile">Select Excel File:</label>
+                    <input type="file" name="excelFile" id="excelFile" accept=".xlsx" required><br><br>
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: space-between; width: 100%;">
+                    <button data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+
+                    <div style="display: flex; align-items: center;">
+                        <div id="loading" style="display: none; text-align: center; margin-right: 10px;">
+                            <div class="spinner-border text-primary" role="status"></div>                                                       
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="border-radius: 5px;">Upload and Process</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -125,12 +242,6 @@ $list=[
 </div>
 </body>
 <script>
-    // const getURLParameter=(name)=>{
-    //     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    //     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    //         results = regex.exec(location.search);
-    //     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    // }
     (function () {
         let paramValue = getURLParameter('isOne')
         if (paramValue === 'true')$('#exampleModal').modal()
@@ -147,153 +258,167 @@ $list=[
     document.getElementById('viewSubscriptionBtn').addEventListener('click', function() {
         window.location.href = "subscription.php?username=" + "<?php echo $username;?>" + "&subscriptionId=" + "<?php echo $subscriptId;?>";
     });
-</script>
-<style>
-    .header{
-        background-color: #CBEAD0;
-    }
-    .header1{
-        background-color: #F3CCD6;
-    }
-    .hidden{
-        display: none;
-    }
-    /*显示元素*/
-    .show{
-        display: block;
-    }
-    .main{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .large-font {
-        font-size: 30px;
-    }
-    .card{
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        /*border: #777777 2px solid;*/
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .card-top{
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100px;
-        background-color: #D3E5FD;
-        border-bottom: #DFEDF6 1px solid;
-        padding-left: 10px;
-    }
-    .card-bottom{
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .card-bottom-visiting{
-        width: 70%;
-        height: 60%;
-        border-radius: 20px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        border: #909090 2px solid;
-    }
-    .bottom-visiting-top{
-        height:90px;
-        background-color: #D3E5FD;
-        border: #9DB1B7 1.5px solid;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: flex-start;
 
+    function showUploadModal() {
+        console.log("showUploadModal called");
+        $('#uploadModal').modal('show');
     }
-    .visiting-top-image{
-        background-image: url("../view/images/img.png");
-        height: 100px;
-        width: 100px;
-        background-size: 100% 100%;
-        background-position: center;
-    }
-    .visiting-top-texts{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        padding:0 10px 0 10px;
-        align-items: center;
-        /*border: rgba(87, 102, 105, 0.6) 1.5px solid;*/
-        flex: 1;
-        height: 50px;
-        margin-right: 20px;
-        font-size:17px ;
-    }
-    .large-font {
-        text-align: left; 
-    }
-    .large-font i {
-        margin-left: 0;
-    }
-    .bottom-visiting-bottom{
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .visiting-bottom-body{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-       align-items: center;
-    }
-    .bottom-body-list{
-        width: 80%;
-        display: grid;
-        font-size: 20px;
-        grid-template-columns: auto auto;
-        text-align:justify;
-    }
-    .body-list-item{
-        padding: 10px;
-        display: flex;
-        flex-wrap: nowrap;
-    }
-    button{
-        background-color: #040404;
-        color: #FFF;
-        padding: 5px;
-        border-radius: 5px;
-        border: none;
-    }
-    .logout{
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        display: flex;
-        justify-content: flex-end;
-        font-size: 20px;
-        font-weight: 400;
-        padding-right: 20px;
-        color: #595F6D;
-        cursor: pointer;
-    }
-    .bottom-body-text{
-        display: flex;
-        justify-content: flex-end;
-    }
-    .montserrat{
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 200;
-    font-style: normal;
-    }
-    
-</style>
+
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const zipFileInput = document.getElementById('zipFile');
+        const excelFileInput = document.getElementById('excelFile');
+        const zipFile = zipFileInput.files[0];
+        const excelFile = excelFileInput.files[0];
+
+        console.log("Files selected:");
+        console.log("ZIP file:", zipFile);
+        console.log("Excel file:", excelFile);
+
+        if (!zipFile || !excelFile) {
+            document.getElementById('output').innerHTML = '<p>Please upload both files.</p>';
+            return;
+        }
+
+        // Check file formats
+        if (zipFile.type !== 'application/x-zip-compressed' && zipFile.type !== 'application/zip') {
+            document.getElementById('output').innerHTML = '<p>The uploaded zip file is not in the correct format.</p>';
+            return;
+        }
+        if (!excelFile.name.endsWith('.xlsx')) {
+            document.getElementById('output').innerHTML = '<p>The uploaded Excel file is not in the correct format.</p>';
+            return;
+        }
+
+        const zip = new JSZip();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            zip.loadAsync(e.target.result).then(function(zip) {
+                let valid = true;
+                const zipNames = new Set();
+                zip.forEach(function (relativePath, zipEntry) {
+                    if (!zipEntry.dir && !zipEntry.name.match(/\.(jpe?g|png)$/i)) {
+                        valid = false;
+                    }
+                    if (zipEntry.dir) {
+                        const folderName = zipEntry.name.split('/')[1];
+                        zipNames.add(folderName);
+                    }
+                });
+
+                if (!valid) {
+                    document.getElementById('output').innerHTML = '<p>The zip file contains invalid files. Only images are allowed.</p>';
+                    return;
+                }
+
+                const excelReader = new FileReader();
+                excelReader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    if (workbook.SheetNames.length === 0) {
+                        document.getElementById('output').innerHTML = '<p>The Excel file is empty.</p>';
+                        return;
+                    }
+
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const json = XLSX.utils.sheet_to_json(sheet);
+
+                    if (json.length === 0) {
+                        document.getElementById('output').innerHTML = '<p>The Excel sheet is empty.</p>';
+                        return;
+                    }
+
+                    const excelNames = new Set();
+                    json.forEach(row => {
+                        if (row['Name']) {
+                            excelNames.add(row['Name']);
+                        }
+                    });
+
+                    console.log("zipNames:", Array.from(zipNames));
+                    console.log("excelNames:", Array.from(excelNames));
+
+                    const missingInExcel = Array.from(zipNames).filter(name => !excelNames.has(name));
+                    const missingInZip = Array.from(excelNames).filter(name => !zipNames.has(name));
+
+                    console.log("missingInExcel:", missingInExcel);
+                    console.log("missingInZip:", missingInZip);
+
+                    let warningMessage = '<p><strong>Validation Errors:</strong></p>';
+
+                    if (missingInExcel.length > 0) {
+                        warningMessage += '<p><strong>Folders in the zip file not found in the Excel file:</strong></p>';
+                        warningMessage += '<ul>';
+                        missingInExcel.forEach(name => {
+                            warningMessage += `<li>${name}</li>`;
+                        });
+                        warningMessage += '</ul>';
+                    }
+
+                    if (missingInZip.length > 0) {
+                        warningMessage += '<p><strong>Names in the Excel file not found in the zip file:</strong></p>';
+                        warningMessage += '<ul>';
+                        missingInZip.forEach(name => {
+                            warningMessage += `<li>${name}</li>`;
+                        });
+                        warningMessage += '</ul>';
+                    }
+
+                    if (missingInExcel.length > 0 || missingInZip.length > 0) {
+                        document.getElementById('output').innerHTML = warningMessage;
+                        return;
+                    }
+
+                    // If everything is valid, submit the form
+                    const formData = new FormData();
+                    formData.append('zipFile', zipFile);
+                    formData.append('excelFile', excelFile, 'companyNameList.xlsx');
+                    formData.append('tierDropdown', 'None');
+
+                    document.getElementById('loading').style.display = 'block';
+
+                    try {
+                        console.log("Sending files to server...");
+                        fetch('../scripts/upload_and_process.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok. Status: ' + response.status);
+                            }
+                            return response.json();  // Return the JSON data from the response
+                        })
+                        .then(data => {
+                            console.log("Response received from server:", data);
+                            if (data.status === 'success') {
+                                document.getElementById('output').innerHTML = '<a href="../scripts/download_result.php" class="btn btn-primary" id="downloadResultsBtn" style="display: none;">Download Results</a>';
+                                //document.getElementById('output').innerHTML = '<a href="download_result.php" id="downloadResultsBtn">Download Results</a>';
+                                document.getElementById('downloadResultsBtn').style.display = 'block';
+                                console.log("Button should be visible now");
+                                $('#uploadModal').modal('hide'); // Close the modal
+                            } else {
+                                console.error('Error processing files:', data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        })
+                        .finally(() => {
+                            document.getElementById('loading').style.display = 'none';
+                        });
+                    } catch (error) {
+                        console.error('An error occurred:', error);
+                    }
+                };
+                excelReader.readAsArrayBuffer(excelFile);
+            });
+        };
+
+        reader.readAsArrayBuffer(zipFile);
+    });
+</script> 
 </html>

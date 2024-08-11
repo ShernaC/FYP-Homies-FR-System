@@ -1,0 +1,345 @@
+3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)]
+File exists: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\modelDownload\disc_stop_15_lr1.pth
+Model loaded successfully.
+Zip file path: C:/xampp/htdocs/otp_test/FYP-Homies-FR-System/app/ImageCheckingSystem/uploads/TeamDataset.zip
+Excel file path: C:/xampp/htdocs/otp_test/FYP-Homies-FR-System/app/ImageCheckingSystem/uploadsExcel/companyNameList.xlsx
+Tier: None
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\fake.png rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_13_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_14_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_18_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_22_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_23_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_6_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_35_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_55_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_14_00_12_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_12_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_13_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_14_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_15_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_19_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_1_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_21_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_22_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_2_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_4_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_5_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_11_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_15_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_19_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_1_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_2_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_3_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_5_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_7_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_9_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView2.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\me.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_14_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_56_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_12_19_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_40_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_48_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_53_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_05_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_34_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_43_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_15_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_30_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_33_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn1.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn10.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn5.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn6.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn7.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn8.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn9.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image10.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image8.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\fake.png rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_13_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_14_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_18_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_22_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_23_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_6_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_35_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_55_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_14_00_12_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_12_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_13_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_14_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_15_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_19_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_1_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_21_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_22_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_2_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_4_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_5_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_11_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_15_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_19_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_1_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_2_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_3_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_5_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_7_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_9_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView2.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\me.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_14_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_56_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_12_19_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_40_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_48_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_53_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_05_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_34_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_43_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_15_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_30_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_33_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn1.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn10.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn5.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn6.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn7.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn8.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn9.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image10.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image8.jpg rejected: Fake image detected by GAN model
+
+Subfolder 'TeamDataset' is approved. Pass rate: 0.55
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\fake.png rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_13_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_14_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_18_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_22_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_23_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\photo_6_2024-07-19_21-46-09.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_35_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_13_59_55_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\cindy\WIN_20240725_14_00_12_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_12_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_13_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_14_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_15_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_19_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_1_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_21_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_22_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_2_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_4_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\jiarui\photo_5_2024-07-24_14-07-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_11_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_15_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_19_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_1_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_2_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_3_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_5_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_7_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_9_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\frontView2.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\me.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_14_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_11_56_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240709_01_12_19_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_40_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_24_43_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_48_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_27_53_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_20_28_05_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_34_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240718_21_43_01_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_15_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_30_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sinyu\WIN_20240725_14_01_33_Pro.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn1.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn10.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn5.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn6.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn7.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn8.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn9.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image10.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image8.jpg rejected: Fake image detected by GAN model
+
+Subfolder 'sherna' is approved. Pass rate: 0.72
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_11_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_15_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_19_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_1_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_2_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_3_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_5_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_7_2024-07-24_17-59-24.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\sherna\photo_9_2024-07-26_16-13-22.jpg rejected: Fake image detected by GAN model
+
+Subfolder 'yinong' is approved. Pass rate: 0.55
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn1.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn10.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn5.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn6.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn7.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn8.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\yyn9.jpg rejected: Fake image detected by GAN model
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image10.jpg rejected: Blurriness
+Image C:/xampp/htdocs/ImageCheckingSystem/new/uploads\TeamDataset\TeamDataset\yinong\YYN_captured_image8.jpg rejected: Fake image detected by GAN model
+WARNING! Subfolders not approved:
+- cindy (Pass rate: 0.52)
+- jiarui (Pass rate: 0.50)
+- sinyu (Pass rate: 0.43)
+
+Processing folder: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\ApprovedImages\TeamDataset\cindy
+Representative features for cindy: [-0.07350786  0.04328861  0.04884178 -0.11081627 -0.09709682 -0.00778676
+ -0.01683699 -0.1489249   0.12232966 -0.18743744  0.24720172 -0.10269837
+ -0.23294071 -0.02372152 -0.01952814  0.16039247 -0.17685198 -0.12346459
+ -0.1122237  -0.03901863  0.01389757  0.00721717  0.03564132  0.08882837
+ -0.07328709 -0.32742986 -0.09757074 -0.14280736 -0.00560636 -0.01548689
+ -0.03677914  0.04346239 -0.18121269 -0.01833992  0.01880583  0.05663477
+ -0.01776107 -0.06242408  0.18879224 -0.04499476 -0.23429074 -0.03796472
+  0.06456231  0.19760564  0.16456217  0.00935223 -0.01216938 -0.07609562
+  0.1405133  -0.20789099  0.03019843  0.08610061  0.08903609  0.05649001
+  0.02957637 -0.12495152  0.06778944  0.13187219 -0.19253438  0.02581359
+  0.07372232 -0.14557295 -0.02875494 -0.06318312  0.24806851  0.13207068
+ -0.10785308 -0.15970962  0.1553182  -0.17468345 -0.03738566  0.07858248
+ -0.16045063 -0.15773684 -0.24441222 -0.00067779  0.42168588  0.10940251
+ -0.14368958  0.01758741 -0.03142814 -0.02830204  0.11294757  0.12336402
+ -0.03468902  0.01815521 -0.05083419  0.03677634  0.22300159 -0.08265277
+ -0.01892731  0.22506289 -0.06227592  0.01875528  0.06192617  0.0052019
+ -0.05182414  0.00490999 -0.1330551   0.06037868 -0.0143646  -0.09817884
+ -0.02950205  0.03692365 -0.16996303  0.09125756 -0.05125369 -0.03103466
+ -0.01395269 -0.02923685 -0.09041469 -0.0558577   0.17422884 -0.2268657
+  0.17962415  0.16154826  0.05741134  0.14082904  0.04472618  0.07608607
+ -0.00589119 -0.0285902  -0.21159187 -0.05525195  0.15076453 -0.04077486
+  0.08673788 -0.02396643]
+
+Processing folder: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\ApprovedImages\TeamDataset\jiarui
+Representative features for jiarui: [-7.33568966e-02  7.08437972e-02  6.71257833e-02 -7.11613130e-02
+ -5.53903915e-02  3.01373319e-03 -8.28837641e-02 -1.39862487e-01
+  1.25595093e-01 -1.13517254e-01  2.93824866e-01  9.19629470e-04
+ -1.62100326e-01 -1.36666205e-01 -3.45835313e-02  1.70951728e-01
+ -2.27672383e-01 -1.41882805e-01 -1.46102395e-02 -2.49939710e-02
+  5.54330535e-02 -2.79281172e-02  3.98112312e-02  4.99462532e-02
+ -1.38892844e-01 -3.44947807e-01 -1.24273511e-01 -1.06870834e-01
+  3.81007832e-02 -2.87630903e-02 -4.64960304e-02  9.27218088e-03
+ -2.06648409e-01 -1.36123928e-02  3.97741678e-03  5.66560836e-02
+  4.17592004e-04 -6.96190065e-02  1.81120876e-01 -2.15395424e-03
+ -2.11479776e-01  4.78848182e-02  8.23689578e-03  2.08119676e-01
+  1.54737327e-01  5.84678994e-02  3.00742891e-02 -8.96008816e-02
+  1.10092096e-01 -1.46167938e-01  9.18361917e-02  1.39024431e-01
+  6.27836753e-02  4.99352207e-02 -2.11271355e-02 -1.22496979e-01
+  1.80714685e-02  1.21123312e-01 -1.53610770e-01 -7.80143763e-03
+  9.31978785e-03 -8.31511375e-02  1.57480917e-02 -7.45586259e-02
+  2.09927794e-01  1.54096566e-01 -8.06724280e-02 -2.04623513e-01
+  1.28612911e-01 -1.23742614e-01 -1.13187622e-01  3.26939079e-02
+ -1.73134081e-01 -1.43059716e-01 -3.26586790e-01  3.27571197e-02
+  4.21577960e-01  9.63400118e-02 -1.71394065e-01  5.58564728e-02
+ -4.30944311e-02 -4.57007056e-02  1.10630922e-01  1.28683250e-01
+ -4.71512387e-02  5.07812388e-02 -5.92740495e-02  6.73393765e-03
+  2.47175455e-01 -3.44455778e-02 -7.78232329e-02  1.86234821e-01
+ -5.22396816e-02  9.40191559e-02  5.34358080e-02 -7.68888794e-03
+ -1.46776773e-02  6.43541124e-02 -1.12781588e-01  1.14500475e-02
+  2.50438694e-04 -1.50065920e-02 -1.99482800e-02  8.78099743e-02
+ -1.74191054e-01  1.16591498e-01  1.93473895e-02 -6.69573992e-03
+ -3.57632898e-03  4.44411351e-02 -1.27764635e-01 -5.52672339e-02
+  1.38986068e-01 -2.44130280e-01  2.72002440e-01  2.04836302e-01
+  1.21163676e-01  1.39218932e-01  1.34657675e-01  5.81300952e-02
+ -2.08212268e-02 -2.49557297e-02 -1.93742618e-01 -3.66679039e-02
+  1.32966552e-01 -4.44451235e-02  1.40748713e-01  2.57281549e-02]
+
+Processing folder: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\ApprovedImages\TeamDataset\sherna
+Representative features for sherna: [-7.26564891e-02  7.02344967e-02  2.94711555e-02 -8.36139284e-02
+ -1.28208291e-01 -7.37113389e-02 -5.14321649e-02 -9.04677287e-02
+  1.64583834e-01 -1.52308741e-01  2.06366720e-01 -2.64925814e-02
+ -1.93215530e-01 -2.00575540e-03 -4.29448278e-02  1.90374472e-01
+ -2.47941102e-01 -1.40613109e-01 -1.95138726e-02  3.21608405e-02
+  1.05554631e-01  1.20928772e-02  4.24504123e-02  6.84535546e-02
+ -1.21853869e-01 -3.61067057e-01 -8.76445664e-02 -8.14047775e-02
+ -3.38283048e-03 -3.74241325e-02 -1.82332383e-02  2.92390479e-02
+ -2.19547059e-01 -3.07923068e-02  2.66244889e-02  5.64822251e-02
+ -3.63882791e-02 -8.13847104e-02  2.04977323e-01  1.42905209e-02
+ -2.78481733e-01 -3.26194848e-02  3.90430412e-02  2.30478759e-01
+  1.42650328e-01  2.39436331e-02  1.04047216e-02 -1.19261234e-01
+  1.06060297e-01 -2.27782975e-01  3.51363410e-02  1.15255031e-01
+  6.83554001e-02  5.17113222e-02 -3.02327611e-03 -1.00174263e-01
+  1.02600962e-01  1.49405159e-01 -2.17985213e-01  3.27732367e-02
+  1.09030417e-01 -1.40164569e-01  2.28835453e-02 -3.76459242e-02
+  2.50091885e-01  8.33279975e-02 -1.01214574e-01 -1.29150622e-01
+  9.70295242e-02 -1.58636378e-01 -6.26908663e-02  5.17162947e-02
+ -1.06315190e-01 -2.20275751e-01 -3.04173589e-01 -2.68701664e-02
+  3.83459823e-01  1.35004393e-01 -1.48724090e-01  3.13744420e-02
+ -1.85264793e-02 -4.78362319e-03  1.70764761e-01  1.67265832e-01
+ -2.72912217e-02  1.91695263e-02 -1.09341122e-01  5.19605481e-02
+  2.30001096e-01 -8.24621746e-02 -1.93985470e-02  2.37321479e-01
+ -1.77936220e-02  4.38107279e-02  2.93268255e-02  3.86048369e-02
+ -7.86356894e-02  4.23153743e-02 -1.03505937e-01  4.01795951e-02
+  2.63470641e-02 -3.46824911e-02 -2.66092766e-02  1.15876167e-01
+ -1.42579110e-01  4.93081888e-02 -4.48918340e-02 -4.25523905e-02
+  1.41385966e-02 -1.16444399e-02 -1.04347754e-01 -1.56069283e-01
+  7.97409732e-02 -2.00611987e-01  1.93795455e-01  1.98082986e-01
+  5.40601954e-03  1.47973664e-01  5.32183908e-02  7.58109460e-02
+ -2.70624895e-02 -4.69575790e-02 -2.02174446e-01 -2.57867788e-04
+  1.35268262e-01 -4.77936957e-03  1.11188101e-01 -4.19650253e-02]
+
+Processing folder: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\ApprovedImages\TeamDataset\sinyu
+Representative features for sinyu: [-0.11357164  0.05854498  0.03445687 -0.08347124 -0.09263208 -0.02200044
+ -0.05732666 -0.12640473  0.18200059 -0.13847732  0.28284002 -0.04222473
+ -0.15735775 -0.11465195 -0.04934427  0.22424026 -0.23755441 -0.15068512
+ -0.02958643  0.01548016  0.05824209 -0.05427102  0.03935357  0.06294269
+ -0.10153553 -0.40735597 -0.08928828 -0.12826328 -0.00051563 -0.01725759
+ -0.02544482  0.05965987 -0.18171738 -0.01715732  0.00281225  0.06149638
+ -0.01590097 -0.0577325   0.18651319 -0.02484775 -0.27309266 -0.04125175
+  0.07606504  0.18134361  0.16244604  0.03765215  0.01976402 -0.12156706
+  0.1259347  -0.19965434  0.03364705  0.11478969  0.08281471  0.04799721
+  0.01130144 -0.12346421  0.02967057  0.10271675 -0.18274535 -0.0164223
+  0.03993017 -0.09166519 -0.04150152 -0.10168211  0.25786476  0.17581443
+ -0.11326013 -0.16772268  0.16814846 -0.13252602 -0.06263831  0.03836603
+ -0.13619499 -0.19725961 -0.29706785 -0.03090926  0.37282753  0.09116469
+ -0.1584944   0.01963172 -0.06709701 -0.03715153  0.07833104  0.15233645
+ -0.01730515  0.0112237  -0.07093426 -0.04075164  0.21127849 -0.08043851
+  0.01661437  0.21255445 -0.04630574  0.06484399  0.00059094  0.02752843
+ -0.07486802  0.07509734 -0.13003936  0.00755273 -0.02489658 -0.01960928
+ -0.01116369  0.05535894 -0.16413279  0.08008352  0.00060763  0.00832729
+  0.03305412  0.00955503 -0.07456553 -0.12291646  0.11683952 -0.19422628
+  0.2143808   0.17412359  0.07786586  0.16902039  0.10823306  0.10811856
+ -0.03209778 -0.05380667 -0.21581488  0.01416236  0.1009359  -0.0581691
+  0.02971898  0.00345718]
+
+Processing folder: C:\xampp\htdocs\otp_test\FYP-Homies-FR-System\app\ImageCheckingSystem\ApprovedImages\TeamDataset\yinong
+Representative features for yinong: [-0.07437565  0.08509423  0.01758112 -0.08062613 -0.03271359 -0.1155197
+ -0.04524972 -0.12225928  0.09946669 -0.04104572  0.22117658 -0.0659277
+ -0.19084053 -0.10956127 -0.050806    0.15179375 -0.22305553 -0.10147166
+ -0.05464591 -0.01512843  0.10639844  0.01840974  0.01827527  0.03705027
+ -0.0773068  -0.32342642 -0.08570828 -0.07837123  0.02960548  0.00851437
+  0.05113871  0.01536319 -0.21584111 -0.08074959  0.04873149  0.04185309
+ -0.00733035 -0.00670464  0.19241348  0.01764785 -0.18764932  0.0176851
+  0.05557942  0.25886197  0.21199934  0.11016512  0.0323681  -0.15804701
+  0.10899813 -0.1513127   0.03806719  0.15379567  0.07100196  0.06069576
+  0.00735216 -0.09296664  0.06665147  0.13751199 -0.18619607  0.0320376
+  0.12122585 -0.07174412 -0.01487614 -0.08171569  0.22711998 -0.00065914
+ -0.12783565 -0.14864096  0.12115038 -0.15400822 -0.12273263  0.03814062
+ -0.12717933 -0.14346214 -0.35512885 -0.00391259  0.37627501  0.09205339
+ -0.17932915  0.03787422 -0.04402231  0.0070652   0.1775324   0.10390959
+ -0.02548848 -0.02340612 -0.07343814 -0.02757963  0.21638895 -0.0392745
+ -0.05124315  0.1716415  -0.03635526  0.0524275   0.00398372  0.01081481
+ -0.06695441  0.06781925 -0.11372421  0.00363301  0.03057581 -0.0243222
+  0.01473939  0.10731963 -0.14733964  0.13390922 -0.00050382  0.02815579
+  0.00370566 -0.00679615 -0.10469738 -0.05489103  0.13206083 -0.19348615
+  0.26962154  0.19558332  0.05790103  0.08921289  0.10186897  0.08393707
+ -0.04671075  0.01165264 -0.21404206 -0.04569631  0.07946462 -0.01763412
+  0.15119198 -0.01129166]

@@ -36,11 +36,9 @@ $accounts = json_decode($accounts, true)['accounts'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
-
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <title>Edit Profile</title>
     <style>
@@ -68,15 +66,26 @@ $accounts = json_decode($accounts, true)['accounts'];
             bottom: 10px;
             right: 10px;
         }
+        .fixed-top-heading {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 0; 
+            z-index: 1000; 
+            text-align: center;
+            color:white;
+            background-color: #333; 
+        }
+        .content-wrapper {
+            margin-top: 80px; /* Adjust this value to match the height of the fixed heading */
+        }
+
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="profile-container flex flex-col items-center">
-        <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold">System Admin Profile Management</h1>
-            <div class="flex items-center space-x-4">
-                <h2 class="text-lg">View Profile</h2>
-            </div>
+    <div class="profile-container flex flex-col items-center content-wrapper">
+        <div class="w-full flex justify-between items-center" style="background-color:#333;">
+            <h1 class="fixed-top-heading text-xl font-bold" style="color:white;">System Admin Profile Management</h1>
         </div>
 
         <div class="w-full max-w-screen-xl mt-4 bg-white shadow-md rounded-lg">
@@ -109,8 +118,6 @@ $accounts = json_decode($accounts, true)['accounts'];
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                         </tr>
                         <?php elseif ($profile == 'Business Owner') : ?>
                         <tr>
@@ -120,8 +127,6 @@ $accounts = json_decode($accounts, true)['accounts'];
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                         </tr>
                         <?php endif; ?>
                     </thead>
@@ -134,8 +139,8 @@ $accounts = json_decode($accounts, true)['accounts'];
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['name'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['email'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                                <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td> -->
                             </tr>
                     <?php elseif ($account['profile'] == 'Business Owner') : ?>
                             <tr>
@@ -145,8 +150,8 @@ $accounts = json_decode($accounts, true)['accounts'];
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['email'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
                                 <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')"><?= $account['company'] ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                                <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount(<?= json_encode($account['id'])?>, '<?= htmlspecialchars($account['profile'])?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td> -->
                             </tr>            
                     <?php endif; ?>
                 <?php endforeach; ?>
@@ -157,7 +162,7 @@ $accounts = json_decode($accounts, true)['accounts'];
     </div>
 
     <!--Modal-->
-    <div class="modal fade" id="updateDescriptionModal" tabindex="-1" aria-labelledby="updateDescriptionModalLabel" aria-hidden="true">
+    <div class="modal fade content-wrapper" id="updateDescriptionModal" tabindex="-1" aria-labelledby="updateDescriptionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">

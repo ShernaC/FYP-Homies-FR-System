@@ -259,7 +259,7 @@ class SysAdmin{
     }
 
     // System Admin - Update user account
-    function updateAccount($user_id, $userName, $name, $email, $profile, $company, $new_password)
+    function updateAccount($user_id, $userName, $name, $email, $profile, $company, $new_password, $new_company_code)
     {
         global $conn;
         
@@ -366,9 +366,46 @@ class SysAdmin{
                 }
                 else
                 {
-                    $update = "UPDATE businessowner SET username=?, name=?, email=?, password=?, company=? WHERE id=?";
-                    $stmt = mysqli_prepare($conn, $update);
-                    mysqli_stmt_bind_param($stmt, "sssssi", $userName, $name, $email, $new_password_hash, $company, $user_id);
+                    // Check if new code is the same as the previous one
+                    if ($new_company_code != "" or $new_company_code != null){
+                        // Hash new password
+                        $new_code_hash = md5($new_company_code);
+
+                        // Query db to get current password
+                        if ($profile=='System Admin')
+                            $prev_code_query = "SELECT company_code FROM sysadmin WHERE id = ?";
+                        else
+                            $prev_code_query = "SELECT company_code FROM businessowner WHERE id = ?";
+
+                        // Prepare statement
+                        $stmt = mysqli_prepare($conn, $prev_code_query);
+                        if (!$stmt) {
+                            throw new Exception("Error preparing statement: " . mysqli_error($conn));
+                        }
+
+                        // Bind parameters
+                        mysqli_stmt_bind_param($stmt, "i", $user_id);
+                        mysqli_stmt_execute($stmt);
+                        mysqli_stmt_store_result($stmt);
+                        
+                        // Check if there are any changes to the password
+                        if (mysqli_stmt_num_rows($stmt) > 0) {
+                            // Get the current password hash
+                            mysqli_stmt_bind_result($stmt, $prev_code_hash);
+                            mysqli_stmt_fetch($stmt);
+                        }
+                    }
+
+                    if ($prev_code_hash == $new_code_hash){
+                        $update = "UPDATE businessowner SET username=?, name=?, email=?, password=?, company=? WHERE id=?";
+                        $stmt = mysqli_prepare($conn, $update);
+                        mysqli_stmt_bind_param($stmt, "sssssi", $userName, $name, $email, $new_password_hash, $company, $user_id);
+                    }
+                    else{
+                        $update = "UPDATE businessowner SET username=?, name=?, email=?, password=?, company=?, company_code=? WHERE id=?";
+                        $stmt = mysqli_prepare($conn, $update);
+                        mysqli_stmt_bind_param($stmt, "sssssii", $userName, $name, $email, $new_password_hash, $company, $new_code_hash, $user_id);
+                    }
                 }
             } else {
                 if ($profile=='System Admin')
@@ -379,10 +416,46 @@ class SysAdmin{
                 }
                 else
                 {
-                    echo 'Here: Business Owner 2';
-                    $update = "UPDATE businessowner SET username=?, name=?, email=?, company=? WHERE id=?";
-                    $stmt = mysqli_prepare($conn, $update);
-                    mysqli_stmt_bind_param($stmt, "ssssi", $userName, $name, $email, $company, $user_id);
+                    // Check if new code is the same as the previous one
+                    if ($new_company_code != "" or $new_company_code != null){
+                        // Hash new password
+                        $new_code_hash = md5($new_company_code);
+
+                        // Query db to get current password
+                        if ($profile=='System Admin')
+                            $prev_code_query = "SELECT company_code FROM sysadmin WHERE id = ?";
+                        else
+                            $prev_code_query = "SELECT company_code FROM businessowner WHERE id = ?";
+
+                        // Prepare statement
+                        $stmt = mysqli_prepare($conn, $prev_code_query);
+                        if (!$stmt) {
+                            throw new Exception("Error preparing statement: " . mysqli_error($conn));
+                        }
+
+                        // Bind parameters
+                        mysqli_stmt_bind_param($stmt, "i", $user_id);
+                        mysqli_stmt_execute($stmt);
+                        mysqli_stmt_store_result($stmt);
+                        
+                        // Check if there are any changes to the password
+                        if (mysqli_stmt_num_rows($stmt) > 0) {
+                            // Get the current password hash
+                            mysqli_stmt_bind_result($stmt, $prev_code_hash);
+                            mysqli_stmt_fetch($stmt);
+                        }
+                    }
+
+                    if ($prev_code_hash == $new_company_code){
+                        $update = "UPDATE businessowner SET username=?, name=?, email=?, company=? WHERE id=?";
+                        $stmt = mysqli_prepare($conn, $update);
+                        mysqli_stmt_bind_param($stmt, "ssssi", $userName, $name, $email, $company, $user_id);
+                    }
+                    else{
+                        $update = "UPDATE businessowner SET username=?, name=?, email=?, company=?, company_code=? WHERE id=?";
+                        $stmt = mysqli_prepare($conn, $update);
+                        mysqli_stmt_bind_param($stmt, "ssssii", $userName, $name, $email, $company, $new_code_hash, $user_id);
+                    }
                 }
             }
             
@@ -563,13 +636,11 @@ class BusinessOwner{
     private String $name;
     private String $email;
     private String $profile;
-    //private Face faceData;
     private String $company;
-    //private $subscription;
+    private String $company_code;
     private String $password;
 
-
-    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "", $company= "")
+    public function __construct($id = 0, $userName = "", $name = "", $email = "", $password = "", $company= "", $company_code="")
     {
         $this->id = $id;
         $this->name = $name;
@@ -579,8 +650,7 @@ class BusinessOwner{
         $this->profile = "Business Owner";
         $this->suspend_status = false;
         $this->company = $company;
-
-        //$this->subscription = $subscription;
+        $this->company_code = $company_code;
     }
     
     public function getSuspendStatus(){
@@ -609,6 +679,10 @@ class BusinessOwner{
 
     public function getCompany(){
         return $this->company;
+    }
+
+    public function getCode(){
+        return $this->company_code;
     }
 
     public function setID($id){
@@ -641,7 +715,9 @@ class BusinessOwner{
         $this->company = $company;
     }
 
-    // add subscription getset later
+    function setCode($code){
+        $this->company_code = $code;
+    }
 
     public function createBusinessOwnerAccount($profile) {
         global $conn;
@@ -663,19 +739,20 @@ class BusinessOwner{
                 throw new Exception("Username already exists");
             }
     
-            //$checkStmt->close();
-    
             // Hash the password using MD5
             error_log("Original password: " . $this->password);
             $hashedPassword = md5($this->password);
             error_log("MD5 hashed password: " . $hashedPassword);
+
+            // Hash the company code
+            $hashed_company_code = md5($this->company_code);
     
-            $stmt = $conn->prepare("INSERT INTO businessowner (userName, name, email, profile, password, company) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO businessowner (userName, name, email, profile, password, company, company_code) VALUES (?, ?, ?, ?, ?, ?, ?)");
             if (!$stmt) {
                 throw new Exception("Prepare statement failed: " . $conn->error);
             }
     
-            $stmt->bind_param("ssssss", $this->userName, $this->name, $this->email, $profile, $hashedPassword, $this->company);
+            $stmt->bind_param("sssssss", $this->userName, $this->name, $this->email, $profile, $hashedPassword, $this->company, $hashed_company_code);
             error_log("Binding parameters: Username={$this->userName}, Name={$this->name}, Email={$this->email}, Password=******, Profile={$profile}, Company={$this->company}");
     
             if ($stmt->execute()) {
@@ -689,14 +766,6 @@ class BusinessOwner{
             } else {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
-            
-            // // Add free account record to subscription details table
-            // $stmt2 = $conn->prepare("INSERT INTO subscription_details (subscription_id, userName, startDate, endDate) values (?, ?, ?, ?)");
-            
-            // $currentDate = date('Y-m-d');
-            // $nextYearDate = date('Y-m-d', strtotime('+1 year', strtotime($currentDate)));
-
-            // $stmt2->bind_param("isss", 1, $this->userName, $currentDate, $nextYearDate);
 
             // Create subscription details  
             $subscriptionDetails = new subscriptionDetails();

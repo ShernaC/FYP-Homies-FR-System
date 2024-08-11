@@ -39,6 +39,7 @@
         password VARCHAR(255) NOT NULL,
         company VARCHAR(255),
         subscription_id INT DEFAULT 1,
+        company_code VARCHAR(255) NOT NULL,
         otp VARCHAR(255),
         suspend_status BOOLEAN DEFAULT FALSE
     )";
@@ -68,11 +69,11 @@
        /* FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)*/
     )";
 
-    $sql_subscription_data = "INSERT INTO subscription (name, price, description) VALUES 
-                                ('Free trial', 0.00, 'One-month access to 3 facial slots for trial users.'), 
-                                ('Small Business Plan', 50.00, 'Supports up to 50 face datasets.'), 
-                                ('Medium-Sized Business Plan', 100.00, 'Supports up to 100 face datasets'), 
-                                ('Large Enterprise Plan', 125.00, 'Supports unlimited face datasets.');";    
+    // $sql_subscription_data = "INSERT INTO subscription (name, price, description) VALUES 
+    //                             ('Free trial', 0.00, 'One-month access to 3 facial slots for trial users.'), 
+    //                             ('Small Business Plan', 50.00, 'Supports up to 50 face datasets.'), 
+    //                             ('Medium-Sized Business Plan', 100.00, 'Supports up to 100 face datasets'), 
+    //                             ('Large Enterprise Plan', 125.00, 'Supports unlimited face datasets.');";    
 
     
     $sql_transaction = "CREATE TABLE IF NOT EXISTS transaction (
@@ -84,6 +85,13 @@
         transaction_date DATE NOT NULL,
         FOREIGN KEY (subscription_id) REFERENCES subscription(id),
         FOREIGN KEY (businessowner_id) REFERENCES businessowner(id)
+    )";
+
+    $sql_company = "CREATE TABLE IF NOT EXISTS company (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        subscription_name VARCHAR(255) NOT NULL DEFAULT 'Free trial'
     )";
 
     // KIV - Face Data
@@ -112,6 +120,7 @@
     // $conn->query($sql_subscription_data);
     $conn->query($sql_transaction);
     //$conn->query($sql_face_data);
+    $conn->query($sql_company);
 
     /*if ($conn->query($sql_sysadmin) === TRUE && $conn->query($sql_businessowner) === TRUE && $conn->query($sql_profile) === TRUE) {
         echo "Tables sysadmin and businessowner created successfully";

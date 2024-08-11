@@ -8,13 +8,13 @@ $accounts = json_decode($accounts, true)['accounts'];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Admin Account Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>System Admin Home Page Account Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -44,81 +44,83 @@ $accounts = json_decode($accounts, true)['accounts'];
         .modal-backdrop{
             z-index: 1;
         }
+        .header {
+            color:white;
+            background-color: #333
+        }
     </style>
 </head>
 <body class="bg-gray-100">
-<div class="flex flex-col items-center">
-    <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Account Management</h1>
-    </div>
-    <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg">
-        <div class="flex justify-between p-4">
-            <button id="back" class="text-2xl"><i class="fas fa-chevron-left"></i></button>
-            <div class="relative">
-                <input type="text" id="searchInput" placeholder="Search" class="border rounded-full py-2 px-4">
-                <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
-            </div>
+    <div class="flex flex-col h-screen items-center">
+        <!-- Title -->
+        <div class="header w-full p-4 flex flex-col justify-between items-center">
+            <h1 class="text-xl font-bold text-white">System Admin Account Management</h1>
         </div>
+    
+        <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg">
+            <div class="flex justify-between p-4">
+                <button id="back" class="text-2xl"><i class="fas fa-chevron-left"></i></button>
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Search" class="border rounded-full py-2 px-4">
+                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
 
-        <style>
-            .scrollable-tbody {
-                max-height: 200px !important;
-                overflow-y: auto !important;
-            }
-            .scrollable-table-container {
-                display: block;
-                max-height: 420px;
-                overflow-y: auto;
-            }
+            <style>
+                .scrollable-tbody {
+                    max-height: 200px !important;
+                    overflow-y: auto !important;
+                }
+                .scrollable-table-container {
+                    display: block;
+                    max-height: 420px;
+                    overflow-y: auto;
+                }
 
-            thead th {
-                /*position: sticky;*/
-                top: 0;
-                background: #f8f9fa; 
-                z-index: 1;
-                width:auto
-                /* box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4); */
-            }
-        </style>
+                thead th {
+                    /*position: sticky;*/
+                    top: 0;
+                    background: #f8f9fa; 
+                    z-index: 1;
+                    width:auto
+                    /* box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4); */
+                }
+            </style>
 
-        <div class="scrollable-table-container">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                    </tr>
-                </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <?php foreach ($accounts as $key => $account) : ?>
-                    <tr class="account-row" data-account="<?= $account['id'] ?>" data-info="<?= strtolower(implode(' ', $account)) ?>">
-                        <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['userName'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['name'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['email'] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
-                    </tr>            
-                <?php endforeach; ?>
-
-                <!--tr id="noAccountsFound" style="display: none;">
-                    <td colspan="7" class="text-center py-4 text-black-500">No Accounts Found!</td>
-                </tr-->
-            </tbody>
-        </table>
-    </div>
+            <div class="scrollable-table-container">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                            <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th> -->
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                        </tr>
+                    </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?php foreach ($accounts as $key => $account) : ?>
+                        <tr class="account-row" data-account="<?= $account['id'] ?>" data-info="<?= strtolower(implode(' ', $account)) ?>">
+                            <td class="px-6 py-4 whitespace-nowrap"><?= $account['id'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['userName'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['name'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><?= $account['email'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap" onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><?= $account['profile'] ?></span></td>
+                            <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="editAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-user-edit"></i></button></td> -->
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button onclick="suspendAccount('<?= $account['id'] ?>', '<?= $account['profile'] ?>')" class="text-gray-600 hover:text-gray-900"><i class="fas fa-minus-circle"></i></button></td>
+                        </tr>            
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="mt-4">
         <button onclick="window.location.href='accountAdd.php'" class="text-4xl text-gray-600 hover:text-gray-900"><i class="fas fa-plus-circle"></i></button>
     </div>
-    <div class="w-full max-w-6xl mt-3 text-right text-gray-500">
+    <div class="w-full max-w-6xl mt-3 text-right text-gray-500 bottom-right">
         <a href="troubleshoot.php" class="mr-4">Troubleshoot</a>
         <a href="login.php">Logout</a>
     </div>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
         .modal {
@@ -36,15 +37,23 @@
             bottom: 10px;
             right: 10px;
         }
+        .header {
+            background-color: #333;
+            color: white;
+        }
+        .has-danger .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+        .has-danger .invalid-feedback {
+            display: block;
+            color: #dc3545;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 <div class="flex flex-col items-center">
-    <div class="bg-blue-100 w-full p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">System Admin Page</h1>
-        <div class="flex items-center space-x-4">
-            <h2 class="text-lg">Create Account</h2>
-        </div>
+    <div class="header w-full p-4 flex flex-col justify-between items-center">
+        <h1 class="text-xl font-bold text-white">System Admin Account Management</h1>
     </div>
     <div class="w-full max-w-6xl mt-4 bg-white shadow-md rounded-lg p-4">
         <button onclick="window.location.href='index.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
@@ -71,10 +80,9 @@
                     <option value="System Admin">System Admin</option>
                     <option value="Business Owner">Business Owner</option>
                 </select>
-
             </div>
 
-            <div>
+            <div id="companyWrapper">
                 <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
                 <input type="text" id="company" placeholder="Company(optional)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
@@ -83,6 +91,14 @@
                 <div class="relative">
                     <input type="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="togglePasswordVisibility()"><i id="passwordIcon" class="fas fa-eye"></i></button>
+                </div>
+                <span id="passwordError" class="error"></span>
+            </div>
+            <div class='companyWrapper'>
+                <label for="password" class="block text-sm font-medium text-gray-700">Company Code</label>
+                <div class="relative">
+                    <input type="password" id="c_password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <button type="button" class="absolute inset-y-0 right-0 px-3 py-2" onclick="toggleCodeVisibility()"><i id="codeIcon" class="fas fa-eye"></i></button>
                 </div>
                 <span id="passwordError" class="error"></span>
             </div>
@@ -96,17 +112,6 @@
         <a href="login.php">Logout</a>
     </div>
 </div>
-
-<!-- Modal -->
-<!--<div id="myModal" class="modal flex justify-center items-center">-->
-<!--    <div class="bg-green-500 p-8 rounded-lg shadow-lg text-center">-->
-<!--        <p class="text-white text-xl mb-4">Confirm Create?</p>-->
-<!--        <div class="flex justify-around">-->
-<!--            <button class="bg-black text-white py-2 px-2 rounded" onclick="confirmAction()">Confirm</button>-->
-<!--            <button class="bg-black text-white py-2 px-2 rounded" onclick="closeModal()">Cancel</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -131,6 +136,17 @@
 <script>
     closeModal();
 
+    document.getElementById('profile').addEventListener('change', function () {
+        var profile = this.value;
+        var companyWrapper = document.getElementById('companyWrapper');
+        
+        if (profile === 'System Admin') {
+            companyWrapper.style.display = 'none'; // Hide the company field
+        } else {
+            companyWrapper.style.display = 'block'; // Show the company field
+        }
+    });
+
     function togglePasswordVisibility() {
         var passwordInput = document.getElementById('password');
         var passwordIcon = document.getElementById('passwordIcon');
@@ -145,6 +161,19 @@
         }
     }
 
+    function toggleCodeVisibility() {
+        var codeInput = document.getElementById('c_password');
+        var codeIcon = document.getElementById('codeIcon');
+        if (codeInput.type === 'password') {
+            codeInput.type = 'text';
+            codeIcon.classList.remove('fa-eye');
+            codeIcon.classList.add('fa-eye-slash');
+        } else {
+            codeInput.type = 'password';
+            codeIcon.classList.remove('fa-eye-slash');
+            codeIcon.classList.add('fa-eye');
+        }
+    }
 
     function showModal() {
         if (validateForm()) {
@@ -171,7 +200,8 @@
                     email: document.getElementById('email').value,
                     profile: document.getElementById('profile').value,
                     company: document.getElementById('company').value,
-                    password: document.getElementById('password').value
+                    password: document.getElementById('password').value,
+                    c_password: document.getElementById('c_password').value
                 },
                 success: function(response) {
                     alert('Creation successful!');
@@ -179,8 +209,6 @@
                     window.location.href = 'index.php';
                 }
             });
-
-            alert('Account created successful!');
             window.location.href = 'index.php';
         }, 500); // 延迟 500 毫秒后显示 alert
     }
@@ -218,6 +246,8 @@
 
         return isValid;
     }
+
+
 
 </script>
 </body>

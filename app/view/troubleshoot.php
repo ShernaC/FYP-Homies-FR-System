@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Troubleshoot Creation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
-    <!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -37,6 +37,10 @@
             bottom: 10px;
             right: 10px;
         }
+        .header {
+            background-color: #333;
+            color: white;
+        }
     </style>
 </head>
 
@@ -44,20 +48,16 @@
 <div class="flex flex-col h-screen">
 
     <!-- Title -->
-    <div class="bg-blue-100 p-4 flex justify-between items-center">
-        <span class="text-lg font-bold">System Admin Page</span>
-        <h1 class="text-lg ">Troubleshoot</h1>
+    <div class="header w-full p-4 flex flex-col justify-between items-center">
+        <h1 class="text-xl font-bold text-white">System Admin Account Management</h1>
     </div>
-    <div style="padding-left: 20px;">
-        <button onclick="window.location.href='sysAdminPg.php'" class="text-2xl mb-4"><i class="fas fa-chevron-left"></i></button>
-    </div>
-
-
+    
     <!-- Main Content -->
     <div class="flex-grow flex items-center justify-center">
         <div class="bg-white shadow-md rounded-lg p-8 w-96">
             <div class="flex items-center mb-4">
-                <i class="fas fa-search mr-2"></i>
+                <!-- <i class="fas fa-search mr-2"></i> -->
+                <button onclick="window.location.href='sysAdminPg.php'"><i class="fas fa-chevron-left mr-3"></i></button>
                 <h2 class="text-lg font-semibold">Troubleshoot Request</h2>
             </div>
             <form>
@@ -65,10 +65,10 @@
                     <input type="text" id="accountid" placeholder="Account ID" class="w-full p-2 border border-gray-300 rounded">
                     <span id="idError" class="error"></span>
                 </div>
-                <div class="mb-4">
+                <!-- <div class="mb-4">
                     <input type="email" id="email" placeholder="Email" class="w-full p-2 border border-gray-300 rounded">
                     <span id="emailError" class="error"></span>
-                </div>
+                </div> -->
                 <div class="mb-4">
                     <textarea placeholder="Description" class="w-full p-2 border border-gray-300 rounded"></textarea>
                 </div>

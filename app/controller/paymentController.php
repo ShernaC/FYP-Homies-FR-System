@@ -20,22 +20,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $amount = 0;
     $successUrl = '';
     $cancelUrl = '';
+    $name = '';
 
     switch ($subscriptionId) {
         case 2:
             $amount = 5000; // Amount in cents
             $successUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . urlencode($username) . '&subscriptionId=2';
             $cancelUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_cancel.php?username=' . urlencode($username) . '&subscriptionId=2';
+            $name = 'Small Business Plan';
             break;
         case 3:
             $amount = 10000;
             $successUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . urlencode($username) . '&subscriptionId=3';
             $cancelUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_cancel.php?username=' . urlencode($username) . '&subscriptionId=3';
+            $name = 'Medium-Sized Business Plan';
             break;
         case 4:
             $amount = 12500;
             $successUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_success.php?username=' . urlencode($username) . '&subscriptionId=4';
-            $cancelUrl = 'http:/localhost/otp_test/FYP-Homies-FR-System/app/view/payment_cancel.php?username=' . urlencode($username) . '&subscriptionId=4';
+            $cancelUrl = 'http://localhost/otp_test/FYP-Homies-FR-System/app/view/payment_cancel.php?username=' . urlencode($username) . '&subscriptionId=4';
+            $name = 'Large Enterprise Plan';
             break;
         default:
             http_response_code(400);
@@ -44,16 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     $paymentController = new PaymentController();
-    $sessionId = $paymentController->createCheckoutSession($amount, 'sgd', $successUrl, $cancelUrl);
+    $sessionId = $paymentController->createCheckoutSession($amount, 'sgd', $successUrl, $cancelUrl, $name);
 
     header('Content-Type: application/json');
     echo json_encode(['sessionId' => $sessionId]);
     exit;
-
 }
 
 class PaymentController {    
-    public function createCheckoutSession($amount, $currency = 'sgd', $successUrl, $cancelUrl) {
+    public function createCheckoutSession($amount, $currency = 'sgd', $successUrl, $cancelUrl, $name) {
         if (!class_exists('\Stripe\Stripe')) {
             die('Stripe class not found. Please check the Stripe PHP library installation.');
         }
@@ -61,12 +64,12 @@ class PaymentController {
         \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
 
         $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card', 'paynow'],
+            'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
                     'currency' => $currency,
                     'product_data' => [
-                        'name' => 'Subscription',
+                        'name' => $name,
                     ],
                     'unit_amount' => $amount,
                 ],

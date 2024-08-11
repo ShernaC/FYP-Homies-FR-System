@@ -40,180 +40,119 @@ $list=[
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Subscription Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
     <script src="../view/public.js"></script>
-    <script src="../view/jquery-3.2.1.slim.min.js"></script>
-    <script src="../view/jquery.min.js"></script>
-    <script src="../view/popper.min.js"></script>
-    <script src="../view/bootstrap.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="../view/main.css">
-    <script src="../view/public.js"></script>
-    <link rel="stylesheet" href="../view/main.css">
-    <link rel="stylesheet" href="../view/bootstrap.min.css">
-<style>
-    .header{
-        background-color: #CBEAD0;
-    }
-    .header1{
-        background-color: #F3CCD6;
-    }
-    .main{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .card{
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .card-top{
-        display: flex;
-        flex-direction: row;
-        justify-content:space-between;
-        align-items: center;
-        height: 100px;
-        background-color: #D3E5FD;
-        border-bottom: #DFEDF6 1px solid;
-        padding: 10px;
-    }
-    .card-bottom{
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .card-bottom-visiting{
-        width: 50%;
-        height: 60%;
-        border-radius: 20px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background-color:#D3E5FD;
-        border: black 2px solid;
-    }
-    .bottom-visiting-title{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    button{
-        background-color: #040404;
-        color: #FFF;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        margin: 20px;
-    }
-    .logout{
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        display: flex;
-        justify-content: flex-end;
-        font-size: 20px;
-        font-weight: 400;
-        padding-right: 20px;
-        color: #595F6D;
-        cursor: pointer;
-    }
-.back{
-    font-size: 40px;
-    font-weight: bold;
-    padding: 10px;
-}
-.bottom-visiting-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.visiting-body-select {
-    display: flex;
-    flex-wrap: nowrap;
-    font-size: 20px;
-    padding: 10px;
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
-    /*text-align: center;*/
-}
-.bottom-visiting-button{
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .profile-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        .profile-header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            text-align: center;
+            font-size: 1.25rem;
+        }
+        .profile-content {
+            padding: 2rem;
+            font-size: 1.10rem;
+        }
+        .profile-content img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+        .profile-content .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .profile-content .item i {
+            margin-left: 0.5rem;
+        }
+        .profile-content button {
+            background-color: #000;
+            color: #FFF;
+            padding: 0.5rem 1rem;
+            border-radius: 0.3rem;
+            border: none;
+            margin-right: 1rem;
+            font-size: 1rem;
+        }
+        .profile-content .spinner-border {
+            display: none;
+        }
+        .profile-content .spinner-border.show {
+            display: inline-block;
+        }
+        .modal-header {
+            background-color: #333;
+            color: white;
+        }
+        .bottom-right {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-<div class="main">
-    <div class="card shadow-sm bg-white rounded">
-        <div class="card-top">
-            <h3> View Subscription Page</h3>
-            <p style="font-size: 25px;">Business owner</p>
+<div class="profile-container">
+    <div>
+        <i class="back fas fa-chevron-left top-left" onclick="navigatorTo('personal.php?username=<?php echo urlencode($username)?>')"></i>
+    </div>
+    <div class="profile-header">
+        <h2 class="font-bold text-white">Subscription Details</h2>
+    </div>
+    <div class="profile-content">
+        <div class="item">
+            <i class="icon-calendar"></i>
+            <p>Subscription Type: <strong><u><b><?php echo $subscriptionName; ?></b></u></strong></p>
         </div>
-        <i class="back fas fa-chevron-left" onclick="navigatorTo('personal.php?username=<?php echo urlencode($username)?>')"></i>
-        <div class="card-bottom">
-            <div class="card-bottom-visiting">
-                <div class="bottom-visiting-title">
-                    <h3>Subscription Details</h3>
-                </div>
-                <div class="bottom-visiting-body" style="width:100%"; display:>
-                    <div class="visiting-body-select">
-                        <div style="flex: 1;display: flex;justify-content: flex-end;margin-right: 40px">
-                            <i class="icon-calendar"></i>
-                            <p>Subscription Type:</p>
-                        </div>
-                        <div style="flex: 1;display: flex;justify-content: flex-start">
-                            <p style="font-weight: bold;"><?php echo $subscriptionName?></p>
-                        </div>
-                    </div>
-                    <?php foreach ($list as $key): ?>
-                    <div class="visiting-body-select">
-                        <div style="flex: 1;display: flex;justify-content: flex-end;margin-right: 40px">
-<!--                            <img src="--><?php //= $key['img'] ?><!--" alt="--><?php //= $key['value'] ?><!--" style="width: 20px; margin-right: 5px;">-->
-                            <p style="display:inline;"><?= $key["value"] ?></p>
-                        </div>
-                        <div style="flex: 1;display: flex;justify-content: flex-start">
-                            <p style="font-weight:bold"><?= $key["time"] ?></p>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="bottom-visiting-button">
-                    <!-- ERROR HERE -->
-                    <button onclick="navigatorTo('select.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')">Upgrade Subscription</button>
-                    <!--<button onclick="navigatorTo('select.php?username=<?php echo $username?>&subscriptionId=<?php echo $subscriptionId?>')" style="margin-left: 20px;">Upgrade Subscription</button>-->
-                    <button data-toggle="modal" data-target="#exampleModal" style="margin-right: 20px;">Cancel Subscription</button>
-                </div>
-                </div>
-            </div>
-            <div class="logout">
-                <a href="login.php" style="font-size: 24px;">Logout</a>
-            </div>
+        <?php foreach ($list as $key): ?>
+        <div class="item">
+            <p><?= $key['value'] ?><strong><?= $key['time'] ?></strong></p>      
         </div>
+        <?php endforeach; ?>
+        <div class="button-group item">
+            <button onclick="navigatorTo('select.php?username=<?php echo urlencode($username);?>&subscriptionId=<?php echo urlencode($subscriptionId);?>')">Upgrade Subscription</button>
+            <button data-toggle="modal" data-target="#exampleModal">Cancel Subscription</button>
+        </div>
+    </div>
+    <div class="w-full max-w-6xl mt-3 text-right text-gray-500 bottom-right">
+        <a href="login.php">Logout</a>
     </div>
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel" style="color:green;">Confirm Cancellation</h6>
+                <h6 class="modal-title text-white" id="exampleModalLabel">Confirm Cancellation</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -225,8 +164,8 @@ $list=[
                 <?php endif; ?>
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" style="background-color: #545b62">Cancel</button>
-                <button data-dismiss="modal" onclick="loadNav()" style="background-color: #2F67EF">Submit</button>
+                <button data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                <button data-dismiss="modal" class="btn btn-primary" onclick="loadNav()">Submit</button>
             </div>
         </div>
     </div>
@@ -234,8 +173,8 @@ $list=[
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header header">
-                <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Success</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -244,7 +183,7 @@ $list=[
                 Update successfully!
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" style="background-color: #2F67EF">OK</button>
+                <button data-dismiss="modal"  class="btn btn-primary" >OK</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcam Capture</title>
+    <style>
+        #responseList {
+            margin-top: 20px;
+        }
+        .responseItem {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        #startButton {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Webcam Capture</h1>
+    <div id="tier" style="display:block;">
+        Tier:
+        <select id="tierDropdown">
+            <option value="None">None</option>
+            <option value="Basic">Basic</option>
+            <option value="Upgraded">Upgraded</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+    </div>
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <div id="responseList"></div>
+    <div id="countdown"></div>
+    <button id="startButton">Start Capturing</button>
+    <button id="resetButton" onclick="resetImageCount()">Reset Image Count</button>
+    <div id="errorMessage" style="color: red; font-weight: bold;"></div>
+
+    <script>
+        // Function to start the Python script when the page loads
+        window.onload = function() {
+            fetch('faceCamera.php?action=start')
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        };
+
+        // Function to stop the Python script when the page is closed/unloaded
+        window.onbeforeunload = function() {
+            navigator.sendBeacon('faceCamera.php?action=stop');
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            const responseList = document.getElementById('responseList');
+            const countdownElement = document.getElementById('countdown');
+            const startButton = document.getElementById('startButton');
+            const tierDropdown = document.getElementById('tierDropdown');
+            //const errorMessageElement = document.getElementById('errorMessage'); // Element to display error messages
+            const resetButton = document.getElementById('resetButton');
+
+            //if (!errorMessageElement) {
+            //    console.error('Error message element not found');
+             //   return;
+           // }
+
+            let websocket;
+            let countdown;
+            let captureCount = 0;
+            let capturing = false;
+            let countdownActive = false;
+            
+            // Function to update the button state
+            function updateButtonState() {
+                resetButton.disabled = captureCount === 0;
+            }
+
+            // Function to send captureCount to WebSocket
+            function sendCaptureCount() {
+                if (websocket && websocket.readyState === WebSocket.OPEN) {
+                    websocket.send(JSON.stringify({ type: 'captureCount', value: captureCount }));
+                }
+            }
+
+            // Function to reset image count
+            window.resetImageCount = function() {
+                if (websocket && websocket.readyState === WebSocket.OPEN) {
+                    websocket.send(JSON.stringify({ type: 'reset' }));
+                    captureCount = 0; // Reset the image count
+                    updateButtonState(); // Update the button state
+                    sendCaptureCount(); // Send updated capture count
+                    
+                    // Stop any ongoing countdowns
+                    clearInterval(countdown);
+                    countdownElement.innerText = '';
+                    countdownActive = false;
+
+                    // Hide the error message
+                    //errorMessageElement.style.display = 'none'; // Hide the error message element
+
+                } else {
+                    console.error('WebSocket connection is not open');
+                }
+            };
+
+            // Get access to the camera
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                });
+            }
+
+
+        
+            
+            // Function to capture frame and send to backend via WebSocket
+            async function captureAndSendFrame() {
+                context.drawImage(video, 0, 0, 640, 480);
+                const dataURL = canvas.toDataURL('image/png');
+
+                // Resize the image before sending
+                const resizedDataURL = await resizeImage(dataURL, 640, 480);
+
+                // Get the selected tier
+                const selectedTier = tierDropdown.value;
+
+                if (websocket && websocket.readyState === WebSocket.OPEN) {
+                    websocket.send(JSON.stringify({ image: resizedDataURL, tier: selectedTier }));
+                }
+            }
+
+            // Function to add response item to the list
+            function addResponseItem(status, message) {
+                // Only proceed if message is defined
+                if (message !== undefined) {
+                    const item = document.createElement('div');
+                    item.className = 'responseItem';
+                    item.innerHTML = `<strong>${status}:</strong> ${message}`;
+
+                    // Add new item at the top of the list
+                    responseList.insertBefore(item, responseList.firstChild);
+
+                    // Remove items if there are more than 3
+                    while (responseList.childElementCount > 3) {
+                        responseList.removeChild(responseList.lastChild);
+                    }
+                }
+            }
+
+
+            // Function to resize the image
+            async function resizeImage(dataURL, width, height) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/png'));
+                    };
+                    img.src = dataURL;
+                });
+            }
+
+            // Set up WebSocket connection
+            function setupWebSocket() {
+                websocket = new WebSocket('ws://localhost:9000');
+
+                websocket.onopen = () => {
+                    console.log('WebSocket connection opened');
+                };
+
+                websocket.onmessage = function(event){ //continue from this, fix this
+                    const data = JSON.parse(event.data);
+                    console.log('Received WebSocket message:', data);
+
+                    if (data.type === 'reset') {
+                        console.log("Capture count after reset:", data.count);
+                        captureCount = data.count; // Ensure captureCount is updated correctly
+                        updateButtonState(); // Update the button state after reset
+                        //sendCaptureCount();
+                    }
+
+                    if (data.type === 'captureCount') {
+                        console.log(`Received message: ${JSON.stringify(data)}`);
+                        console.log(`Current captureCount: ${captureCount}`);
+                    }
+                    if (data.error) {
+                        // Display error message on the frontend
+                        //errorMessageElement.innerText = data.error;
+                    } else {
+                        if (data.success) {
+                            addResponseItem('Success', data.message);
+                            capturing = false; // Stop capturing when an image is successfully captured
+                            video.pause(); // Pause the video element
+                            captureCount++;
+                            updateButtonState(); // Update the button state
+                            //sendCaptureCount(); // Send updated capture count
+                            
+                            if (captureCount === 1) {
+                                // Start the countdown to resume the video feed
+                                //startCountdown(3, () => {
+                                   // video.play(); // Resume the video feed after the first countdown
+                                //});
+
+                                // Start a separate countdown for continuous processing
+                                //startCountdown(3, continuousProcessing);
+                            } else if (captureCount === 2) {
+                                captureCount=0;
+                                addResponseItem('Info', 'Please wait.'); //Image capturing completed. 
+                    
+                                //sendCaptureCount();
+                            }
+                        } else {
+                            addResponseItem('Error', data.message);
+                        }
+                    }
+                };
+
+                websocket.onclose = () => {
+                    console.log('WebSocket connection closed, reconnecting...');
+                    setTimeout(setupWebSocket, 1000);
+                };
+
+                websocket.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                };
+            }
+
+            
+
+            // Function to start the countdown
+            function startCountdown(duration, callback) {
+                countdown = duration;
+                const interval = setInterval(() => {
+                    countdownElement.innerText = `Countdown to capture image: ${countdown}s`;
+                    countdown--;
+
+                    if (countdown < 0) {
+                        clearInterval(interval);
+                        countdownElement.innerText = '';
+                        callback(); // Execute callback function when countdown ends
+                    }
+                }, 1000);
+            }
+
+            // Function for continuous processing until a valid image is captured
+            function continuousProcessing() {
+                capturing = true;
+                const interval = setInterval(() => {
+                    if (!capturing) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    captureAndSendFrame();
+                }, 300); // Capture frame every 0.3 seconds
+            }
+
+            resetButton.addEventListener('click', function() {
+                console.log('Reset button clicked');
+                resetImageCount();
+                //websocket.send(JSON.stringify({ type: 'reset' }));
+            });
+            
+            // Event listener for the start button
+            startButton.addEventListener('click', () => {
+                
+                captureCount = 0; // Reset capture count
+                updateButtonState(); // Update the button state
+                //sendCaptureCount(); // Send updated capture count
+                captureCount = 0; // Reset capture count
+                startCountdown(3, () => {
+                    video.play(); // Resume the video feed after the countdown
+                    continuousProcessing(); // Start continuous processing
+                });
+            });
+            
+            // Initial call to update button state on page load
+//          updateButtonState();
+            setupWebSocket();
+            
+            
+            
+});
+    </script>
+    
+</body>
+</html>

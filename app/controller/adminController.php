@@ -1,5 +1,6 @@
 <?php
 include_once '../model/account.php';
+include_once '../model/company.php';
 
 // Start the session if not already started
 if (!isset($_SESSION)) {
@@ -31,13 +32,15 @@ switch ($action) {
 
         if ($profile === 'Business Owner'){
             $company = $_POST['company'];
+            $company_code = $_POST['company_code'];
         }
         else{
             $company = '';
+            $company_code = '';
         }
 
         $updateAccount = new updateAccountController();
-        $result = $updateAccount->updateAccount($accountId, $username, $name, $email, $profile, $password, $company);
+        $result = $updateAccount->updateAccount($accountId, $username, $name, $email, $profile, $password, $company, $company_code);
         echo $result;
         
         break;
@@ -62,6 +65,7 @@ class createAccountController{
         $email = $_POST['email'];
         $company = $_POST['company'];
         $password = $_POST['password'];
+        $c_password = $_POST['c_password'];
     
         $response = ['success' => false, 'message' => ''];
     
@@ -70,7 +74,7 @@ class createAccountController{
                 $newAccount = new SysAdmin(0, $username, $name, $email, $password);
                 $result = $newAccount->createSysAdminAccount($profile);
             } elseif ($profile == 'Business Owner') {
-                $newAccount = new BusinessOwner(0, $username, $name, $email, $password);
+                $newAccount = new BusinessOwner(0, $username, $name, $email, $password, '', $c_password);
                 $newAccount->setCompany($company); 
                 $result = $newAccount->createBusinessOwnerAccount($profile);
             } else {
@@ -150,7 +154,6 @@ class viewAccountController
         // Encode the response as JSON and send it back
         //echo json_encode($response);
         return json_encode($response);
-    
     }
 
     public function viewBusinessOwnerController(){
@@ -182,12 +185,11 @@ class viewAccountController
 class updateAccountController{
 
     // Method to handle the update account functionality
-    public function updateAccount($accountId, $username, $name, $email, $profile, $new_password, $company) {
+    public function updateAccount($accountId, $username, $name, $email, $profile, $new_password, $company, $company_code) {
         $userAccount = new SysAdmin();
 
-
         // Encode the response as JSON and send it back
-        $result = $userAccount->updateAccount($accountId, $username, $name, $email, $profile, $company, $new_password);
+        $result = $userAccount->updateAccount($accountId, $username, $name, $email, $profile,$new_password, $company, $company_code);
         return $result;
     }
 }
